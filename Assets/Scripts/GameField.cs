@@ -7,12 +7,9 @@ public class GameField : MonoBehaviour
     [SerializeField] private int _width = 7;
     [SerializeField] private int _height = 6;
 
-    [SerializeField] private FieldRow _lineEmptyObjectPrefab;
-    
     private FieldRow[] _rows;
     private float _curScrollSpeed;
-
-
+    
     public static event Action ScrollContinued;
     public static event Action ScrollStopped;
     public static event Action OnLineMoved;
@@ -24,10 +21,10 @@ public class GameField : MonoBehaviour
 
     private void Start()
     {
-        
+        _curScrollSpeed = ScrollSpeed;
         _rows = new FieldRow[_height];
         for (int i = 0; i < _height; i++)
-            AddNewLine(_height - i, i);
+            _rows[i] = AddNewLine(_height - i, i);
     }
 
     private void Update()
@@ -51,31 +48,23 @@ public class GameField : MonoBehaviour
             }
         }
     }
-
-    private void AddNewLine(int y, int i)
+    
+    private FieldRow AddNewLine(int y, int i)
     {
-        Vector2 position;
-        position.y = y;
-        position.x = 0;
+        Vector2 position = new Vector2(0, y);
 
-        FieldRow lineGameObject = _rows[i] = Instantiate<FieldRow>(_lineEmptyObjectPrefab, gameObject.transform);
-        lineGameObject.CreateLine(_width);
-        lineGameObject.transform.localPosition = position;
+        var rowObj = new GameObject();
+        var row = rowObj.AddComponent<FieldRow>();
+        row.transform.parent = gameObject.transform;
+        row.Init(_width, y);
+        return row;
     }
 
     private void MoveTopRowToBottom()
     {
-        int scroll = ScrolledLines;
-        scroll--;
-        Vector2 position;
-        position.x = 0;
-        position.y = -scroll;
+        int i = (ScrolledLines - 1) % _height;
+        _rows[i].MoveTo(-ScrolledLines+1);
         
-        
-        int i = scroll % _height;
-        _rows[i].transform.position = position;
-        
-        print("MovedLine");
         OnLineMoved?.Invoke();
     }
 

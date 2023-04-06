@@ -1,18 +1,20 @@
+using UnityEditor;
 using UnityEngine;
 
 public class FieldRow : MonoBehaviour
 {
-    [SerializeField] private GameObject _cellPrefab;
-    public void CreateLine(int width)
+    public void Init(int width, int y)
     {
         for (int i = 0; i < width; i++)
         {
-            Vector2 position;
-            position.y = 0;
-            position.x = i;
-            
-            GameObject cell = Instantiate(_cellPrefab, gameObject.transform);
-            cell.transform.position = position;
+            Instantiate(GameManager.CellPrefab, new Vector2(i, 0), Quaternion.identity, gameObject.transform);
         }
+        MoveTo(y);
+    }
+
+    public void MoveTo(int y)
+    {
+        Vector2 position = new Vector2(0, y);
+        transform.position = position;
     }
 }
