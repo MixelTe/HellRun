@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class CellLine : MonoBehaviour
 {
-    public void CreateLine(int y, int width, GameObject cellPrefab)
+    [SerializeField] private GameObject _cellPrefab;
+    public void CreateLine(int y, int width)
     {
         for (int i = 0; i < width; i++)
         {
@@ -10,7 +11,7 @@ public class CellLine : MonoBehaviour
             position.y = 0;
             position.x = i;
             
-            GameObject cell = Instantiate(cellPrefab, gameObject.transform);
+            GameObject cell = Instantiate(_cellPrefab, gameObject.transform);
             cell.transform.position = position;
         }
     }

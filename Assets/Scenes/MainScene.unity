@@ -309,12 +309,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 7
   _height: 7
-  _cellPrefab: {fileID: 6732095273021637700, guid: ed4b7895f96e0a64098da5a9a04c16a9, type: 3}
   _lineEmptyObjectPrefab: {fileID: 3426547748539162257, guid: ccef8250ba1308643b58496e90cba04d, type: 3}
   Scroling: 1
   Scroll: 0
   ScrolledLines: 0
-  ScrollSpeed: 2
+  ScrollSpeed: 1
 --- !u!1 &1779856856
 GameObject:
   m_ObjectHideFlags: 0

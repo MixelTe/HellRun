@@ -22,9 +22,6 @@ public class CameraController : MonoBehaviour
 
     private void Shake()
     {
-        if (!GameManager.GameField.Scroling)
-        {
-            _shakeAnimator.SetTrigger("ShakeTriger");
-        }
+        _shakeAnimator.SetTrigger("ShakeTriger");
     }
 }

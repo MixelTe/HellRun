@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3694175056553191218}
   - component: {fileID: 3426547748539162257}
   m_Layer: 0
-  m_Name: lineGameObject
+  m_Name: FeildLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 037423b467a58a9469b8c7d008b28e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cellPrefab: {fileID: 6732095273021637700, guid: ed4b7895f96e0a64098da5a9a04c16a9, type: 3}

@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2141673906411105852}
   m_Layer: 0
-  m_Name: CellPrefab
+  m_Name: FieldCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

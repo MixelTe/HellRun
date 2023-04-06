@@ -7,14 +7,11 @@ public class GameField : MonoBehaviour
     [SerializeField] private int _width = 7;
     [SerializeField] private int _height = 6;
 
-    [SerializeField] private GameObject _cellPrefab;
     [SerializeField] private CellLine _lineEmptyObjectPrefab;
     
     private CellLine[] _cellLines;
-    private float _lastScrollSpeed;
+    private float _curScrollSpeed;
 
-    private Vector2 _leftTopPointOfField;
-    private Vector2 _rightBottomPointOfField;
 
     public static event Action ScrollContinued;
     public static event Action ScrollStopped;
@@ -27,10 +24,6 @@ public class GameField : MonoBehaviour
 
     private void Start()
     {
-        _leftTopPointOfField.y = _height;
-        _leftTopPointOfField.x = 0;
-        _rightBottomPointOfField.y = 0;
-        _rightBottomPointOfField.x = _width;
         
         _cellLines = new CellLine[_height];
         for (int y = _height, i = 0; y > 0; y--, i++)
@@ -54,7 +47,7 @@ public class GameField : MonoBehaviour
             {
                 Scroll--;
                 ScrolledLines++;
-                MoveLine(ScrolledLines);
+                MoveTopRowToBottom();
             }
         }
     }
@@ -66,19 +59,18 @@ public class GameField : MonoBehaviour
         position.x = 0;
 
         CellLine lineGameObject = _cellLines[i] = Instantiate<CellLine>(_lineEmptyObjectPrefab, gameObject.transform);
-        lineGameObject.CreateLine(y, _width, _cellPrefab);
+        lineGameObject.CreateLine(y, _width);
         lineGameObject.transform.localPosition = position;
     }
 
-    private void MoveLine(int scroll)
+    private void MoveTopRowToBottom()
     {
+        int scroll = ScrolledLines;
         scroll--;
         Vector2 position;
         position.x = 0;
         position.y = -scroll;
         
-        _leftTopPointOfField.y--;
-        _rightBottomPointOfField.y--;
         
         int i = scroll % _height;
         _cellLines[i].transform.position = position;
@@ -89,15 +81,13 @@ public class GameField : MonoBehaviour
 
     public bool IsInsideField(Vector2 playerPosition)
     {
-        if (_leftTopPointOfField.y > playerPosition.y && playerPosition.y > _rightBottomPointOfField.y &&
-            _leftTopPointOfField.x < playerPosition.x && playerPosition.x < _rightBottomPointOfField.x)
-            return true;
-        return false;
+        var field = new Rect(0, -ScrolledLines, _width, _height);
+        return field.Contains(playerPosition);
     }
     
     public void StopScrolling()
     {
-        _lastScrollSpeed = ScrollSpeed;
+        _curScrollSpeed = ScrollSpeed;
         ScrollSpeed = 0;
         Scroling = false;
         ScrollStopped?.Invoke();
@@ -112,10 +102,12 @@ public class GameField : MonoBehaviour
 
     private IEnumerator IncreasingSpeed()
     {
-        for (float i = 0; i < _lastScrollSpeed; i += Time.deltaTime * .5f)
+        for (float i = 0; i < _curScrollSpeed; i += Time.deltaTime * .5f)
         {
             ScrollSpeed = i;
             yield return null;
         }
+
+        ScrollSpeed = _curScrollSpeed;
     }
 }
