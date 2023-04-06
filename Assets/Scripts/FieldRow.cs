@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class CellLine : MonoBehaviour
+public class FieldRow : MonoBehaviour
 {
     [SerializeField] private GameObject _cellPrefab;
-    public void CreateLine(int y, int width)
+    public void CreateLine(int width)
     {
         for (int i = 0; i < width; i++)
         {

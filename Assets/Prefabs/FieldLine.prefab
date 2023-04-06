@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3694175056553191218}
   - component: {fileID: 3426547748539162257}
   m_Layer: 0
-  m_Name: FeildLine
+  m_Name: FieldLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

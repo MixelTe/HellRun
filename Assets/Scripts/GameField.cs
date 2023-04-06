@@ -7,9 +7,9 @@ public class GameField : MonoBehaviour
     [SerializeField] private int _width = 7;
     [SerializeField] private int _height = 6;
 
-    [SerializeField] private CellLine _lineEmptyObjectPrefab;
+    [SerializeField] private FieldRow _lineEmptyObjectPrefab;
     
-    private CellLine[] _cellLines;
+    private FieldRow[] _rows;
     private float _curScrollSpeed;
 
 
@@ -25,9 +25,9 @@ public class GameField : MonoBehaviour
     private void Start()
     {
         
-        _cellLines = new CellLine[_height];
-        for (int y = _height, i = 0; y > 0; y--, i++)
-            AddNewLine(y, i);
+        _rows = new FieldRow[_height];
+        for (int i = 0; i < _height; i++)
+            AddNewLine(_height - i, i);
     }
 
     private void Update()
@@ -58,8 +58,8 @@ public class GameField : MonoBehaviour
         position.y = y;
         position.x = 0;
 
-        CellLine lineGameObject = _cellLines[i] = Instantiate<CellLine>(_lineEmptyObjectPrefab, gameObject.transform);
-        lineGameObject.CreateLine(y, _width);
+        FieldRow lineGameObject = _rows[i] = Instantiate<FieldRow>(_lineEmptyObjectPrefab, gameObject.transform);
+        lineGameObject.CreateLine(_width);
         lineGameObject.transform.localPosition = position;
     }
 
@@ -73,7 +73,7 @@ public class GameField : MonoBehaviour
         
         
         int i = scroll % _height;
-        _cellLines[i].transform.position = position;
+        _rows[i].transform.position = position;
         
         print("MovedLine");
         OnLineMoved?.Invoke();
@@ -87,8 +87,7 @@ public class GameField : MonoBehaviour
     
     public void StopScrolling()
     {
-        _curScrollSpeed = ScrollSpeed;
-        ScrollSpeed = 0;
+        _curScrollSpeed = 0;
         Scroling = false;
         ScrollStopped?.Invoke();
     }
@@ -102,12 +101,12 @@ public class GameField : MonoBehaviour
 
     private IEnumerator IncreasingSpeed()
     {
-        for (float i = 0; i < _curScrollSpeed; i += Time.deltaTime * .5f)
+        for (float i = 0; i < ScrollSpeed; i += Time.deltaTime * .5f)
         {
-            ScrollSpeed = i;
+            _curScrollSpeed = i;
             yield return null;
         }
 
-        ScrollSpeed = _curScrollSpeed;
+        _curScrollSpeed = ScrollSpeed;
     }
 }
