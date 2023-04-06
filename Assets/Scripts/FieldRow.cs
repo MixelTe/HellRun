@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class FieldRow : MonoBehaviour
 {
-    public void Init(int width, int y)
+    public void Init(int width, int y, GameObject cellPrefab)
     {
         for (int i = 0; i < width; i++)
         {
-            Instantiate(GameManager.CellPrefab, new Vector2(i, 0), Quaternion.identity, gameObject.transform);
+            Instantiate(cellPrefab, new Vector2(i, 0), Quaternion.identity, gameObject.transform);
         }
         MoveTo(y);
     }

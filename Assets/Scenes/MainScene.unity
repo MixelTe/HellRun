@@ -309,6 +309,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 7
   _height: 7
+  _cellPrefab: {fileID: 6732095273021637700, guid: ed4b7895f96e0a64098da5a9a04c16a9, type: 3}
+  _accelerationTime: 1
   Scroling: 1
   Scroll: 0
   ScrolledLines: 0
@@ -421,7 +423,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameField: {fileID: 740169566}
-  _cellPrefab: {fileID: 6732095273021637700, guid: ed4b7895f96e0a64098da5a9a04c16a9, type: 3}
   GameIsRunning: 1
 --- !u!4 &2024290239
 Transform:

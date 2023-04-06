@@ -6,6 +6,10 @@ public class GameField : MonoBehaviour
 { 
     [SerializeField] private int _width = 7;
     [SerializeField] private int _height = 6;
+    
+    [SerializeField] private GameObject _cellPrefab;
+
+    [SerializeField] private float _accelerationTime = 1f; 
 
     private FieldRow[] _rows;
     private float _curScrollSpeed;
@@ -24,7 +28,7 @@ public class GameField : MonoBehaviour
         _curScrollSpeed = ScrollSpeed;
         _rows = new FieldRow[_height];
         for (int i = 0; i < _height; i++)
-            _rows[i] = AddNewLine(_height - i, i);
+            _rows[i] = AddNewLine(_height - i);
     }
 
     private void Update()
@@ -49,14 +53,12 @@ public class GameField : MonoBehaviour
         }
     }
     
-    private FieldRow AddNewLine(int y, int i)
+    private FieldRow AddNewLine(int y)
     {
-        Vector2 position = new Vector2(0, y);
-
         var rowObj = new GameObject();
         var row = rowObj.AddComponent<FieldRow>();
         row.transform.parent = gameObject.transform;
-        row.Init(_width, y);
+        row.Init(_width, y, _cellPrefab);
         return row;
     }
 
@@ -90,9 +92,9 @@ public class GameField : MonoBehaviour
 
     private IEnumerator IncreasingSpeed()
     {
-        for (float i = 0; i < ScrollSpeed; i += Time.deltaTime * .5f)
+        for (float i = 0; i < 1; i += Time.deltaTime/_accelerationTime)
         {
-            _curScrollSpeed = i;
+            _curScrollSpeed = Mathf.Lerp(0, ScrollSpeed, i);
             yield return null;
         }
 
