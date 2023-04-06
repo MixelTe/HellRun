@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameField: {fileID: 740169566}
-  _shakeAnimation: {fileID: 519420033}
+  _shakeAnimator: {fileID: 519420033}
 --- !u!4 &1779856858
 Transform:
   m_ObjectHideFlags: 0
