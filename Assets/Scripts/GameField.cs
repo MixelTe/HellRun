@@ -42,7 +42,7 @@ public class GameField : MonoBehaviour
         }
         
         if(Scroling){
-            Scroll += ScrollSpeed * Time.deltaTime;
+            Scroll += _curScrollSpeed * Time.deltaTime;
             if (Scroll > 1f)
             {
                 Scroll--;
