@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private GameField _gameField;
     [SerializeField] private Animator _shakeAnimator;
     
     private void Start()
@@ -16,9 +15,10 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        //Updating the camera position
         Vector3 position;
         position.x = transform.position.x;
-        position.y = transform.position.y - _gameField._scrollSpeed * Time.deltaTime;
+        position.y = transform.position.y - GameManager.GameField.ScrollSpeed * Time.deltaTime;
         position.z = -10;
         
         transform.position = position;
@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
 
     private void Shake()
     {
-        if (!_gameField._scroling)
+        if (!GameManager.GameField.Scroling)
         {
             _shakeAnimator.SetTrigger("ShakeTriger");
         }

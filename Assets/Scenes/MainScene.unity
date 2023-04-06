@@ -311,10 +311,10 @@ MonoBehaviour:
   _height: 7
   _cellPrefab: {fileID: 6732095273021637700, guid: ed4b7895f96e0a64098da5a9a04c16a9, type: 3}
   _lineEmptyObjectPrefab: {fileID: 3426547748539162257, guid: ccef8250ba1308643b58496e90cba04d, type: 3}
-  _scroling: 1
-  _scroll: 0
-  scrollCount: 0
-  _scrollSpeed: 1
+  Scroling: 1
+  Scroll: 0
+  ScrollCount: 0
+  ScrollSpeed: 1
 --- !u!1 &1779856856
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5fdf69de4668f45a83af56c0797e22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameField: {fileID: 740169566}
   _shakeAnimator: {fileID: 519420033}
 --- !u!4 &1779856858
 Transform:

@@ -19,10 +19,10 @@ public class GameField : MonoBehaviour
     public static event Action ScrollStateHasStopped;
     public static event Action OnLineMoved;
     
-    [HideInInspector] public bool _scroling = true;
-    [HideInInspector] public float _scroll = 0f;
-    [HideInInspector] public int scrollCount = 0;
-    public float _scrollSpeed = .1f;
+    [HideInInspector] public bool Scroling = true;
+    [HideInInspector] public float Scroll = 0f;
+    [HideInInspector] public int ScrollCount = 0;
+    public float ScrollSpeed = .1f;
 
     private void Start()
     {
@@ -38,21 +38,22 @@ public class GameField : MonoBehaviour
 
     private void Update()
     {
+        //For testing Stop and ContinueScrolling
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_scroling)
+            if (Scroling)
                 StopScrolling();
             else
                 ContinueScrolling();
         }
         
-        if(_scroling){
-            _scroll += _scrollSpeed * Time.deltaTime;
-            if (_scroll > 1f)
+        if(Scroling){
+            Scroll += ScrollSpeed * Time.deltaTime;
+            if (Scroll > 1f)
             {
-                _scroll--;
-                scrollCount++;
-                MoveLine(scrollCount);
+                Scroll--;
+                ScrollCount++;
+                MoveLine(ScrollCount);
             }
         }
     }
@@ -95,16 +96,16 @@ public class GameField : MonoBehaviour
     
     public void StopScrolling()
     {
-        _scrollSpeedConst = _scrollSpeed;
-        _scrollSpeed = 0;
-        _scroling = false;
+        _scrollSpeedConst = ScrollSpeed;
+        ScrollSpeed = 0;
+        Scroling = false;
         ScrollStateHasStopped?.Invoke();
     }
     
     public void ContinueScrolling()
     {
-        _scrollSpeed = _scrollSpeedConst;
-        _scroling = true;
+        ScrollSpeed = _scrollSpeedConst;
+        Scroling = true;
         ScrollStateHasContinued?.Invoke();
     }
 }
