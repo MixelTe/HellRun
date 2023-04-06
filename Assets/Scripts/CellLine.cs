@@ -4,7 +4,6 @@ public class CellLine : MonoBehaviour
 {
     public void CreateLine(int y, int width, GameObject cellPrefab)
     {
-        //Creating line of cells
         for (int i = 0; i < width; i++)
         {
             Vector2 position;

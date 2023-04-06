@@ -9,17 +9,13 @@ public class CameraController : MonoBehaviour
     
     private void Start()
     {
-        GameField.ScrollStateHasContinued += Shake;
-        GameField.ScrollStateHasStopped += Shake;
+        GameField.ScrollStopped += Shake;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        //Updating the camera position
-        Vector3 position;
-        position.x = transform.position.x;
-        position.y = transform.position.y - GameManager.GameField.ScrollSpeed * Time.deltaTime;
-        position.z = -10;
+        var position = transform.position;
+        position.y =  -GameManager.GameField.ScrolledLines - GameManager.GameField.Scroll;
         
         transform.position = position;
     }

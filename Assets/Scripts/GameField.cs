@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameField : MonoBehaviour
@@ -10,18 +11,18 @@ public class GameField : MonoBehaviour
     [SerializeField] private CellLine _lineEmptyObjectPrefab;
     
     private CellLine[] _cellLines;
-    private float _scrollSpeedConst;
+    private float _lastScrollSpeed;
 
     private Vector2 _leftTopPointOfField;
     private Vector2 _rightBottomPointOfField;
 
-    public static event Action ScrollStateHasContinued;
-    public static event Action ScrollStateHasStopped;
+    public static event Action ScrollContinued;
+    public static event Action ScrollStopped;
     public static event Action OnLineMoved;
     
     [HideInInspector] public bool Scroling = true;
     [HideInInspector] public float Scroll = 0f;
-    [HideInInspector] public int ScrollCount = 0;
+    [HideInInspector] public int ScrolledLines = 0;
     public float ScrollSpeed = .1f;
 
     private void Start()
@@ -52,8 +53,8 @@ public class GameField : MonoBehaviour
             if (Scroll > 1f)
             {
                 Scroll--;
-                ScrollCount++;
-                MoveLine(ScrollCount);
+                ScrolledLines++;
+                MoveLine(ScrolledLines);
             }
         }
     }
@@ -96,16 +97,25 @@ public class GameField : MonoBehaviour
     
     public void StopScrolling()
     {
-        _scrollSpeedConst = ScrollSpeed;
+        _lastScrollSpeed = ScrollSpeed;
         ScrollSpeed = 0;
         Scroling = false;
-        ScrollStateHasStopped?.Invoke();
+        ScrollStopped?.Invoke();
     }
     
     public void ContinueScrolling()
     {
-        ScrollSpeed = _scrollSpeedConst;
+        StartCoroutine(IncreasingSpeed());
         Scroling = true;
-        ScrollStateHasContinued?.Invoke();
+        ScrollContinued?.Invoke();
+    }
+
+    private IEnumerator IncreasingSpeed()
+    {
+        for (float i = 0; i < _lastScrollSpeed; i += Time.deltaTime * .5f)
+        {
+            ScrollSpeed = i;
+            yield return null;
+        }
     }
 }
