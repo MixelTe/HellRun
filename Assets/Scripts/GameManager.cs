@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	public static GameField GameField { get => _inst._gameField; }
 	[HideInInspector] public bool GameIsRunning = true;
 
+
 	private void Awake()
 	{
 		if (_inst != null) Destroy(gameObject);
