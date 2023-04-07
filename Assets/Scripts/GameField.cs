@@ -33,15 +33,6 @@ public class GameField : MonoBehaviour
 
     private void Update()
     {
-        //For testing Stop and ContinueScrolling
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (Scroling)
-                StopScrolling();
-            else
-                ContinueScrolling();
-        }
-        
         if(Scroling){
             Scroll += _curScrollSpeed * Time.deltaTime;
             if (Scroll > 1f)
@@ -72,7 +63,7 @@ public class GameField : MonoBehaviour
 
     public bool IsInsideField(Vector2 playerPosition)
     {
-        var field = new Rect(0, -ScrolledLines, _width, _height);
+        var field = new Rect(0, -ScrolledLines+1, _width, _height);
         return field.Contains(playerPosition);
     }
     
