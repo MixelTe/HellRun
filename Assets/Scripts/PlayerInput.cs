@@ -11,11 +11,10 @@ public class PlayerInput : MonoBehaviour
     
     public void Update()
     {
-        //Хз как это реализовать, надо менять поля в GameManager, но если сделать GameIsRunning статическим, его нельзя будет изменять 
-        //if(!GameManager.GameIsRunning)
-        //    return;
-        
-        if (Input.GetMouseButtonDown(0))
+        if (!GameManager.GameIsRunning)
+			return;
+
+		if (Input.GetMouseButtonDown(0))
         {
             _touchStart = Input.mousePosition;
         }

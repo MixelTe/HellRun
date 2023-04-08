@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour
 	
 	[SerializeField] private GameField _gameField;
 	[SerializeField] private Player _player;
+	private bool _gameIsRunning = true;
 
-	[HideInInspector] public bool GameIsRunning = true;
 	public static GameField GameField { get => _inst._gameField; }
 	public static Player Player { get => _inst._player; }
-
-
+	public static bool GameIsRunning { get => _inst._gameIsRunning; }
 	public static void OverGame() => _inst.OverGameImpl();
+
 	private void Awake()
 	{
 		if (_inst != null) Destroy(gameObject);
@@ -23,8 +23,8 @@ public class GameManager : MonoBehaviour
 
 	private void OverGameImpl()
 	{
-		GameIsRunning = false;
-		GameField.StopScrolling();
+		_gameIsRunning = false;
+		_gameField.StopScrolling();
 		print("Over Game!");
 	}
 }
