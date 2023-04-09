@@ -7,11 +7,11 @@ public class GameManager : MonoBehaviour
 	private static GameManager _inst;
 	
 	[SerializeField] private GameField _gameField;
-	[SerializeField] private Player _player;
+	[SerializeField] private PlayerInput _playerInput;
 	private bool _gameIsRunning = true;
 
 	public static GameField GameField { get => _inst._gameField; }
-	public static Player Player { get => _inst._player; }
+	public static PlayerInput PlayerInput { get => _inst._playerInput; }
 	public static bool GameIsRunning { get => _inst._gameIsRunning; }
 	public static void OverGame() => _inst.OverGameImpl();
 

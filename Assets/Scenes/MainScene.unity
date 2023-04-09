@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7503d0258c1dc5843b4dcb0fa7e1b1a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveCollDown: 0.2
+  _moveCoolDown: 0.2
   _tapRadius: 20
 --- !u!114 &1704322022
 MonoBehaviour:
@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameField: {fileID: 740169566}
-  _player: {fileID: 1704322022}
+  _playerInput: {fileID: 1704322021}
 --- !u!4 &2024290239
 Transform:
   m_ObjectHideFlags: 0

@@ -3,58 +3,57 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private float _moveCollDown = .4f;
+    [SerializeField] private float _moveCoolDown = .4f;
     [SerializeField] private float _tapRadius = 10f;
     
     private float _timeSinceLastMove = 0f;
     private Vector3 _touchStart;
 
-    public static Action<Vector2> OnMoved;
-    
+    public Action<Vector2> OnMoved;
+
     public void Update()
     {
         if (!GameManager.GameIsRunning)
-			return;
+            return;
 
-		if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             _touchStart = Input.mousePosition;
-        }
-        if (Input.GetMouseButton(0))
-        {
-            var d = Input.mousePosition - _touchStart;
         }
         if (Input.GetMouseButtonUp(0))
         {
             var d = Input.mousePosition - _touchStart;
             if (d.magnitude > _tapRadius)
-                OnSwipe(new Vector2(d.x, d.y));
+                OnSwipe(d);
             else
                 OnTap(d);
         }
-        
+
         _timeSinceLastMove += Time.deltaTime;
 
-        if (_moveCollDown <= _timeSinceLastMove && Input.GetKeyDown(KeyCode.W))
+        if (_moveCoolDown > _timeSinceLastMove)
+            return;
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            OnMoved?.Invoke(new Vector2(0, 1));
+            OnMoved?.Invoke(Vector2.up);
             _timeSinceLastMove = 0;
         }
-        else if (_moveCollDown <= _timeSinceLastMove && Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
-            OnMoved?.Invoke(new Vector2(0, -1));
+            OnMoved?.Invoke(Vector2.down);
             _timeSinceLastMove = 0;
         }
-        else if (_moveCollDown <= _timeSinceLastMove && Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
-            OnMoved?.Invoke(new Vector2(1, 0));
+            OnMoved?.Invoke(Vector2.right);
             _timeSinceLastMove = 0;
         }
-        else if (_moveCollDown <= _timeSinceLastMove && Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
-            OnMoved?.Invoke(new Vector2(-1, 0));
+            OnMoved?.Invoke(Vector2.left);
             _timeSinceLastMove = 0;
         }
+
     }
 
     private void OnTap(Vector2 position)
@@ -64,21 +63,20 @@ public class PlayerInput : MonoBehaviour
 
     private void OnSwipe(Vector2 direction)
     {
-        Vector2 dir;
+        direction = DetermineDirection(direction);
+
+        if (_moveCoolDown <= _timeSinceLastMove)
+        {
+            OnMoved?.Invoke(direction);
+            _timeSinceLastMove = 0;
+        }
+    }
+
+    private static Vector2 DetermineDirection(Vector2 direction)
+    {
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            if (direction.x > 0)
-                dir = new Vector2(1, 0);
-            else
-                dir = new Vector2(-1, 0);
-        }
+            return direction.x > 0 ? Vector2.right : Vector2.left;
         else
-        {
-            if (direction.y > 0)
-                dir = new Vector2(0, 1);
-            else
-                dir = new Vector2(0, -1);
-        }
-        GameManager.Player.OnMoved(dir);
+            return direction.y > 0 ? Vector2.up : Vector2.down;
     }
 }
