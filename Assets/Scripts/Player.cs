@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         GameField.OnLineMoved += CheckNowPosition;
+        PlayerInput.OnMoved += OnMoved;
     }
     
     public void OnMoved(Vector2 moveTo)

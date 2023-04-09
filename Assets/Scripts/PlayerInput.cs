@@ -8,6 +8,8 @@ public class PlayerInput : MonoBehaviour
     
     private float _timeSinceLastMove = 0f;
     private Vector3 _touchStart;
+
+    public static Action<Vector2> OnMoved;
     
     public void Update()
     {
@@ -35,22 +37,22 @@ public class PlayerInput : MonoBehaviour
 
         if (_moveCollDown <= _timeSinceLastMove && Input.GetKeyDown(KeyCode.W))
         {
-            GameManager.Player.OnMoved(new Vector2(0, 1));
+            OnMoved?.Invoke(new Vector2(0, 1));
             _timeSinceLastMove = 0;
         }
         else if (_moveCollDown <= _timeSinceLastMove && Input.GetKeyDown(KeyCode.S))
         {
-            GameManager.Player.OnMoved(new Vector2(0, -1));
+            OnMoved?.Invoke(new Vector2(0, -1));
             _timeSinceLastMove = 0;
         }
         else if (_moveCollDown <= _timeSinceLastMove && Input.GetKeyDown(KeyCode.D))
         {
-            GameManager.Player.OnMoved(new Vector2(1, 0));
+            OnMoved?.Invoke(new Vector2(1, 0));
             _timeSinceLastMove = 0;
         }
         else if (_moveCollDown <= _timeSinceLastMove && Input.GetKeyDown(KeyCode.A))
         {
-            GameManager.Player.OnMoved(new Vector2(-1, 0));
+            OnMoved?.Invoke(new Vector2(-1, 0));
             _timeSinceLastMove = 0;
         }
     }
