@@ -5,11 +5,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 	private static GameManager _inst;
+	
 	[SerializeField] private GameField _gameField;
+	[SerializeField] private PlayerInput _playerInput;
+	private bool _gameIsRunning = true;
 
 	public static GameField GameField { get => _inst._gameField; }
-	[HideInInspector] public bool GameIsRunning = true;
-
+	public static PlayerInput PlayerInput { get => _inst._playerInput; }
+	public static bool GameIsRunning { get => _inst._gameIsRunning; }
+	public static void OverGame() => _inst.OverGameImpl();
 
 	private void Awake()
 	{
@@ -17,9 +21,10 @@ public class GameManager : MonoBehaviour
 		else _inst = this;
 	}
 
-	public void OverGame()
+	private void OverGameImpl()
 	{
-		GameIsRunning = false;
-		GameField.StopScrolling();
+		_gameIsRunning = false;
+		_gameField.StopScrolling();
+		print("Over Game!");
 	}
 }
