@@ -295,7 +295,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -357,6 +357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 740169565}
   - component: {fileID: 740169566}
+  - component: {fileID: 740169567}
   m_Layer: 0
   m_Name: GameField
   m_TagString: Untagged
@@ -391,14 +392,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e9e4ca1c64c2b4b80a221bb1711195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 7
-  _height: 7
   _cellPrefab: {fileID: 6732095273021637700, guid: ed4b7895f96e0a64098da5a9a04c16a9, type: 3}
   _accelerationTime: 1
+  Width: 7
+  Height: 8
   Scroling: 1
   Scroll: 0
   ScrolledLines: 0
   ScrollSpeed: 0.5
+--- !u!114 &740169567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740169563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe5c174a367de14f8064ff710b55c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _thornPrefab: {fileID: 6802442283227363780, guid: 9ebbe284db43b62438c980b48d0a9b11, type: 3}
 --- !u!1 &953270002
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +473,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704322019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 2, z: 0}
+  m_LocalPosition: {x: 2, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
