@@ -3,17 +3,14 @@ using System.Collections;
 using UnityEngine;
 
 public class GameField : MonoBehaviour
-{ 
-    [SerializeField] private int _width = 7;
-    [SerializeField] private int _height = 6;
-    
+{
     [SerializeField] private GameObject _cellPrefab;
 
     [SerializeField] private float _accelerationTime = 1f; 
 
     private FieldRow[] _rows;
     private float _curScrollSpeed;
-    
+
     public static event Action ScrollContinued;
     public static event Action ScrollStopped;
     public static event Action OnLineMoved;
@@ -26,9 +23,9 @@ public class GameField : MonoBehaviour
     private void Start()
     {
         _curScrollSpeed = ScrollSpeed;
-        _rows = new FieldRow[_height];
-        for (int i = 0; i < _height; i++)
-            _rows[i] = AddNewLine(_height - i);
+        _rows = new FieldRow[Settings.Height];
+        for (int i = 0; i < Settings.Height; i++)
+            _rows[i] = AddNewLine(Settings.Height - i);
     }
 
     private void Update()
@@ -49,13 +46,13 @@ public class GameField : MonoBehaviour
         var rowObj = new GameObject();
         var row = rowObj.AddComponent<FieldRow>();
         row.transform.parent = gameObject.transform;
-        row.Init(_width, y, _cellPrefab);
+        row.Init(Settings.Width, y, _cellPrefab);
         return row;
     }
 
     private void MoveTopRowToBottom()
     {
-        int i = (ScrolledLines - 1) % _height;
+        int i = (ScrolledLines - 1) % Settings.Height;
         _rows[i].MoveTo(-ScrolledLines+1);
         
         OnLineMoved?.Invoke();
@@ -63,7 +60,7 @@ public class GameField : MonoBehaviour
 
     public bool IsInsideField(Vector2 playerPosition)
     {
-        var field = new Rect(0, -ScrolledLines+1, _width, _height);
+        var field = new Rect(0, -ScrolledLines+1, Settings.Width, Settings.Height);
         return field.Contains(playerPosition);
     }
     
