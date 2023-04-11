@@ -1,38 +1,41 @@
 using System;
+using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 
 public class Thorn : MonoBehaviour
 {
-    public bool IsGrowing;
+    public int GrowingState = 0;
     
     private void Start()
     { 
-        GameField.OnLineMoved += ChangeThornsState;
-        
-        if (IsGrowing)
-            gameObject.AddComponent<BoxCollider2D>();
+        GameField.OnLineMoved += ChangeThornsStateOnMovedLine;
+        ChangeThornsState(GrowingState);
     }
     
-    private void ChangeThornsState()
+    private void ChangeThornsStateOnMovedLine()
     {
-        var fieldDown = new Rect(0, -GameManager.GameField.ScrolledLines+1, GameManager.GameField.Width, 2);
-        var fieldBottom = new Rect(0, -GameManager.GameField.ScrolledLines+GameManager.GameField.Height-1, GameManager.GameField.Width, 2);
-        
-        if (!IsGrowing)
+        GrowingState++;
+        ChangeThornsState(GrowingState);
+    }
+
+    private void ChangeThornsState(int growingState)
+    {
+        if (growingState == 0)
         {
-            IsGrowing = true;
-            gameObject.AddComponent<BoxCollider2D>();
+            GetComponent<BoxCollider2D>().enabled = false;
+        }
+        else if (growingState == 1)
+        {
+            GetComponent<BoxCollider2D>().enabled = true;
+        }
+        else if (growingState == 2)
+        {
+            GetComponent<BoxCollider2D>().enabled = false;
         }
         else
         {
-            IsGrowing = false;
-            Destroy(gameObject.GetComponent<BoxCollider2D>());
-        }
-
-        if (!fieldDown.Contains(transform.position) && !fieldBottom.Contains(transform.position))
-        {
-            GameField.OnLineMoved -= ChangeThornsState;
-            Destroy(gameObject.transform.parent.gameObject);
+            GameField.OnLineMoved -= ChangeThornsStateOnMovedLine;
+            Destroy(gameObject);
         }
     }
 }

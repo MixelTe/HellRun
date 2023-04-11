@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.9716981, g: 0.6004361, b: 0.6004361, a: 1}
   m_FlipX: 0
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 8433978252622824798}
   - component: {fileID: -4219663776522407902}
   - component: {fileID: 6802442283227363780}
+  - component: {fileID: 5362998557843930842}
   m_Layer: 0
   m_Name: Thorn
   m_TagString: Untagged
@@ -142,4 +143,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11db70d5b7744a4ebdb5156a94e4806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGrowing: 0
+  GrowingState: 0
+--- !u!61 &5362998557843930842
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7505100131587729552}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

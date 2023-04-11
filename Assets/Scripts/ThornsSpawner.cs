@@ -8,29 +8,28 @@ public class ThornsSpawner : MonoBehaviour
     {
         GameField.OnLineMoved += CreateNewThornsRow;
         
-        CreateThornRow(1, true);
-        CreateThornRow(2, false);
+        CreateThornRow(0, 0);
+        CreateThornRow(1, 1);
+        CreateThornRow(2, 2);
         
-        CreateThornRow(GameManager.GameField.Height, true);
-        CreateThornRow(GameManager.GameField.Height - 1, false);
+        CreateThornRow(Settings.Height - 1, 0);
+        CreateThornRow(Settings.Height, 1);
+        CreateThornRow(Settings.Height + 1, 1);
     }
 
-    private void CreateThornRow(int y, bool growingState)
+    private void CreateThornRow(int y, int growingState)
     {
-        var thornRowEmptyObject = new GameObject("ThornRow");
-        thornRowEmptyObject.transform.SetParent(gameObject.transform);
-        
-        for (int i = 0; i < GameManager.GameField.Width; i++)
+        for (int i = 0; i < Settings.Width; i++)
         {
-            var thornRow = Instantiate(_thornPrefab, new Vector2(i, y), Quaternion.identity, thornRowEmptyObject.transform);
-            thornRow.IsGrowing = growingState;
+            var thorn = Instantiate(_thornPrefab, new Vector2(i, y), Quaternion.identity, gameObject.transform);
+            thorn.GrowingState = growingState;
         }
     }
 
     private void CreateNewThornsRow()
     {
-        CreateThornRow(-GameManager.GameField.ScrolledLines+1, true);
-        CreateThornRow(-GameManager.GameField.ScrolledLines + GameManager.GameField.Height-1, false);
+        CreateThornRow(-GameManager.GameField.ScrolledLines, 0);
+        CreateThornRow(-GameManager.GameField.ScrolledLines +Settings.Height-1, 0);
     }
 
     
