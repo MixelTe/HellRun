@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.GameIsRunning)
+        if (GameManager.GameIsRunning && GameManager.GameField.Scroling)
         {
             _timeLeftForStop -= Time.deltaTime;
             GameManager.GameField.ScrollSpeed += Time.deltaTime / _scrollSpeedAcceleration;

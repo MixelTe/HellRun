@@ -9,15 +9,7 @@ public class Score : MonoBehaviour
 
     private void Start()
     {
-        //GameField.OnLineMoved += UpdateScoreOnLineMoved;
         StartCoroutine(UpdateScoreEverySecond());
-    }
-
-    private void UpdateScoreOnLineMoved()
-    {
-        _currentScore++;
-        _scoreText.text = "Счет: " + _currentScore * 10;
-        
     }
 
     private IEnumerator UpdateScoreEverySecond()
@@ -27,8 +19,8 @@ public class Score : MonoBehaviour
             if(!GameManager.GameIsRunning)
                 yield break;
             _currentScore++;
-            _scoreText.text = "Счет: " + _currentScore * 10;
-            yield return new WaitForSeconds(1);
+            _scoreText.text = "Счет: " + _currentScore;
+            yield return new WaitForSeconds(.1f);
         }
     }
 }

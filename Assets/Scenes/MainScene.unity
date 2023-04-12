@@ -1008,4 +1008,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollSpeedAcceleration: 120
-  _timeToStop: 20
+  _timeToStop: 120
