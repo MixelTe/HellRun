@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ChainGroup", menuName = "ScriptableObjects/ChainGroup")]
+[CreateAssetMenu(fileName = "ChainGroup")]
 public class ChainGroup : ScriptableObject
 {
-    public List<ChainStrike> ChainStrikes;
+    public List<ChainStrike> ChainStrikes = new();
 }
 
 [System.Serializable]

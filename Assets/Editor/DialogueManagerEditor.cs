@@ -5,9 +5,15 @@ using UnityEditor;
 [CustomEditor(typeof(ChainGroup))]
 public class ChainGroupEditor : Editor
 {
+    private static Color _colorThorns = Utils.ColorFromRGB(198, 77, 77);
+    private static Color _colorChain = Utils.ColorFromRGB(0, 84, 143);
+    private static Color _colorChainOutliine = Utils.ColorFromRGB(0, 40, 140);
+
     public override void OnInspectorGUI()
     {
         var chainGroup = (ChainGroup)target;
+        if (chainGroup == null) return;
+
         GUILayout.BeginHorizontal();
         GUILayout.Label("Strikes");
         GUILayout.FlexibleSpace();
@@ -47,27 +53,6 @@ public class ChainGroupEditor : Editor
         var lastRect = GUILayoutUtility.GetLastRect();
         var rectFull = new Rect(100, lastRect.yMax, 100, (toggleSize + 1) * strike.HorizontalChains.Length + 30);
 
-        var height = toggleSize * strike.HorizontalChains.Length;
-        for (int i = 0; i < strike.VerticalChains.Length; i++)
-		{
-            var rect = new Rect(rectFull.x + toggleSize * (i + 1), rectFull.y, toggleSize, toggleSize);
-            EditorGUI.BeginChangeCheck();
-            var value = GUI.Toggle(rect, strike.VerticalChains[i], "");
-            if (EditorGUI.EndChangeCheck())
-            {
-                Undo.RecordObject(target, "Changed Strike");
-                strike.VerticalChains[i] = value;
-            }
-
-            if (value)
-			{
-                rect.y += toggleSize;
-                rect.height = height;
-                EditorGUI.DrawRect(rect.Inflate(-2), Color.blue);
-                EditorGUI.DrawRect(rect.Inflate(-3), Color.cyan);
-			}
-        }
-
         var width = toggleSize * strike.VerticalChains.Length;
         for (int i = 0; i < strike.HorizontalChains.Length; i++)
         {
@@ -80,12 +65,37 @@ public class ChainGroupEditor : Editor
                 strike.HorizontalChains[i] = value;
             }
 
+            rect.x += toggleSize;
+            rect.width = width;
+            if (i < 2 || i > strike.HorizontalChains.Length - 3)
+			{
+                EditorGUI.DrawRect(rect, _colorThorns);
+            }
             if (value)
             {
-                rect.x += toggleSize;
-                rect.width = width;
-                EditorGUI.DrawRect(rect.Inflate(-2), Color.blue);
-                EditorGUI.DrawRect(rect.Inflate(-3), Color.cyan);
+                EditorGUI.DrawRect(rect.Inflate(-2), _colorChainOutliine);
+                EditorGUI.DrawRect(rect.Inflate(-3), _colorChain);
+            }
+        }
+
+        var height = toggleSize * strike.HorizontalChains.Length;
+        for (int i = 0; i < strike.VerticalChains.Length; i++)
+        {
+            var rect = new Rect(rectFull.x + toggleSize * (i + 1), rectFull.y, toggleSize, toggleSize);
+            EditorGUI.BeginChangeCheck();
+            var value = GUI.Toggle(rect, strike.VerticalChains[i], "");
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(target, "Changed Strike");
+                strike.VerticalChains[i] = value;
+            }
+
+            if (value)
+            {
+                rect.y += toggleSize;
+                rect.height = height;
+                EditorGUI.DrawRect(rect.Inflate(-2), _colorChainOutliine);
+                EditorGUI.DrawRect(rect.Inflate(-3), _colorChain);
             }
         }
 

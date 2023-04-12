@@ -16,5 +16,10 @@ public static class Utils
 			rect.height + v * 2
 			);
 	}
+
+	public static Color ColorFromRGB(int r, int g, int b)
+	{
+		return new Color(r / 255f, g / 255f, b / 255f);
+	}
 }
 

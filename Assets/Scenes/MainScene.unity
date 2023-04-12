@@ -238,8 +238,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chain: {fileID: -5275354938682020650, guid: cea5fe87db814914eb21e9714ee5b3d3, type: 3}
   _chainGroups:
+  - {fileID: 11400000, guid: 10f1cfac92fb56a4894471696939ae41, type: 2}
+  - {fileID: 11400000, guid: 5f573565ec538ef41b1c3883bcef0e6b, type: 2}
+  - {fileID: 11400000, guid: 4db1165b1e642d94188c494848c8df20, type: 2}
   - {fileID: 11400000, guid: c5b6bddecbbd32c479941b60424c7f65, type: 2}
-  _strikeTime: 1
+  _strikeTime: 0.3
 --- !u!4 &266603949
 Transform:
   m_ObjectHideFlags: 0

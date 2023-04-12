@@ -9,31 +9,24 @@ public class ChainSpawner : MonoBehaviour
     [SerializeField] private ChainGroup[] _chainGroups;
     [SerializeField] private float _strikeTime;
 
-    private bool _strikeNow = false;
-
-    public event Action OnChainGroupEnded;
-
-    [ContextMenu("StartChainGroup")]
-    public void StartChainGroup()
-    {
-        if (_strikeNow) return;
-        _strikeNow = true;
-
-        StartCoroutine(SpawnChainGroup());
+	private void Start()
+	{
+        StartCoroutine(SpawnChains());
     }
 
-    private IEnumerator SpawnChainGroup()
+    private IEnumerator SpawnChains()
 	{
-        var group = _chainGroups.GetRandom();
-		foreach (var strike in group.ChainStrikes)
+		while (true)
 		{
-            SpawnStrike(strike);
+            var group = _chainGroups.GetRandom();
+		    foreach (var strike in group.ChainStrikes)
+		    {
+                SpawnStrike(strike);
 
-            var delay = _strikeTime / GameManager.GameField.ScrollSpeed;
-            yield return new WaitForSeconds(delay);
+                yield return new WaitForSeconds(_strikeTime / GameManager.GameField.ScrollSpeed);
+            }
+            yield return new WaitForSeconds(_strikeTime / GameManager.GameField.ScrollSpeed);
         }
-        OnChainGroupEnded?.Invoke();
-        _strikeNow = false;
     }
 
     private void SpawnStrike(ChainStrike strike)
@@ -60,14 +53,15 @@ public class ChainSpawner : MonoBehaviour
         Quaternion rotation;
         if (vert)
         {
-            positon = new Vector3(i, GameManager.GameField.ScrolledLines - Settings.Height / 2f + 0.5f);
+            positon = new Vector3(i, GameManager.GameField.ScrolledLines - Settings.Height / 2f + 0.5f + Settings.Height);
             rotation = Quaternion.identity;
         }
         else
         {
-            positon = new Vector3(Settings.Width / 2f - 0.5f, GameManager.GameField.ScrolledLines - i);
+            positon = new Vector3(Settings.Width / 2f - 0.5f, GameManager.GameField.ScrolledLines - i + Settings.Height);
             rotation = Quaternion.Euler(0, 0, 90);
         }
-        Instantiate(_chain, positon, rotation, transform);
+        var chain = Instantiate(_chain, positon, rotation, transform);
+        chain.Strike(_strikeTime / GameManager.GameField.ScrollSpeed);
     }
 }
