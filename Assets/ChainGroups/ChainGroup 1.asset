@@ -13,11 +13,5 @@ MonoBehaviour:
   m_Name: ChainGroup 1
   m_EditorClassIdentifier: 
   ChainStrikes:
-  - VerticalChains: 01000000000001
-    HorizontalChains: 0100000000000001
-  - VerticalChains: 00010000000100
-    HorizontalChains: 0001000000000100
-  - VerticalChains: 00000100010000
-    HorizontalChains: 0000010000010000
-  - VerticalChains: 00000001000000
-    HorizontalChains: 0000000101000000
+  - VerticalChains: 00000000000000
+    HorizontalChains: 000001000000010000

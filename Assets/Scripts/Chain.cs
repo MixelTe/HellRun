@@ -5,7 +5,8 @@ using UnityEngine;
 public class Chain : MonoBehaviour
 {
 	[SerializeField] private BoxCollider2D _collider;
-	[SerializeField] private SpriteRenderer _renderer; // Temp
+	[SerializeField] private SpriteRenderer _renderer;
+	[SerializeField] private float _strikeTime;
 
 	public void Strike(float duration)
 	{
@@ -14,22 +15,33 @@ public class Chain : MonoBehaviour
 
 	private IEnumerator StrikeImp(float duration)
 	{
-		// Temp
+		_collider.enabled = false;
+		yield return Fade(0.5f, duration);
+
 		var color = _renderer.color;
-		color.a = 0.5f;
+		color.a = 1;
 		_renderer.color = color;
-		// Temp
+		_collider.enabled = true;
+
+		yield return new WaitForSeconds(_strikeTime);
 
 		_collider.enabled = false;
-		yield return new WaitForSeconds(duration);
 
-		// Temp
-		color.a = 1f;
-		_renderer.color = color;
-		// Temp
+		yield return Fade(1f, duration - _strikeTime);
 
-		_collider.enabled = true;
-		yield return new WaitForSeconds(duration);
 		Destroy(gameObject);
+	}
+
+	private IEnumerator Fade(float startA, float duration)
+	{
+		var color = _renderer.color;
+		for (float t = 0; t < 1; t += Time.fixedDeltaTime / duration)
+		{
+			color.a = Mathf.Lerp(startA, 0, t);
+			_renderer.color = color;
+			yield return new WaitForFixedUpdate();
+		}
+		color.a = 0;
+		_renderer.color = color;
 	}
 }

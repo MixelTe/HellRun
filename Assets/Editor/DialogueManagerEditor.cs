@@ -28,18 +28,22 @@ public class ChainGroupEditor : Editor
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        var style = new GUIStyle(GUI.skin.button);
-        style.fontSize = 20;
-        style.fixedHeight = 25;
-        style.fixedWidth = 50;
-        if (GUILayout.Button("+", style))
+		var style = new GUIStyle(GUI.skin.button)
+		{
+			fontSize = 20,
+			fixedHeight = 25,
+			fixedWidth = 50
+		};
+		if (GUILayout.Button("+", style))
 		{
             Undo.RecordObject(target, "Added Strike");
+            EditorUtility.SetDirty(target);
             chainGroup.ChainStrikes.Add(new ChainStrike());
         }
         if (GUILayout.Button("-", style))
         {
             Undo.RecordObject(target, "Removed Strike");
+            EditorUtility.SetDirty(target);
             if (chainGroup.ChainStrikes.Count > 0)
                 chainGroup.ChainStrikes.RemoveAt(chainGroup.ChainStrikes.Count - 1);
         }
@@ -62,6 +66,7 @@ public class ChainGroupEditor : Editor
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(target, "Changed Strike");
+                EditorUtility.SetDirty(target);
                 strike.HorizontalChains[i] = value;
             }
 
@@ -87,6 +92,7 @@ public class ChainGroupEditor : Editor
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(target, "Changed Strike");
+                EditorUtility.SetDirty(target);
                 strike.VerticalChains[i] = value;
             }
 

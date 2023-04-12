@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05dc288468e8dcd41893c491fe16e279, type: 3}
-  m_Name: ChainGroup 3
+  m_Name: ChainGroup 5
   m_EditorClassIdentifier: 
   ChainStrikes:
-  - VerticalChains: 00000101000000
-    HorizontalChains: 000000010100000000
+  - VerticalChains: 00000000000000
+    HorizontalChains: 000000010001000000

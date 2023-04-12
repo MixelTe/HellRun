@@ -53,12 +53,12 @@ public class ChainSpawner : MonoBehaviour
         Quaternion rotation;
         if (vert)
         {
-            positon = new Vector3(i, GameManager.GameField.ScrolledLines - Settings.Height / 2f + 0.5f + Settings.Height);
+            positon = new Vector3(i, -GameManager.GameField.ScrolledLines - Settings.Height / 2f + 0.5f + Settings.Height);
             rotation = Quaternion.identity;
         }
         else
         {
-            positon = new Vector3(Settings.Width / 2f - 0.5f, GameManager.GameField.ScrolledLines - i + Settings.Height);
+            positon = new Vector3(Settings.Width / 2f - 0.5f, -GameManager.GameField.ScrolledLines - i + Settings.Height);
             rotation = Quaternion.Euler(0, 0, 90);
         }
         var chain = Instantiate(_chain, positon, rotation, transform);

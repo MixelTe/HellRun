@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05dc288468e8dcd41893c491fe16e279, type: 3}
   m_Name: ChainGroup 2
   m_EditorClassIdentifier: 
-  ChainStrikes: []
+  ChainStrikes:
+  - VerticalChains: 01000000000001
+    HorizontalChains: 000000000000000000
+  - VerticalChains: 00010000000100
+    HorizontalChains: 000000000000000000
+  - VerticalChains: 00000100010000
+    HorizontalChains: 000000000000000000
+  - VerticalChains: 00000001000000
+    HorizontalChains: 000000000000000000
