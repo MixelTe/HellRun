@@ -207,6 +207,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &266603947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 266603949}
+  - component: {fileID: 266603948}
+  m_Layer: 0
+  m_Name: ChainSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &266603948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266603947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5089e3aa4adbcba49979aafd152bef61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chain: {fileID: -5275354938682020650, guid: cea5fe87db814914eb21e9714ee5b3d3, type: 3}
+  _chainGroups:
+  - {fileID: 11400000, guid: c5b6bddecbbd32c479941b60424c7f65, type: 2}
+  _strikeTime: 1
+--- !u!4 &266603949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266603947}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,8 +442,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cellPrefab: {fileID: 6732095273021637700, guid: ed4b7895f96e0a64098da5a9a04c16a9, type: 3}
   _accelerationTime: 1
-  Width: 7
-  Height: 8
   Scroling: 1
   Scroll: 0
   ScrolledLines: 0
@@ -663,6 +709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameField: {fileID: 740169566}
   _playerInput: {fileID: 1704322021}
+  _chainSpawner: {fileID: 0}
 --- !u!4 &2024290239
 Transform:
   m_ObjectHideFlags: 0
