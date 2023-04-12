@@ -30,6 +30,7 @@ public class GameField : MonoBehaviour
 
     private void Update()
     {
+        _curScrollSpeed = ScrollSpeed;
         if(Scroling){
             Scroll += _curScrollSpeed * Time.deltaTime;
             if (Scroll > 1f)
