@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private bool _immortal = false;
+
     private void Start()
     {
         GameField.OnLineMoved += CheckCurPosition;
@@ -20,6 +22,7 @@ public class Player : MonoBehaviour
 
     private void CheckCurPosition()
     {
+        if (_immortal) return;
         if (!GameManager.GameField.IsInsideField(transform.position))
         {
             print("Outside of the field!");
@@ -29,6 +32,8 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_immortal) return;
+
         if (collision.TryGetComponent<Enemy>(out var enemy))
         {
             print("Collision with enemy");

@@ -1,16 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
     //The time for which the game will accelerate by 2 times
     [SerializeField] private float _scrollSpeedAcceleration  = 120f;
     [SerializeField] private float _timeToStop = 120f;
+    [SerializeField] private float _timeBeforeFirstStrike = 2f;
     private float _timeLeftForStop = 0f;
 
     private void Start()
     {
         _timeLeftForStop = _timeToStop;
-        //ChainSpawner.OnChainGroupEnded += StartNewChainGroup;
+        StartCoroutine(StartChains());
     }
 
     private void Update()
@@ -27,8 +29,9 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void StartNewChainGroup()
+    private IEnumerator StartChains()
     {
-        //ChainSpawner.StartChainGroup();
+        yield return new WaitForSeconds(_timeBeforeFirstStrike);
+        GameManager.ChainSpawner.StartSpawn();
     }
 }
