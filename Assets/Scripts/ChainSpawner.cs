@@ -9,7 +9,7 @@ public class ChainSpawner : MonoBehaviour
     [SerializeField] private ChainGroup[] _chainGroups;
     [SerializeField] private float _strikeTime;
 
-	private void Start()
+    public void StartSpawn()
 	{
         StartCoroutine(SpawnChains());
     }
@@ -18,9 +18,13 @@ public class ChainSpawner : MonoBehaviour
 	{
 		while (true)
 		{
+            if (!GameManager.GameIsRunning) break;
+
             var group = _chainGroups.GetRandom();
-		    foreach (var strike in group.ChainStrikes)
+            foreach (var strike in group.ChainStrikes)
 		    {
+                if (!GameManager.GameIsRunning) break;
+
                 SpawnStrike(strike);
 
                 yield return new WaitForSeconds(_strikeTime / GameManager.GameField.ScrollSpeed);

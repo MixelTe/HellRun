@@ -22,20 +22,20 @@ public class ChainGroupEditor : Editor
 
 
         foreach (var strike in chainGroup.ChainStrikes)
-		{
+        {
             DrawStrike(strike);
-		}
+        }
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-		var style = new GUIStyle(GUI.skin.button)
-		{
-			fontSize = 20,
-			fixedHeight = 25,
-			fixedWidth = 50
-		};
-		if (GUILayout.Button("+", style))
-		{
+        var style = new GUIStyle(GUI.skin.button)
+        {
+            fontSize = 20,
+            fixedHeight = 25,
+            fixedWidth = 50
+        };
+        if (GUILayout.Button("+", style))
+        {
             Undo.RecordObject(target, "Added Strike");
             EditorUtility.SetDirty(target);
             chainGroup.ChainStrikes.Add(new ChainStrike());
@@ -51,7 +51,7 @@ public class ChainGroupEditor : Editor
     }
 
     private void DrawStrike(ChainStrike strike)
-	{
+    {
         var toggleSize = 15;
 
         var lastRect = GUILayoutUtility.GetLastRect();
@@ -73,7 +73,7 @@ public class ChainGroupEditor : Editor
             rect.x += toggleSize;
             rect.width = width;
             if (i < 2 || i > strike.HorizontalChains.Length - 3)
-			{
+            {
                 EditorGUI.DrawRect(rect, _colorThorns);
             }
             if (value)
