@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: -4219663776522407902}
   - component: {fileID: 6802442283227363780}
   - component: {fileID: 5362998557843930842}
+  - component: {fileID: 690211835945845741}
   m_Layer: 0
   m_Name: Thorn
   m_TagString: Untagged
@@ -143,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11db70d5b7744a4ebdb5156a94e4806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrowingState: 0
+  _animator: {fileID: 690211835945845741}
 --- !u!61 &5362998557843930842
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -170,3 +171,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &690211835945845741
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7505100131587729552}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ecff003c6fa2ab146822418fe42cf002, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

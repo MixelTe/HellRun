@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -9,7 +6,7 @@ public class CameraController : MonoBehaviour
     
     private void Start()
     {
-        GameField.ScrollStopped += Shake;
+        GameManager.GameField.ScrollStopped += Shake;
     }
 
     private void LateUpdate()

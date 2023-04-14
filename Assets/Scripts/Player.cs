@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        GameField.OnLineMoved += CheckCurPosition;
+        GameManager.GameField.OnLineMoved += CheckCurPosition;
         GameManager.PlayerInput.OnMoved += OnMoved;
     }
     

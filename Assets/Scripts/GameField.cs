@@ -11,9 +11,9 @@ public class GameField : MonoBehaviour
     private FieldRow[] _rows;
     private float _curScrollSpeed;
 
-    public static event Action ScrollContinued;
-    public static event Action ScrollStopped;
-    public static event Action OnLineMoved;
+    public event Action ScrollContinued;
+    public event Action ScrollStopped;
+    public event Action OnLineMoved;
     
     [HideInInspector] public bool Scroling = true;
     [HideInInspector] public float Scroll = 0f;
