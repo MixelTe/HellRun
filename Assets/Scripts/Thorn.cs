@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 
 public class Thorn : MonoBehaviour
