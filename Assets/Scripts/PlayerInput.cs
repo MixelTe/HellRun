@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
     private float _timeSinceLastMove = 0f;
     private Vector3 _touchStart;
 
-    public Action<Vector2> OnMoved;
+    public event Action<Vector2> OnMoved;
 
     public void Update()
     {
@@ -29,7 +29,7 @@ public class PlayerInput : MonoBehaviour
                 OnTap(d);
         }
 
-        _timeSinceLastMove += Time.deltaTime;
+        _timeSinceLastMove += Time.deltaTime * GameManager.GameField.ScrollSpeed;
 
         if (_moveCoolDown > _timeSinceLastMove)
             return;

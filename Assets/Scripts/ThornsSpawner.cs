@@ -6,7 +6,7 @@ public class ThornsSpawner : MonoBehaviour
 
     private void Start()
     {
-        GameField.OnLineMoved += CreateNewThornsRow;
+        GameManager.GameField.OnLineMoved += CreateNewThornsRow;
         
         CreateThornRow(0, 0);
         CreateThornRow(1, 1);

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _scoreText;
     private int _currentScore = 0;
 
     private void Start()
@@ -19,7 +18,7 @@ public class Score : MonoBehaviour
             if(!GameManager.GameIsRunning)
                 yield break;
             _currentScore++;
-            _scoreText.text = "Счет: " + _currentScore;
+            GameManager.GameUI.UpdateScore(_currentScore);
             yield return new WaitForSeconds(.1f);
         }
     }
