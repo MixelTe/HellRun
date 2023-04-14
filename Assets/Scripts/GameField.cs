@@ -89,4 +89,20 @@ public class GameField : MonoBehaviour
 
         _curScrollSpeed = ScrollSpeed;
     }
+
+    [ContextMenu("GenerateField")]
+    private void GenerateField()
+	{
+        for (int i = 0; i < Settings.Height; i++)
+            AddNewLine(Settings.Height - i);
+    }
+    [ContextMenu("DestroyField")]
+    private void DestroyField()
+    {
+		for (int i = transform.childCount - 1; i >= 0; i--)
+		{
+            var child = transform.GetChild(i);
+            DestroyImmediate(child.gameObject);
+        }
+    }
 }
