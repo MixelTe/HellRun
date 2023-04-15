@@ -27,21 +27,16 @@ public class PlayerInput : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            OnMoved?.Invoke(Vector2Int.up);
-        }
+            MoveUp();
+        
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            OnMoved?.Invoke(Vector2Int.down);
-        }
+            MoveDown();
+        
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            OnMoved?.Invoke(Vector2Int.right);
-        }
+            MoveRight();
+     
         else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            OnMoved?.Invoke(Vector2Int.left);
-        }
+            MoveLeft();
     }
 
     private void OnTap(Vector2 position)
@@ -51,14 +46,16 @@ public class PlayerInput : MonoBehaviour
 
     private void OnSwipe(Vector2 direction)
     {
-        OnMoved?.Invoke(DetermineDirection(direction));
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            if (direction.x > 0) MoveRight();
+            else MoveLeft();
+        else
+            if (direction.y > 0) MoveUp();
+            else MoveDown();
     }
 
-    private static Vector2Int DetermineDirection(Vector2 direction)
-    {
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-            return direction.x > 0 ? Vector2Int.right : Vector2Int.left;
-        else
-            return direction.y > 0 ? Vector2Int.up : Vector2Int.down;
-    }
+    public void MoveRight() => OnMoved?.Invoke(Vector2Int.right);
+    public void MoveLeft() => OnMoved?.Invoke(Vector2Int.left);
+    public void MoveUp() => OnMoved?.Invoke(Vector2Int.up);
+    public void MoveDown() => OnMoved?.Invoke(Vector2Int.down);
 }
