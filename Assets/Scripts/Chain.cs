@@ -33,7 +33,7 @@ public class Chain : MonoBehaviour
 		var pos = _chain.localPosition;
 		for (float t = 0; t < 1; t += Time.fixedDeltaTime / duration)
 		{
-			color.a = Mathf.Lerp(0, 0.25f, t);
+			color.a = Mathf.Lerp(0, 0.15f, t);
 			_renderer.color = color;
 
 			pos.x = Mathf.Sin(t * _a) * _b;

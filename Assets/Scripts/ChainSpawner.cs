@@ -4,9 +4,9 @@ using UnityEngine;
 public class ChainSpawner : MonoBehaviour
 {
     [SerializeField] private Chain _chain;
-    [SerializeField] private ChainGroup[] _chainGroups;
     [SerializeField] private float _strikeTime;
     [SerializeField] private float _strikeChainMul;
+    [SerializeField] private ChainGroup[] _chainGroups;
 
     public void StartSpawn()
 	{
