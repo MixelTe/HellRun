@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         if (!GameManager.GameField.IsInsideField(transform.position))
         {
             print("Outside of the field!");
-            GameManager.OverGame();
+            Kill();
         }
     }
 
@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
         if (collision.TryGetComponent<Enemy>(out var enemy))
         {
             print("Collision with enemy");
-            GameManager.OverGame();
+            Kill();
         }
     }
 
@@ -86,4 +86,11 @@ public class Player : MonoBehaviour
 				StartCoroutine(Move());
 		}
 	}
+
+    private void Kill()
+	{
+        if (!GameManager.GameIsRunning) return;
+        _animator.SetTrigger("Death");
+        GameManager.OverGame();
+    }
 }
