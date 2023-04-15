@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     
     public void OnMoved(Vector2Int moveTo)
     {
-        if (_moveState < 0.1 * GameManager.GameField.ScrollSpeed) return;
+        if (_moveState < 0.5) return;
         _nextMove = moveTo;
 
         if (_moveState < 1) return;

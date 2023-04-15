@@ -6,6 +6,7 @@ public class ChainSpawner : MonoBehaviour
     [SerializeField] private Chain _chain;
     [SerializeField] private ChainGroup[] _chainGroups;
     [SerializeField] private float _strikeTime;
+    [SerializeField] private float _strikeChainMul;
 
     public void StartSpawn()
 	{
@@ -64,6 +65,6 @@ public class ChainSpawner : MonoBehaviour
             rotation = Quaternion.Euler(0, 0, 90);
         }
         var chain = Instantiate(_chain, positon, rotation, transform);
-        chain.Strike(_strikeTime / GameManager.GameField.ScrollSpeed);
+        chain.Strike(_strikeTime / GameManager.GameField.ScrollSpeed * _strikeChainMul);
     }
 }

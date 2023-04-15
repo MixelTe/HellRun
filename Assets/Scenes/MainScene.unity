@@ -1320,8 +1320,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chain: {fileID: -5275354938682020650, guid: cea5fe87db814914eb21e9714ee5b3d3, type: 3}
   _chainGroups:
+  - {fileID: 11400000, guid: 10f1cfac92fb56a4894471696939ae41, type: 2}
+  - {fileID: 11400000, guid: 5f573565ec538ef41b1c3883bcef0e6b, type: 2}
+  - {fileID: 11400000, guid: 4db1165b1e642d94188c494848c8df20, type: 2}
+  - {fileID: 11400000, guid: e3c3ae6dd1e69ad4fa9a550883eb6527, type: 2}
+  - {fileID: 11400000, guid: 7a9dbf7819cb1ec4e93a2afd8e147ac1, type: 2}
   - {fileID: 11400000, guid: 1164d272441c79b4aabba06dd3350751, type: 2}
+  - {fileID: 11400000, guid: bdf55b569b3dfa84fa92f807fd068215, type: 2}
+  - {fileID: 11400000, guid: 2b0a443b514a407428fba06e8b0b214c, type: 2}
+  - {fileID: 11400000, guid: 25b7dbb846602d541a012b4d07279108, type: 2}
+  - {fileID: 11400000, guid: 9483cd45ee28091438bdc051cb3fa23c, type: 2}
+  - {fileID: 11400000, guid: c0707e68ca192854ead042bab0f2189c, type: 2}
+  - {fileID: 11400000, guid: 1bb00b9a5df417e488ce3d384cdd1652, type: 2}
+  - {fileID: 11400000, guid: dc05743ea71e09043b04fa712881c77c, type: 2}
+  - {fileID: 11400000, guid: 7234a3411ce7b3240beed958bcc6af5a, type: 2}
+  - {fileID: 11400000, guid: 007250080a09d2c47afc21378caaf544, type: 2}
+  - {fileID: 11400000, guid: bd40a1f49d3588e4383f947483456d88, type: 2}
+  - {fileID: 11400000, guid: ea93f205d212ab24b873228f13094d82, type: 2}
+  - {fileID: 11400000, guid: 7536d495e7159a343a5e00fba09c80f1, type: 2}
+  - {fileID: 11400000, guid: 46f1f94f107d516409495b7bf08bfe65, type: 2}
+  - {fileID: 11400000, guid: cc2e82a4c2e4eea4a95960ee509507ae, type: 2}
+  - {fileID: 11400000, guid: b016fb07885ae10409139939bd309464, type: 2}
+  - {fileID: 11400000, guid: 47c1f00af78008843a06f08af455366a, type: 2}
+  - {fileID: 11400000, guid: 6ef557a9a5ef52842b9867430cde73ea, type: 2}
+  - {fileID: 11400000, guid: 663ec280b3cca584b84a62dc1c7bc913, type: 2}
+  - {fileID: 11400000, guid: c5b6bddecbbd32c479941b60424c7f65, type: 2}
   _strikeTime: 0.4
+  _strikeChainMul: 1.5
 --- !u!4 &266603949
 Transform:
   m_ObjectHideFlags: 0
@@ -6686,7 +6711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1704322026}
-  _immortal: 1
+  _immortal: 0
   _moveTime: 0.15
 --- !u!50 &1704322024
 Rigidbody2D:

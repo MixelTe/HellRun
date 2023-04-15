@@ -22,6 +22,7 @@ public class GameField : MonoBehaviour
 
     private void Start()
     {
+        DestroyField();
         _curScrollSpeed = ScrollSpeed;
         _rows = new FieldRow[Settings.Height];
         for (int i = 0; i < Settings.Height; i++)
@@ -97,12 +98,20 @@ public class GameField : MonoBehaviour
             AddNewLine(Settings.Height - i);
     }
     [ContextMenu("DestroyField")]
-    private void DestroyField()
+    private void DestroyFieldImmediate()
     {
 		for (int i = transform.childCount - 1; i >= 0; i--)
 		{
             var child = transform.GetChild(i);
             DestroyImmediate(child.gameObject);
+        }
+    }
+    private void DestroyField()
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            var child = transform.GetChild(i);
+            Destroy(child.gameObject);
         }
     }
 }
