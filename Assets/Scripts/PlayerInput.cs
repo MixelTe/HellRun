@@ -3,13 +3,10 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private float _moveCoolDown = .4f;
     [SerializeField] private float _tapRadius = 10f;
-    
-    private float _timeSinceLastMove = 0f;
     private Vector3 _touchStart;
 
-    public event Action<Vector2> OnMoved;
+    public event Action<Vector2Int> OnMoved;
 
     public void Update()
     {
@@ -29,31 +26,22 @@ public class PlayerInput : MonoBehaviour
                 OnTap(d);
         }
 
-        _timeSinceLastMove += Time.deltaTime * GameManager.GameField.ScrollSpeed;
-
-        if (_moveCoolDown > _timeSinceLastMove)
-            return;
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            OnMoved?.Invoke(Vector2.up);
-            _timeSinceLastMove = 0;
+            OnMoved?.Invoke(Vector2Int.up);
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            OnMoved?.Invoke(Vector2.down);
-            _timeSinceLastMove = 0;
+            OnMoved?.Invoke(Vector2Int.down);
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            OnMoved?.Invoke(Vector2.right);
-            _timeSinceLastMove = 0;
+            OnMoved?.Invoke(Vector2Int.right);
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            OnMoved?.Invoke(Vector2.left);
-            _timeSinceLastMove = 0;
+            OnMoved?.Invoke(Vector2Int.left);
         }
-
     }
 
     private void OnTap(Vector2 position)
@@ -63,20 +51,14 @@ public class PlayerInput : MonoBehaviour
 
     private void OnSwipe(Vector2 direction)
     {
-        direction = DetermineDirection(direction);
-
-        if (_moveCoolDown <= _timeSinceLastMove)
-        {
-            OnMoved?.Invoke(direction);
-            _timeSinceLastMove = 0;
-        }
+        OnMoved?.Invoke(DetermineDirection(direction));
     }
 
-    private static Vector2 DetermineDirection(Vector2 direction)
+    private static Vector2Int DetermineDirection(Vector2 direction)
     {
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-            return direction.x > 0 ? Vector2.right : Vector2.left;
+            return direction.x > 0 ? Vector2Int.right : Vector2Int.left;
         else
-            return direction.y > 0 ? Vector2.up : Vector2.down;
+            return direction.y > 0 ? Vector2Int.up : Vector2Int.down;
     }
 }

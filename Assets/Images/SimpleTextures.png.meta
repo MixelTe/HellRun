@@ -246,7 +246,7 @@ TextureImporter:
       name: Player
       rect:
         serializedVersion: 2
-        x: 542
+        x: 541
         y: 365
         width: 100
         height: 100
@@ -269,7 +269,7 @@ TextureImporter:
         serializedVersion: 2
         x: 730
         y: 395
-        width: 107
+        width: 115
         height: 39
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -280,6 +280,132 @@ TextureImporter:
       bones: []
       spriteID: 5fa21f6b8fca193479afdbf8063ca3d7
       internalID: -361038634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chain2
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 349
+        width: 96
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 006ce3f7a94e7eb4c954c9e118011a89
+      internalID: -1540253321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerRight
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 359
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54bab39c0d7be574c9c458328812e311
+      internalID: 2092676229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player2
+      rect:
+        serializedVersion: 2
+        x: 887
+        y: 470
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 160ae85553f8bbd44a989600b7bc33a1
+      internalID: 212836951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player3
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 470
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f7ec0bc4ef121449b0c2f67b32ef828
+      internalID: 1764752745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerRight2
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 358
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3328800ab2aca8c4da75058076985d4c
+      internalID: 1036999114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerRight3
+      rect:
+        serializedVersion: 2
+        x: 997
+        y: 237
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3e663c3c1eeb1c43be16aba0f8616ff
+      internalID: -1020332614
       vertices: []
       indices: 
       edges: []
@@ -297,7 +423,13 @@ TextureImporter:
     nameFileIdTable:
       Bottom: -120532295
       Chain: -361038634
+      Chain2: -1540253321
       Player: -423608965
+      Player2: 212836951
+      Player3: 1764752745
+      PlayerRight: 2092676229
+      PlayerRight2: 1036999114
+      PlayerRight3: -1020332614
       Thorns1: -262026111
       Thorns2: -651555021
       Thorns3: 1267708681
