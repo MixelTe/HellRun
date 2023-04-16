@@ -21,5 +21,14 @@ public static class Utils
 	{
 		return new Color(r / 255f, g / 255f, b / 255f);
 	}
+
+	public static void DestroyAllChildren(this Transform transform)
+	{
+		for (int i = transform.childCount - 1; i >= 0; i--)
+		{
+			var child = transform.GetChild(i);
+			Object.Destroy(child.gameObject);
+		}
+	}
 }
 

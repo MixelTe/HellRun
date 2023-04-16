@@ -746,6 +746,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Border1
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 26
+        width: 48
+        height: 468
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e75420654d0093d40963bad2e90d412d
+      internalID: 1500234828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Border2
+      rect:
+        serializedVersion: 2
+        x: 1383
+        y: 21
+        width: 52
+        height: 468
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1fa2c4642fa0834a8ddf8725ca371f4
+      internalID: -1115953611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -758,6 +800,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Arrow: -2011134821
+      Border1: 1500234828
+      Border2: -1115953611
       Bottom: -120532295
       Chain: -361038634
       Chain1: -1647564894
