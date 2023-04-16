@@ -143,7 +143,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 495
-        width: 895
+        width: 894
         height: 277
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -267,10 +267,10 @@ TextureImporter:
       name: Chain
       rect:
         serializedVersion: 2
-        x: 730
-        y: 395
+        x: 995
+        y: 176
         width: 115
-        height: 39
+        height: 38
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -309,7 +309,7 @@ TextureImporter:
       name: Player2
       rect:
         serializedVersion: 2
-        x: 887
+        x: 897
         y: 470
         width: 100
         height: 100
@@ -330,7 +330,7 @@ TextureImporter:
       name: Player3
       rect:
         serializedVersion: 2
-        x: 986
+        x: 996
         y: 470
         width: 100
         height: 100
@@ -662,6 +662,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Chain4
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 136
+        width: 115
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f1ee27e9dbdc894792c500f109e9c33
+      internalID: 1962027389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chain3
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 96
+        width: 115
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5af15a91a3c322d42a4e18a35150f625
+      internalID: -1540253321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chain2
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 56
+        width: 115
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6742ba525bd3cfe4ba13c6b3dfe1e67c
+      internalID: -827586199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chain1
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 16
+        width: 115
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45e8cbf677baaa844ae635ed53ab591e
+      internalID: -1647564894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -676,7 +760,10 @@ TextureImporter:
       Arrow: -2011134821
       Bottom: -120532295
       Chain: -361038634
-      Chain2: -1540253321
+      Chain1: -1647564894
+      Chain2: -827586199
+      Chain3: -1540253321
+      Chain4: 1962027389
       Player: -423608965
       Player2: 212836951
       Player3: 1764752745
@@ -695,7 +782,6 @@ TextureImporter:
       Player_Death7: -1419662243
       Player_Death8: 915594677
       Player_Death9: -1912435533
-      SimpleTextures_0: 707509269
       SimpleTextures_1: -2105587624
       Thorns1: -262026111
       Thorns2: -651555021
