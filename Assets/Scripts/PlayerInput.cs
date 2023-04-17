@@ -3,17 +3,14 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private float _moveCoolDown = .4f;
     [SerializeField] private float _tapRadius = 10f;
-    
-    private float _timeSinceLastMove = 0f;
     private Vector3 _touchStart;
 
-    public event Action<Vector2> OnMoved;
+    public event Action<Vector2Int> OnMoved;
 
     public void Update()
     {
-        if (!GameManager.GameIsRunning)
+        if (!GameManager.GameIsRunning || GameManager.GameIsPaused)
             return;
 
         if (Input.GetMouseButtonDown(0))
@@ -29,31 +26,17 @@ public class PlayerInput : MonoBehaviour
                 OnTap(d);
         }
 
-        _timeSinceLastMove += Time.deltaTime * GameManager.GameField.ScrollSpeed;
-
-        if (_moveCoolDown > _timeSinceLastMove)
-            return;
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            OnMoved?.Invoke(Vector2.up);
-            _timeSinceLastMove = 0;
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            OnMoved?.Invoke(Vector2.down);
-            _timeSinceLastMove = 0;
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            OnMoved?.Invoke(Vector2.right);
-            _timeSinceLastMove = 0;
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            OnMoved?.Invoke(Vector2.left);
-            _timeSinceLastMove = 0;
-        }
-
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            MoveUp();
+        
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            MoveDown();
+        
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            MoveRight();
+     
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            MoveLeft();
     }
 
     private void OnTap(Vector2 position)
@@ -63,20 +46,16 @@ public class PlayerInput : MonoBehaviour
 
     private void OnSwipe(Vector2 direction)
     {
-        direction = DetermineDirection(direction);
-
-        if (_moveCoolDown <= _timeSinceLastMove)
-        {
-            OnMoved?.Invoke(direction);
-            _timeSinceLastMove = 0;
-        }
-    }
-
-    private static Vector2 DetermineDirection(Vector2 direction)
-    {
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-            return direction.x > 0 ? Vector2.right : Vector2.left;
+            if (direction.x > 0) MoveRight();
+            else MoveLeft();
         else
-            return direction.y > 0 ? Vector2.up : Vector2.down;
+            if (direction.y > 0) MoveUp();
+            else MoveDown();
     }
+
+    public void MoveRight() => OnMoved?.Invoke(Vector2Int.right);
+    public void MoveLeft() => OnMoved?.Invoke(Vector2Int.left);
+    public void MoveUp() => OnMoved?.Invoke(Vector2Int.up);
+    public void MoveDown() => OnMoved?.Invoke(Vector2Int.down);
 }

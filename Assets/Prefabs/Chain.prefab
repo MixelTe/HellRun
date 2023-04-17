@@ -49,7 +49,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 6068385123391142044}
   _renderer: {fileID: 5623697896400269067}
+  _chain: {fileID: 7123893778292429365}
   _strikeTime: 0.2
+  _strikeScale:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.95
+      inSlope: 1.9556959
+      outSlope: 1.9556959
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.20684782
+      value: 1.3545314
+      inSlope: 0.14362597
+      outSlope: 0.14362597
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.15047015
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.44699037
+      outSlope: -0.44699037
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _strikeAlpha:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 4.9047704
+      outSlope: 4.9047704
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2041164
+      value: 1.001144
+      inSlope: -0.2593816
+      outSlope: -0.2593816
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.07409005
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.2579026
+      outSlope: -1.2579026
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _shakeSpeed: 80
+  _shakeAmplitude: 0.01
+  _appearSprites:
+  - {fileID: -1647564894, guid: fab24e819b2fb824e8b8c19862b62a4c, type: 3}
+  - {fileID: -827586199, guid: fab24e819b2fb824e8b8c19862b62a4c, type: 3}
+  - {fileID: -1540253321, guid: fab24e819b2fb824e8b8c19862b62a4c, type: 3}
+  - {fileID: 1962027389, guid: fab24e819b2fb824e8b8c19862b62a4c, type: 3}
+  - {fileID: -361038634, guid: fab24e819b2fb824e8b8c19862b62a4c, type: 3}
 --- !u!114 &8334189616906552563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,7 +161,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 10}
+  m_Size: {x: 0.3, y: 10}
   m_EdgeRadius: 0
 --- !u!1 &3474754940750572505
 GameObject:
@@ -114,8 +189,8 @@ Transform:
   m_GameObject: {fileID: 3474754940750572505}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.86206, y: 0.86206, z: 0.86206}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5420543124053920265}
   m_RootOrder: 0
@@ -166,7 +241,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 16, y: 0.39}
+  m_Size: {x: 21.8, y: 0.36}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
