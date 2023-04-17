@@ -21,4 +21,10 @@ public class Score : MonoBehaviour
             yield return new WaitForSeconds(.1f);
         }
     }
+
+    public void AddCoin()
+    {
+        _currentScore += 25;
+        GameManager.GameUI.UpdateScore(_currentScore, true);
+    }
 }

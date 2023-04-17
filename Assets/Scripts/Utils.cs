@@ -6,6 +6,10 @@ public static class Utils
 	{ 
 		return array[Random.Range(0, array.Length)];
 	}
+	public static int GetRandom(this Vector2Int vec)
+	{
+		return Random.Range(vec.x, vec.y);
+	}
 
 	public static Rect Inflate(this Rect rect, float v)
 	{

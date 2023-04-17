@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private GameField _gameField;
 	[SerializeField] private PlayerInput _playerInput;
 	[SerializeField] private ChainSpawner _chainSpawner;
+	[SerializeField] private Score _score;
 	[SerializeField] private GameUI _gameUI;
 	private bool _gameIsRunning = true;
 	private bool _gameIsPaused = false;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
 	public static GameField GameField { get => _inst._gameField; }
 	public static PlayerInput PlayerInput { get => _inst._playerInput; }
 	public static ChainSpawner ChainSpawner { get => _inst._chainSpawner; }
+	public static Score Score { get => _inst._score; }
 	public static GameUI GameUI { get => _inst._gameUI; }
 	public static bool GameIsRunning { get => _inst._gameIsRunning; }
 	public static bool GameIsPaused { get => _inst._gameIsPaused; }

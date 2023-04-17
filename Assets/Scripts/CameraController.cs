@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        GameManager.GameField.ScrollStopped += Shake;
+        GameManager.GameField.OnScrollStopped += Shake;
     }
 
     private void LateUpdate()
