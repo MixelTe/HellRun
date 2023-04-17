@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
 
     public void Update()
     {
-        if (!GameManager.GameIsRunning)
+        if (!GameManager.GameIsRunning || GameManager.GameIsPaused)
             return;
 
         if (Input.GetMouseButtonDown(0))

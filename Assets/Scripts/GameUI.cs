@@ -13,6 +13,9 @@ public class GameUI : MonoBehaviour
     [SerializeField] private GameObject _double;
     [SerializeField] private float _widthForDouble;
 
+    [Header("Pause")]
+    [SerializeField] private GameObject _pausePanel;
+
     [Header("Game over")]
     [SerializeField] private GameObject _overPanel;
     [SerializeField] private TMP_Text _scoreFinal;
@@ -20,6 +23,7 @@ public class GameUI : MonoBehaviour
     private void Start()
     {
         _gamePanel.SetActive(true);
+        _pausePanel.SetActive(false);
         _overPanel.SetActive(false);
     }
 
@@ -40,6 +44,7 @@ public class GameUI : MonoBehaviour
     public void ShowGameOver()
 	{
         _gamePanel.SetActive(false);
+        _pausePanel.SetActive(false);
         _overPanel.SetActive(true);
     }
 
@@ -47,5 +52,17 @@ public class GameUI : MonoBehaviour
 	{
         _score.text = "—чет: " + score;
         _scoreFinal.text = score.ToString();
+    }
+
+    public void ShowPause()
+    {
+        _gamePanel.SetActive(false);
+        _pausePanel.SetActive(true);
+    }
+
+    public void HidePause()
+    {
+        _gamePanel.SetActive(true);
+        _pausePanel.SetActive(false);
     }
 }

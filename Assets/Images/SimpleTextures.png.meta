@@ -755,7 +755,7 @@ TextureImporter:
         width: 48
         height: 468
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -776,7 +776,7 @@ TextureImporter:
         width: 52
         height: 468
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -784,6 +784,27 @@ TextureImporter:
       bones: []
       spriteID: e1fa2c4642fa0834a8ddf8725ca371f4
       internalID: -1115953611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 399
+        width: 46
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e53d2319784bd2b43a3703d6521ad75e
+      internalID: 1137094835
       vertices: []
       indices: 
       edges: []
@@ -808,6 +829,7 @@ TextureImporter:
       Chain2: -827586199
       Chain3: -1540253321
       Chain4: 1962027389
+      Pause: 1137094835
       Player: -423608965
       Player2: 212836951
       Player3: 1764752745
