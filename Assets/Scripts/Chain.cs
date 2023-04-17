@@ -38,7 +38,7 @@ public class Chain : MonoBehaviour
 			_renderer.sprite = _appearSprites[0];
 		for (float t = 0; t < 1; t += Time.fixedDeltaTime / duration)
 		{
-			color.a = Mathf.Lerp(0, 0.15f, t);
+			color.a = Mathf.Lerp(0, 0.5f, t);
 			_renderer.color = color;
 
 			var shake = Mathf.Sin(t * _shakeSpeed + rand) * _shakeAmplitude;
@@ -70,6 +70,9 @@ public class Chain : MonoBehaviour
 
 			scale.x = _strikeScale.Evaluate(t);
 			transform.localScale = scale;
+
+			if (t > 0.5f)
+				_collider.enabled = false;
 
 			yield return new WaitForEndOfFrame();
 		}

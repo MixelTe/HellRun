@@ -4,9 +4,12 @@ using UnityEngine;
 public class ChainSpawner : MonoBehaviour
 {
     [SerializeField] private Chain _chain;
+    [SerializeField] private float _speedMul = 1;
     [SerializeField] private float _strikeTime;
     [SerializeField] private float _strikeChainMul;
     [SerializeField] private ChainGroup[] _chainGroups;
+
+    private float CurStrikeTime { get => _strikeTime / (GameManager.GameField.ScrollSpeed * _speedMul); }
 
     public void StartSpawn()
 	{
@@ -26,9 +29,9 @@ public class ChainSpawner : MonoBehaviour
 
                 SpawnStrike(strike);
 
-                yield return new WaitForSeconds(_strikeTime / GameManager.GameField.ScrollSpeed);
+                yield return new WaitForSeconds(CurStrikeTime);
             }
-            yield return new WaitForSeconds(_strikeTime / GameManager.GameField.ScrollSpeed);
+            yield return new WaitForSeconds(CurStrikeTime);
         }
     }
 
@@ -65,6 +68,6 @@ public class ChainSpawner : MonoBehaviour
             rotation = Quaternion.Euler(0, 0, 90);
         }
         var chain = Instantiate(_chain, positon, rotation, transform);
-        chain.Strike(_strikeTime / GameManager.GameField.ScrollSpeed * _strikeChainMul);
+        chain.Strike(CurStrikeTime * _strikeChainMul);
     }
 }

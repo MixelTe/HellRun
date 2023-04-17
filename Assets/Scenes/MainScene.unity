@@ -813,8 +813,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96639559}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.99, y: 5.62, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalPosition: {x: -5, y: 5.62, z: 0}
+  m_LocalScale: {x: 4.2, y: 4.2, z: 4.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 690838628}
@@ -1691,6 +1691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chain: {fileID: -5275354938682020650, guid: cea5fe87db814914eb21e9714ee5b3d3, type: 3}
+  _speedMul: 1.2
   _strikeTime: 0.4
   _strikeChainMul: 2
   _chainGroups:
@@ -2997,7 +2998,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 4.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4684,7 +4685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953270002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 5.5, z: -10}
+  m_LocalPosition: {x: 1, y: 5.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7627,7 +7628,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586923125}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.83, y: 9.87, z: 0}
+  m_LocalPosition: {x: 0.83, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8230,8 +8231,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687159639}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.8, y: 5.34, z: 0}
-  m_LocalScale: {x: -4, y: 4, z: 4}
+  m_LocalPosition: {x: 7, y: 5.34, z: 0}
+  m_LocalScale: {x: -4.2, y: 4.2, z: 4.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 690838628}
@@ -8360,7 +8361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 1704322026}
   _immortal: 0
-  _moveTime: 0.15
+  _moveTime: 0.1
 --- !u!50 &1704322024
 Rigidbody2D:
   serializedVersion: 4
@@ -8486,7 +8487,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712556139}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 1.03, z: 0}
+  m_LocalPosition: {x: 0.8, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9012,7 +9013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shakeAnimator: {fileID: 519420033}
   _camera: {fileID: 519420031}
-  _bestHeight: 3.9
+  _bestHeight: 4.25
   _minWidth: 3.5
 --- !u!4 &1779856858
 Transform:
