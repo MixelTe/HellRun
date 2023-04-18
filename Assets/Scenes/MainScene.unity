@@ -2662,15 +2662,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0.9911987
-      outSlope: 0.9911987
-      tangentMode: 34
+      inSlope: 0.9987642
+      outSlope: 0.9987642
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0.13888873
     - serializedVersion: 3
-      time: 0.20225845
-      value: 1.2004783
+      time: 0.20367752
+      value: 1.1715629
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2678,8 +2678,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.69307184
-      value: 0.933968
+      time: 0.7058282
+      value: 0.9289326
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2689,16 +2689,16 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.21513827
-      outSlope: 0.21513827
-      tangentMode: 34
+      inSlope: 0.43267977
+      outSlope: 0.43267977
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.17309494
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _animTime: 0.3
+  _animTime: 0.5
 --- !u!1 &431693482
 GameObject:
   m_ObjectHideFlags: 0
@@ -4844,8 +4844,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65500e327f9549a45b60c1fc1b374ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _thornPrefab: {fileID: 690211835945845741, guid: c6dbeb9a19a1c204c88fd7fc124d1baa, type: 3}
   _coinPrefab: {fileID: 1698144817221498382, guid: 586aab7c23b60ce45b8eca0949985ee3, type: 3}
   _coinCount: {x: 3, y: 6}
+  _strikeStartDelay: 0.25
+  _strikeTime: 0.6
+  _strikeThornMul: 2
+  _thornGroups:
+  - {fileID: 11400000, guid: 041adc8b63f67cc43b9ea3838007b212, type: 2}
+  - {fileID: 11400000, guid: e87df8cf78cf06f4f82df96da74c0d60, type: 2}
+  - {fileID: 11400000, guid: fd2da9e6534ade34385d43e3c820c2ca, type: 2}
+  - {fileID: 11400000, guid: 62e73dd9f80aac5418414cc78afd5898, type: 2}
+  - {fileID: 11400000, guid: 6d592268fc820604f820784b16717dac, type: 2}
+  - {fileID: 11400000, guid: 6c8cd6ca7751a1f40a909cea9ae6f220, type: 2}
+  - {fileID: 11400000, guid: 65546c8d66538f445a020c0bb1fe3c6b, type: 2}
+  - {fileID: 11400000, guid: 061f23c160bf12241b5fb69fba48d78b, type: 2}
+  - {fileID: 11400000, guid: c1fb5f2d8e7f49a41a07103692f04c65, type: 2}
+  - {fileID: 11400000, guid: fc7c72f43bf4aa2448cdaae6df19ed2a, type: 2}
+  - {fileID: 11400000, guid: 12670a5870e1fa448bf65d5868ad4e2f, type: 2}
+  - {fileID: 11400000, guid: 49b08eaa496d3194b82d0ebe7d44d0d5, type: 2}
+  - {fileID: 11400000, guid: b10e5068c634e6043a3d521d945c5e54, type: 2}
 --- !u!4 &946193327
 Transform:
   m_ObjectHideFlags: 0
@@ -10552,9 +10570,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -10}
+  m_AnchoredPosition: {x: 260, y: -35}
   m_SizeDelta: {x: 500, y: 50}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1880983881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10670,15 +10688,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0.9911987
-      outSlope: 0.9911987
-      tangentMode: 34
+      inSlope: 0.9987642
+      outSlope: 0.9987642
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0.13888873
     - serializedVersion: 3
-      time: 0.20225845
-      value: 1.2004783
+      time: 0.20367752
+      value: 1.1715629
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -10686,8 +10704,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.69307184
-      value: 0.933968
+      time: 0.7058282
+      value: 0.9289326
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -10697,16 +10715,16 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.21513827
-      outSlope: 0.21513827
-      tangentMode: 34
+      inSlope: 0.43267977
+      outSlope: 0.43267977
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.17309494
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _animTime: 0.3
+  _animTime: 0.4
 --- !u!1 &1887976420
 GameObject:
   m_ObjectHideFlags: 0
@@ -11818,7 +11836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollSpeedAcceleration: 500
-  _timeToStop: 2
+  _timeToStop: 30
   _timeBeforeFirstStrike: 1.5
 --- !u!114 &2024290241
 MonoBehaviour:
