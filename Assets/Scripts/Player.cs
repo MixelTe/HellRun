@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
             _moveState = 0;
             _position = endPos;
             _nextMove = Vector2Int.zero;
+            
+            GameManager.SoundPlayer.PlayPlayerMovedSound(moveTime);
 
             for (float t = 0; t < 1; t += Time.deltaTime / moveTime)
 			{
@@ -90,6 +92,7 @@ public class Player : MonoBehaviour
     private void Kill()
 	{
         if (!GameManager.GameIsRunning) return;
+        GameManager.SoundPlayer.PlayPlayerDeadSound();
         _animator.SetTrigger("Death");
         GameManager.OverGame();
     }
