@@ -29,10 +29,16 @@ public class ChainSpawner : MonoBehaviour
 
                 SpawnStrike(strike);
 
-                yield return new WaitForSeconds(CurStrikeTime);
+                yield return WaitForNextStrike();
             }
-            yield return new WaitForSeconds(CurStrikeTime);
+            yield return WaitForNextStrike();
         }
+    }
+
+    private IEnumerator WaitForNextStrike()
+	{
+        do yield return new WaitForSeconds(CurStrikeTime);
+        while (!GameManager.GameField.Scroling);
     }
 
     private void SpawnStrike(ChainStrike strike)

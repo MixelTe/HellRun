@@ -11,8 +11,8 @@ public class GameField : MonoBehaviour
     private FieldRow[] _rows;
     private float _curScrollSpeed;
 
-    public event Action ScrollContinued;
-    public event Action ScrollStopped;
+    public event Action OnScrollContinued;
+    public event Action OnScrollStopped;
     public event Action OnLineMoved;
     
     [HideInInspector] public bool Scroling = true;
@@ -45,7 +45,7 @@ public class GameField : MonoBehaviour
     
     private FieldRow AddNewLine(int y)
     {
-        var rowObj = new GameObject();
+        var rowObj = new GameObject("Field Row");
         var row = rowObj.AddComponent<FieldRow>();
         row.transform.parent = gameObject.transform;
         row.Init(Settings.Width, y, _cellPrefab);
@@ -70,14 +70,14 @@ public class GameField : MonoBehaviour
     {
         _curScrollSpeed = 0;
         Scroling = false;
-        ScrollStopped?.Invoke();
+        OnScrollStopped?.Invoke();
     }
     
     public void ContinueScrolling()
     {
         StartCoroutine(IncreasingSpeed());
         Scroling = true;
-        ScrollContinued?.Invoke();
+        OnScrollContinued?.Invoke();
     }
 
     private IEnumerator IncreasingSpeed()

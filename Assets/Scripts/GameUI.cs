@@ -5,7 +5,7 @@ public class GameUI : MonoBehaviour
 {
     [Header("Ingame")]
     [SerializeField] private GameObject _gamePanel;
-    [SerializeField] private TMP_Text _score;
+    [SerializeField] private PoppingText _score;
 
     [Header("Controls")]
     [SerializeField] private RectTransform _canvas;
@@ -18,7 +18,7 @@ public class GameUI : MonoBehaviour
 
     [Header("Game over")]
     [SerializeField] private GameObject _overPanel;
-    [SerializeField] private TMP_Text _scoreFinal;
+    [SerializeField] private PoppingText _scoreFinal;
 
     private void Start()
     {
@@ -46,12 +46,16 @@ public class GameUI : MonoBehaviour
         _gamePanel.SetActive(false);
         _pausePanel.SetActive(false);
         _overPanel.SetActive(true);
+        _scoreFinal.Pop();
     }
 
-    public void UpdateScore(int score)
+    public void UpdateScore(int score, bool pop = false)
 	{
-        _score.text = "—чет: " + score;
-        _scoreFinal.text = score.ToString();
+        _score.SetText("—чет: " + score);
+        _scoreFinal.SetText(score.ToString());
+
+        if (pop)
+            _score.Pop();
     }
 
     public void ShowPause()

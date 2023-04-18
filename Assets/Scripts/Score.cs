@@ -15,10 +15,19 @@ public class Score : MonoBehaviour
         while (true)
         {
             if(!GameManager.GameIsRunning)
-                yield break;
-            _currentScore++;
-            GameManager.GameUI.UpdateScore(_currentScore);
+                break;
+            if (GameManager.GameField.Scroling)
+            {
+                _currentScore++;
+                GameManager.GameUI.UpdateScore(_currentScore);
+            }
             yield return new WaitForSeconds(.1f);
         }
+    }
+
+    public void AddCoin()
+    {
+        _currentScore += 25;
+        GameManager.GameUI.UpdateScore(_currentScore, true);
     }
 }
