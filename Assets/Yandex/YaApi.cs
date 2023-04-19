@@ -12,6 +12,7 @@ public class YaApi : MonoBehaviour
 	public static Task<int> Record() => GetRecord();
 	public static Task UpdateRecord() => _inst.SetRecord();
 	public static bool Mobile() => IsMobile();
+	public static Task<bool> Reward() => _inst.UseReward();
 
 	private void Awake()
 	{
@@ -88,6 +89,18 @@ public class YaApi : MonoBehaviour
 				_scoreUpdated = -1;
 			}
 		}
+	}
+
+	private int _reward = -1;
+	private async Task<bool> UseReward()
+	{
+		_reward = -1;
+		ShowRewardAdv();
+		while (_reward < 0)
+			await Task.Delay(250);
+		var reward = _reward;
+		_reward = -1;
+		return reward == 1;
 	}
 
 #if UNITY_EDITOR
@@ -190,4 +203,21 @@ public class YaApi : MonoBehaviour
 	[DllImport("__Internal")]
 	private static extern bool IsMobile();
 #endif
+
+
+#if UNITY_EDITOR
+	private static void ShowRewardAdv()
+	{
+		_inst.OnReward(0);
+	}
+#else
+	[DllImport("__Internal")]
+	private static extern void ShowRewardAdv();
+#endif
+
+	public void OnReward(int got)
+	{
+		if (_reward < 0)
+			_reward = got;
+	}
 }

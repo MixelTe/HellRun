@@ -20,6 +20,7 @@ public class GameUI : MonoBehaviour
     [Header("Game over")]
     [SerializeField] private GameObject _overPanel;
     [SerializeField] private PoppingText _scoreFinal;
+    [SerializeField] private Button _advButton;
 
     [Header("End Game")]
     [SerializeField] private GameObject _endPanel;
@@ -38,8 +39,10 @@ public class GameUI : MonoBehaviour
         ShowGame();
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         _authButton.onClick.AddListener(() => Auth());
+        _advButton.onClick.AddListener(() => ShowReward());
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         _isMobile = YaApi.Mobile();
+        _isMobile = true;
     }
 
     private void Update()
@@ -91,6 +94,13 @@ public class GameUI : MonoBehaviour
         _scoreFinal.Pop();
     }
 
+    private async void ShowReward()
+	{
+        var rewarded = await YaApi.Reward();
+        if (rewarded) GameManager.UseReward();
+        else GameManager.EndGame();
+	}
+
     public void ShowEndGame()
     {
         _gamePanel.SetActive(false);
@@ -131,9 +141,9 @@ public class GameUI : MonoBehaviour
 
     public void UpdateScore(int score, bool pop = false)
 	{
-        _score.SetText("Ñ÷åò: " + score);
+        _score.SetText("Ñ÷¸ò: " + score);
         _scoreFinal.SetText(score.ToString());
-        _scoreFinal2.SetText(score.ToString());
+        _scoreFinal2.SetText("Ñ÷¸ò: " + score);
 
         if (pop)
             _score.Pop();

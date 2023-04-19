@@ -1257,7 +1257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &156622932
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3103,7 +3103,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Restart
+  m_text: "\u0415\u0449\u0451 \u0440\u0430\u0437!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
   m_sharedMaterial: {fileID: -2664746006880618025, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
@@ -8989,6 +8989,7 @@ MonoBehaviour:
   _pausePanel: {fileID: 1819451411}
   _overPanel: {fileID: 156622931}
   _scoreFinal: {fileID: 422161884}
+  _advButton: {fileID: 1372396897}
   _endPanel: {fileID: 1209535693}
   _scoreFinal2: {fileID: 1746305671}
   _scoreRecord: {fileID: 876208289}
@@ -9110,19 +9111,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1372396898}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2024290238}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: UseReward
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1372396898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14479,15 +14468,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0440\u0435\u043A\u043E\u0440\u0434"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
-  m_sharedMaterial: {fileID: -2664746006880618025, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fd2b4f425063a6045876a9f0132f5ea6, type: 2}
+  m_sharedMaterial: {fileID: -2664746006880618025, guid: fd2b4f425063a6045876a9f0132f5ea6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278975743
-  m_fontColor: {r: 1, g: 0.9870533, b: 0.042452812, a: 1}
+    rgba: 4278244384
+  m_fontColor: {r: 0.12705727, g: 0.8301887, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -15893,7 +15882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5317630707366148769, guid: b738bf35f938cbb40b4eb0981425ceb9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5317630707366148769, guid: b738bf35f938cbb40b4eb0981425ceb9, type: 3}
       propertyPath: m_AnchorMin.x
@@ -15989,7 +15978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5317630708144863112, guid: b738bf35f938cbb40b4eb0981425ceb9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.9999996
       objectReference: {fileID: 0}
     - target: {fileID: 5317630708144863112, guid: b738bf35f938cbb40b4eb0981425ceb9, type: 3}
       propertyPath: m_AnchorMin.y

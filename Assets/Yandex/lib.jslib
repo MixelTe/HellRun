@@ -25,15 +25,15 @@ mergeInto(LibraryManager.library, {
 				},
 				onRewarded: () =>
 				{
-					myGameInstance.SendMessage("Yandex", "GetReward");
+					myGameInstance.SendMessage("Yandex", "OnReward", 1);
 				},
 				onClose: () =>
 				{
-					myGameInstance.SendMessage("Yandex", "CancelReward");
+					myGameInstance.SendMessage("Yandex", "OnReward", 0);
 				},
 				onError: (e) =>
 				{
-					myGameInstance.SendMessage("Yandex", "CancelReward");
+					myGameInstance.SendMessage("Yandex", "OnReward", 0);
 				}
 			}
 		});

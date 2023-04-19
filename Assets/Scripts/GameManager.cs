@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
 	public static bool GameIsRunning { get => _inst._gameIsRunning; }
 	public static bool GameIsPaused { get => _inst._gameIsPaused; }
 	public static void OverGame() => _inst.OverGameImpl();
+	public static void EndGame() => _inst.EndGameImpl();
+	public static void UseReward() => _inst.UseRewardImpl();
 
 	private void Awake()
 	{
@@ -44,7 +46,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (_rewardUsed)
 		{
-			EndGame();
+			EndGameImpl();
 		}
 		else
 		{
@@ -53,11 +55,12 @@ public class GameManager : MonoBehaviour
 			_gameUI.ShowGameOver();
 			_chainSpawner.DestroyChains();
 			_pauseRiddleSpawner.DestroyObstacles();
+			_soundPlayer.PauseEnable();
 			print("Over Game!");
 		}
 	}
 
-	public void EndGame()
+	private void EndGameImpl()
 	{
 		Time.timeScale = 1;
 		_gameIsPaused = false;
@@ -68,11 +71,12 @@ public class GameManager : MonoBehaviour
 		print("End Game!");
 	}
 
-	public void UseReward()
+	private void UseRewardImpl()
 	{
 		_rewardUsed = true;
 		_gameIsPaused = false;
 		_gameUI.ShowGame();
+		_soundPlayer.PauseDisable();
 
 		StartCoroutine(ReRunGame());
 
