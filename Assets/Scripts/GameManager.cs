@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 		_gameIsRunning = false;
 		_gameField.StopScrolling();
 		_gameUI.ShowGameOver();
+		_soundPlayer.ChangeBackToCalm();
 		print("Over Game!");
 	}
 
