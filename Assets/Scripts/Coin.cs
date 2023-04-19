@@ -13,6 +13,7 @@ public class Coin : MonoBehaviour
 		{
 			GameManager.Score.AddCoin();
 			OnColected?.Invoke();
+			GameManager.SoundPlayer.PlayCoinSound();
 			Destroy(gameObject);
 		}
 	}

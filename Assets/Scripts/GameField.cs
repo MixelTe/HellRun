@@ -70,6 +70,7 @@ public class GameField : MonoBehaviour
     {
         _curScrollSpeed = 0;
         Scroling = false;
+        GameManager.SoundPlayer.PlayPlatformStoppedSound();
         OnScrollStopped?.Invoke();
     }
     
@@ -77,6 +78,7 @@ public class GameField : MonoBehaviour
     {
         StartCoroutine(IncreasingSpeed());
         Scroling = true;
+        GameManager.SoundPlayer.PlayOnPlatformChangeStateSound();
         OnScrollContinued?.Invoke();
     }
 

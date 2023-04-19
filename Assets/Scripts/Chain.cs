@@ -62,6 +62,8 @@ public class Chain : MonoBehaviour
 		var color = _renderer.color;
 		var scale = transform.localScale;
 		_collider.enabled = true;
+		
+		GameManager.SoundPlayer.PlayChainSound();
 
 		for (float t = 0; t < 1; t += Time.deltaTime / duration)
 		{
