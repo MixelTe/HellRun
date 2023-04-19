@@ -5888,7 +5888,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 49d575a1ad9c2794ca7bcbb4d7fb8558, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.38
+  m_Volume: 0.28
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6276,6 +6276,7 @@ MonoBehaviour:
   _scrollSpeedMax: 1
   _bgFadeTime: 0.5
   _bgChangeTime: 2
+  _bgDimVolume: 0.06
   _audioCoin: {fileID: 1053038605}
   _audioPlayerMoved: {fileID: 1053038604}
   _audioPlayerDead: {fileID: 1053038603}
@@ -6296,7 +6297,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3208bd798fed9e84dae784ef8aaf1748, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6392,7 +6393,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 191238acffc98d642bf4534e11ebe9d3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -12670,7 +12671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollSpeedAcceleration: 500
-  _timeToStop: 10
+  _timeToStop: 50
   _timeBeforeFirstStrike: 1.5
 --- !u!114 &2024290241
 MonoBehaviour:

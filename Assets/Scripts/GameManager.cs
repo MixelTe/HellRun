@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
 		Time.timeScale = 0;
 		_gameIsPaused = true;
 		_gameUI.ShowPause();
+		_soundPlayer.PauseEnable();
 	}
 
 	public void UnpauseGame()
@@ -60,5 +61,6 @@ public class GameManager : MonoBehaviour
 		Time.timeScale = 1;
 		_gameIsPaused = false;
 		_gameUI.HidePause();
+		_soundPlayer.PauseDisable();
 	}
 }

@@ -8,6 +8,7 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private float _scrollSpeedMax;
     [SerializeField] private float _bgFadeTime;
     [SerializeField] private float _bgChangeTime;
+    [SerializeField] private float _bgDimVolume;
     [Header("Sounds")]
     [SerializeField] private AudioSource _audioCoin;
     [SerializeField] private AudioSource _audioPlayerMoved;
@@ -19,10 +20,12 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private AudioSource _audioBackCalm;
 
     private float _scrollSpeedStart;
+    private float _bgVolume;
 
-	private void Start()
+    private void Start()
 	{
         _scrollSpeedStart = GameManager.GameField.ScrollSpeed;
+        _bgVolume = _audioBack.volume;
         StartCoroutine(FadeInBack());
     }
 
@@ -30,19 +33,18 @@ public class SoundPlayer : MonoBehaviour
 	{
         var t = (GameManager.GameField.ScrollSpeed - _scrollSpeedStart) / (_scrollSpeedMax - _scrollSpeedStart);
         _audioBack.pitch = Mathf.Lerp(_bgPitch.x, _bgPitch.y, t);
-	}
+    }
 
     private IEnumerator FadeInBack()
 	{
-        var volume = _audioBack.volume;
         _audioBack.volume = 0;
         _audioBack.Play();
         for (float t = 0; t < 1; t += Time.deltaTime / _bgFadeTime)
         {
-            _audioBack.volume = Mathf.Lerp(0, volume, t);
+            _audioBack.volume = Mathf.Lerp(0, _bgVolume, t);
             yield return new WaitForEndOfFrame();
         }
-        _audioBack.volume = volume;
+        _audioBack.volume = _bgVolume;
     }
 
     public void ChangeBackToCalm()
@@ -52,18 +54,27 @@ public class SoundPlayer : MonoBehaviour
 
     private IEnumerator ChangeBack()
     {
-        var volumeCur = _audioBack.volume;
         var volumeCalm = _audioBackCalm.volume;
         _audioBackCalm.volume = 0;
         _audioBackCalm.Play();
         for (float t = 0; t < 1; t += Time.deltaTime / _bgChangeTime)
         {
-            _audioBack.volume = Mathf.Lerp(volumeCur, 0, t);
+            _audioBack.volume = Mathf.Lerp(_bgVolume, 0, t);
             _audioBackCalm.volume = Mathf.Lerp(0, volumeCalm, t);
             yield return new WaitForEndOfFrame();
         }
         _audioBackCalm.volume = volumeCalm;
         _audioBack.Stop();
+    }
+
+    public void PauseEnable()
+	{
+        _audioBack.volume = _bgDimVolume;
+    }
+
+    public void PauseDisable()
+    {
+        _audioBack.volume = _bgVolume;
     }
 
     public void PlayCoinSound()
