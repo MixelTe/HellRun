@@ -14,28 +14,30 @@ public class SoundSetting : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerPrefs.HasKey("volume"))
+        if (PlayerPrefs.HasKey(Settings.PlayerPrefs_SoundVolume))
         {
-            _allSounSlider.value = PlayerPrefs.GetFloat("volume");
-            SetSoundVolume(PlayerPrefs.GetFloat("volume"));
+            var volume = PlayerPrefs.GetFloat(Settings.PlayerPrefs_SoundVolume);
+            _allSounSlider.value = volume;
+            SetSoundVolume(volume);
         }
 
-        if (PlayerPrefs.HasKey("music"))
+        if (PlayerPrefs.HasKey(Settings.PlayerPrefs_MusicVolume))
         {
-            _musicSlider.value = PlayerPrefs.GetFloat("music");
-            SetMusicVolume(PlayerPrefs.GetFloat("music"));
+            var volume = PlayerPrefs.GetFloat(Settings.PlayerPrefs_MusicVolume);
+            _musicSlider.value = volume;
+            SetMusicVolume(volume);
         }
     }
 
     public void SetSoundVolume(float volume)
     {
-        _audioMixer.SetFloat("volume", volume);
-        PlayerPrefs.SetFloat("volume", volume);
+        _audioMixer.SetFloat("sounds", volume);
+        PlayerPrefs.SetFloat(Settings.PlayerPrefs_SoundVolume, volume);
     }
 
     public void SetMusicVolume(float volume)
     {
         _audioMixer.SetFloat("music", volume);
-        PlayerPrefs.SetFloat("music", volume);
+        PlayerPrefs.SetFloat(Settings.PlayerPrefs_MusicVolume, volume);
     }
 }
