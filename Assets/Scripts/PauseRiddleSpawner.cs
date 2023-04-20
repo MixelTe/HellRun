@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PauseRiddleSpawner : MonoBehaviour
 {
-    [SerializeField] private Animator _thornPrefab;
+    [SerializeField] private ThornAuto _thornPrefab;
 	[SerializeField] private Coin _coinPrefab;
 	[SerializeField] private Vector2Int _coinCount;
     [SerializeField] private float _strikeStartDelay;
@@ -16,10 +16,12 @@ public class PauseRiddleSpawner : MonoBehaviour
     private int _coinLeft;
     private Coin _curCoin;
     private Coroutine _thornSpawner;
+    private ObjectPool<ThornAuto> _thornPool;
 
     private void Start()
     {
-		GameManager.GameField.OnScrollStopped += OnScrollStopped;
+        _thornPool = new(_thornPrefab, Settings.Width * Settings.Height / 4, transform);
+        GameManager.GameField.OnScrollStopped += OnScrollStopped;
     }
 
 	private void OnScrollStopped()
@@ -47,7 +49,7 @@ public class PauseRiddleSpawner : MonoBehaviour
             if (_thornSpawner != null)
                 StopCoroutine(_thornSpawner);
             _thornSpawner = null;
-            transform.DestroyAllChildren();
+            DestroyObstacles();
         }
     }
 
@@ -92,12 +94,12 @@ public class PauseRiddleSpawner : MonoBehaviour
     private void SpawnThorn(int x, int y)
     {
         var positon = new Vector3(x, Settings.Height - y - 2 - GameManager.GameField.ScrolledLines);
-        var chain = Instantiate(_thornPrefab, positon, Quaternion.identity, transform);
-        chain.SetFloat("Speed", 2.1f / (CurStrikeTime * _strikeThornMul));
+        var thorn = _thornPool.GetFreeElement(positon);
+        thorn.SetAnimSpeed(2.1f / (CurStrikeTime * _strikeThornMul));
     }
 
     public void DestroyObstacles()
     {
-        transform.DestroyAllChildren();
+        _thornPool.DestroyAllToPool();
     }
 }

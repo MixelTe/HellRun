@@ -1404,7 +1404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &156622932
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5912,7 +5912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65500e327f9549a45b60c1fc1b374ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _thornPrefab: {fileID: 690211835945845741, guid: c6dbeb9a19a1c204c88fd7fc124d1baa, type: 3}
+  _thornPrefab: {fileID: -6876160313823248994, guid: c6dbeb9a19a1c204c88fd7fc124d1baa, type: 3}
   _coinPrefab: {fileID: 1698144817221498382, guid: 586aab7c23b60ce45b8eca0949985ee3, type: 3}
   _coinCount: {x: 3, y: 6}
   _strikeStartDelay: 0.25

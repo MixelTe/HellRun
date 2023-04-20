@@ -1,38 +1,43 @@
 using UnityEngine;
 
-public class Thorn : MonoBehaviour
+public class Thorn : MonoBehaviour, IPollable
 {
     [SerializeField] private Animator _animator;
-    public int GrowingState = 0;
-    
-    private void Start()
+    private int _growingState = 0;
+
+    public bool IsDestroyedToPool { get; set; }
+
+	private void Start()
     {
         GameManager.GameField.OnLineMoved += ChangeThornsStateOnMovedLine;
-        ChangeThornsState(GrowingState);
     }
-    
+
+    void IPollable.InitAsNew()
+    {
+        _growingState = 0;
+    }
+
     private void ChangeThornsStateOnMovedLine()
     {
-        GrowingState++;
-        ChangeThornsState(GrowingState);
+        if (IsDestroyedToPool) return;
+        _growingState++;
+        ChangeThornsState(_growingState);
     }
 
     public void ChangeThornsState(int growingState)
     {
+        _growingState = growingState;
         _animator.SetFloat("Speed", GameManager.GameField.ScrollSpeed);
-		if (growingState == 0)
+		if (_growingState == 0)
             _animator.SetTrigger("GoUp");
-        else if (growingState == 1)
+        else if (_growingState == 1)
             _animator.SetTrigger("SetUp");
-        else if (growingState == 2)
+        else if (_growingState == 2)
             _animator.SetTrigger("GoDown");
-        else
-            Kill();
-    }
-
-    private void Kill()
-	{
-        GameManager.GameField.OnLineMoved -= ChangeThornsStateOnMovedLine;
-        Destroy(gameObject);
+		else
+		{
+            _animator.SetTrigger("Reset");
+            this.DestroyToPool();
+        }
     }
 }

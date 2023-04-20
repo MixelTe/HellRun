@@ -3,9 +3,11 @@ using UnityEngine;
 public class ThornsSpawner : MonoBehaviour
 {
     [SerializeField] private Thorn _thornPrefab;
+    private ObjectPool<Thorn> _thornPool;
 
     private void Start()
     {
+        _thornPool = new(_thornPrefab, Settings.Width * 6, transform);
         GameManager.GameField.OnLineMoved += CreateNewThornsRow;
         
         CreateThornRow(0, 0);
@@ -21,8 +23,8 @@ public class ThornsSpawner : MonoBehaviour
     {
         for (int i = 0; i < Settings.Width; i++)
         {
-            var thorn = Instantiate(_thornPrefab, new Vector2(i, y), Quaternion.identity, gameObject.transform);
-            thorn.GrowingState = growingState;
+            var thorn = _thornPool.GetFreeElement(new Vector2(i, y));
+            thorn.ChangeThornsState(growingState);
         }
     }
 
@@ -31,6 +33,4 @@ public class ThornsSpawner : MonoBehaviour
         CreateThornRow(-GameManager.GameField.ScrolledLines, 0);
         CreateThornRow(-GameManager.GameField.ScrolledLines +Settings.Height-1, 0);
     }
-
-    
 }

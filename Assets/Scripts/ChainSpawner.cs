@@ -11,15 +11,17 @@ public class ChainSpawner : MonoBehaviour
     [SerializeField] private ChainGroup[] _chainGroups;
 
     private float CurStrikeTime { get => _strikeTime / (GameManager.GameField.ScrollSpeed * _speedMul); }
+    private ObjectPool<Chain> _chainPool;
 
     public void StartSpawn()
 	{
+        _chainPool = new(_chain, 5, transform);
         StartCoroutine(SpawnChains());
     }
 
     public void DestroyChains()
     {
-        transform.DestroyAllChildren();
+        _chainPool.DestroyAllToPool();
     }
 
     private IEnumerator SpawnChains()
@@ -79,7 +81,7 @@ public class ChainSpawner : MonoBehaviour
             positon = new Vector3(Settings.Width / 2f - 0.5f, -GameManager.GameField.ScrolledLines - i + Settings.Height);
             rotation = Quaternion.Euler(0, 0, 90);
         }
-        var chain = Instantiate(_chain, positon, rotation, transform);
+        var chain = _chainPool.GetFreeElement(positon, rotation);
         chain.Strike(CurStrikeTime * _strikeChainMul);
     }
 }
