@@ -115,7 +115,7 @@ mergeInto(LibraryManager.library, {
 		lb.getLeaderboardPlayerEntry('score').then(res =>
 		{
 			console.log("JSLib: GetScore success");
-			const data = { ID: v.player.uniqueID, Score: res.score, Rank: res.rank, Avatar: res.player.getAvatarSrc("small"), Name: res.player.publicName, IsPlayer: true }
+			const data = { ID: res.player.uniqueID, Score: res.score, Rank: res.rank, Avatar: res.player.getAvatarSrc("small"), Name: res.player.publicName, IsPlayer: true }
 			myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 		}).catch(e =>
 		{
