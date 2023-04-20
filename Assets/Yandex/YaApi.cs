@@ -116,13 +116,13 @@ public class YaApi : MonoBehaviour
 	{
 		var data = new LeaderboardData() {
 			Records = new LeaderboardDataRecord[] {
-				new LeaderboardDataRecord() { Score = 57, Rank = 6, Name = "Super Player 3000", Avatar = "https://avatars.yandex.net/get-music-content/5236179/6e5cc28a.p.3404212/100x100" },
-				new LeaderboardDataRecord() { Score = 780, Rank = 1, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
-				new LeaderboardDataRecord() { Score = 650, Rank = 2, Name = "Ультра Вжик", Avatar = "https://avatars.yandex.net/get-music-content/3927581/777ae0d7.a.13658486-1/100x100" },
-				new LeaderboardDataRecord() { Score = 495, Rank = 3, Name = "Dub Dubom", Avatar = "https://avatars.yandex.net/get-music-content/38044/f88a8857.a.3839675-1/100x100" },
-				new LeaderboardDataRecord() { Score = 215, Rank = 4, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100" },
-				new LeaderboardDataRecord() { Score = 104, Rank = 5, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
-				new LeaderboardDataRecord() { Score = 10, Rank = 7, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+				new LeaderboardDataRecord() { ID = "1", Score = 57, Rank = 6, Name = "Super Player 3000", Avatar = "https://avatars.yandex.net/get-music-content/5236179/6e5cc28a.p.3404212/100x100" },
+				new LeaderboardDataRecord() { ID = "2", Score = 780, Rank = 1, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+				new LeaderboardDataRecord() { ID = "3", Score = 650, Rank = 2, Name = "Ультра Вжик", Avatar = "https://avatars.yandex.net/get-music-content/3927581/777ae0d7.a.13658486-1/100x100" },
+				new LeaderboardDataRecord() { ID = "4", Score = 495, Rank = 3, Name = "Dub Dubom", Avatar = "https://avatars.yandex.net/get-music-content/38044/f88a8857.a.3839675-1/100x100" },
+				new LeaderboardDataRecord() { ID = "5", Score = 215, Rank = 4, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100" },
+				new LeaderboardDataRecord() { ID = "6", Score = 104, Rank = 5, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+				new LeaderboardDataRecord() { ID = "7", Score = 10, Rank = 7, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
 			}
 		};
 		_inst.SetLeaderboard(JsonUtility.ToJson(data));
@@ -144,6 +144,7 @@ public class YaApi : MonoBehaviour
 	{
 		var data = new LeaderboardDataRecord()
 		{
+			ID = "",
 			IsPlayer = false,
 			Avatar = "",
 			Name = "Вы",

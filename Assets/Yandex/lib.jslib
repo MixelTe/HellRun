@@ -78,7 +78,7 @@ mergeInto(LibraryManager.library, {
 			{
 				console.log("JSLib: GetLeaderboard");
 				console.log(res);
-				const data = { Records: res.entries.map(v => ({ Score: v.score, Rank: v.rank, Avatar: v.player.getAvatarSrc("small"), Name: v.player.publicName, IsPlayer: false })) };
+				const data = { Records: res.entries.map(v => ({ ID: v.player.uniqueID, Score: v.score, Rank: v.rank, Avatar: v.player.getAvatarSrc("small"), Name: v.player.publicName, IsPlayer: false })) };
 				console.log(data);
 				myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify(data));
 			});
@@ -112,12 +112,12 @@ mergeInto(LibraryManager.library, {
 		lb.getLeaderboardPlayerEntry('score').then(res =>
 		{
 			console.log("JSLib: GetScore success");
-			const data = { Score: res.score, Rank: res.rank, Avatar: res.player.getAvatarSrc("small"), Name: res.player.publicName, IsPlayer: true }
+			const data = { ID: v.player.uniqueID, Score: res.score, Rank: res.rank, Avatar: res.player.getAvatarSrc("small"), Name: res.player.publicName, IsPlayer: true }
 			myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 		}).catch(e =>
 		{
 			console.log("JSLib: GetScore default");
-			const data = { Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: false }
+			const data = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: false }
 			myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 		});
 	},

@@ -51,7 +51,11 @@ public class Leaderboard : MonoBehaviour
 	private async Task AddPlayerToData(LeaderboardData data)
 	{
         var playerRecord = await YaApi.PlayerData();
-        data.Records = data.Records.Append(playerRecord).OrderBy(v => -v.Score).ToArray();
+        data.Records = data.Records
+            .Where(v => v.ID != playerRecord.ID)
+            .Append(playerRecord)
+            .OrderBy(v => -v.Score)
+            .ToArray();
     }
 }
 
@@ -64,6 +68,7 @@ public class LeaderboardData
 [Serializable]
 public class LeaderboardDataRecord
 {
+    public string ID;
     public int Score;
     public int Rank;
     public string Avatar;

@@ -96,7 +96,10 @@ public class GameUI : MonoBehaviour
 
     private async void ShowReward()
 	{
+        GameManager.SoundSetting.Mute();
         var rewarded = await YaApi.Reward();
+        GameManager.SoundSetting.UnMute();
+
         if (rewarded) GameManager.UseReward();
 		else
 		{
