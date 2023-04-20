@@ -18,6 +18,7 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private AudioSource _audioOnPlatformChangeState;
     [SerializeField] private AudioSource _audioBack;
     [SerializeField] private AudioSource _audioBackCalm;
+    [SerializeField] private AudioSource _audioThorns;
 
     private float _scrollSpeedStart;
     private float _bgVolume;
@@ -112,5 +113,11 @@ public class SoundPlayer : MonoBehaviour
     {
         if (!GameManager.GameIsRunning) return;
         _audioOnPlatformChangeState.Play();
+    }
+
+    public void PlayThornsSound()
+    {
+        if (!GameManager.GameIsRunning) return;
+        _audioThorns.Play();
     }
 }

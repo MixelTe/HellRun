@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Chain : MonoBehaviour
+public class Chain : MonoBehaviour, IPollable
 {
 	[SerializeField] private BoxCollider2D _collider;
 	[SerializeField] private SpriteRenderer _renderer;
@@ -12,6 +12,9 @@ public class Chain : MonoBehaviour
 	[SerializeField] private float _shakeSpeed;
 	[SerializeField] private float _shakeAmplitude;
 	[SerializeField] private Sprite[] _appearSprites;
+
+	public bool IsDestroyedToPool { get; set; }
+	public void InitAsNew() { }
 
 	public void Strike(float duration)
 	{
@@ -25,7 +28,7 @@ public class Chain : MonoBehaviour
 		
 		yield return StrikeAnim(_strikeTime);
 
-		Destroy(gameObject);
+		this.DestroyToPool();
 	}
 
 	private IEnumerator Fade(float duration)
