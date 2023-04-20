@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-    [SerializeField] private bool _immortal = false;
+    public bool Immortal = false;
     [SerializeField] private float _moveTime = .4f;
     private Vector2Int _position;
     private float _moveState = 1;
@@ -18,8 +18,8 @@ public class Player : MonoBehaviour
         GameManager.GameField.OnLineMoved += CheckCurPosition;
         GameManager.PlayerInput.OnMoved += OnMoved;
     }
-    
-    public void OnMoved(Vector2Int moveTo)
+
+    private void OnMoved(Vector2Int moveTo)
     {
         if (_moveState < 0.5) return;
         _nextMove = moveTo;
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
 
     private void CheckCurPosition()
     {
-        if (_immortal) return;
+        if (Immortal) return;
         if (!GameManager.GameField.IsInsideField(transform.position))
         {
             print("Outside of the field!");
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_immortal) return;
+        if (Immortal) return;
 
         if (collision.TryGetComponent<Enemy>(out var enemy))
         {
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public IEnumerator Move()
+    private IEnumerator Move()
 	{
         var endPos = _position + _nextMove;
         var startPos = _position;
@@ -95,5 +95,10 @@ public class Player : MonoBehaviour
         GameManager.SoundPlayer.PlayPlayerDeadSound();
         _animator.SetTrigger("Death");
         GameManager.OverGame();
+    }
+
+    public void Reborn()
+	{
+        _animator.SetTrigger("Reborn");
     }
 }

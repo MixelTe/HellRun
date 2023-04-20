@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
+    public int PlayerScore { get => _currentScore; }
     private int _currentScore = 0;
 
     private void Start()

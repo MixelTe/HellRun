@@ -7,17 +7,22 @@ public class PlayerInput : MonoBehaviour
     private Vector3 _touchStart;
 
     public event Action<Vector2Int> OnMoved;
+    private bool _afterPause = true;
 
     public void Update()
     {
         if (!GameManager.GameIsRunning || GameManager.GameIsPaused)
+		{
+            _afterPause = true;
             return;
+		}
 
         if (Input.GetMouseButtonDown(0))
         {
             _touchStart = Input.mousePosition;
+            _afterPause = false;
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !_afterPause)
         {
             var d = Input.mousePosition - _touchStart;
             if (d.magnitude > _tapRadius)

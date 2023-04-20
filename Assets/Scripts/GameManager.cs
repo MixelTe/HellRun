@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,8 +12,12 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private Score _score;
 	[SerializeField] private GameUI _gameUI;
 	[SerializeField] private SoundPlayer _soundPlayer;
+	[SerializeField] private PauseRiddleSpawner _pauseRiddleSpawner;
+	[SerializeField] private Player _player;
+	[SerializeField] private SoundSetting _soundSetting;
 	private bool _gameIsRunning = true;
 	private bool _gameIsPaused = false;
+	private bool _rewardUsed = false;
 
 	public static GameField GameField { get => _inst._gameField; }
 	public static PlayerInput PlayerInput { get => _inst._playerInput; }
@@ -20,9 +25,14 @@ public class GameManager : MonoBehaviour
 	public static Score Score { get => _inst._score; }
 	public static GameUI GameUI { get => _inst._gameUI; }
 	public static SoundPlayer SoundPlayer { get => _inst._soundPlayer; }
+	public static PauseRiddleSpawner PauseRiddleSpawner { get => _inst._pauseRiddleSpawner; }
+	public static Player Player { get => _inst._player; }
+	public static SoundSetting SoundSetting { get => _inst._soundSetting; }
 	public static bool GameIsRunning { get => _inst._gameIsRunning; }
 	public static bool GameIsPaused { get => _inst._gameIsPaused; }
 	public static void OverGame() => _inst.OverGameImpl();
+	public static void EndGame() => _inst.EndGameImpl();
+	public static void UseReward() => _inst.UseRewardImpl();
 
 	private void Awake()
 	{
@@ -36,11 +46,57 @@ public class GameManager : MonoBehaviour
 
 	private void OverGameImpl()
 	{
+		if (_rewardUsed)
+		{
+			EndGameImpl();
+		}
+		else
+		{
+			Time.timeScale = 0;
+			_gameIsPaused = true;
+			_gameUI.ShowGameOver();
+			_chainSpawner.DestroyChains();
+			_pauseRiddleSpawner.DestroyObstacles();
+			_soundPlayer.PauseEnable();
+			print("Over Game!");
+		}
+	}
+
+	private void EndGameImpl()
+	{
+		Time.timeScale = 1;
+		_gameIsPaused = false;
 		_gameIsRunning = false;
 		_gameField.StopScrolling();
-		_gameUI.ShowGameOver();
+		_gameUI.ShowEndGame();
 		_soundPlayer.ChangeBackToCalm();
-		print("Over Game!");
+		print("End Game!");
+	}
+
+	private void UseRewardImpl()
+	{
+		_rewardUsed = true;
+		_gameIsPaused = false;
+		_gameUI.ShowGame();
+		_soundPlayer.PauseDisable();
+
+		StartCoroutine(ReRunGame());
+
+		print("Reward Used!");
+	}
+	private IEnumerator ReRunGame()
+	{
+		Time.timeScale = 0;
+		_player.Immortal = true;
+		_player.Reborn();
+		for (float t = 0; t < 1; t += Time.unscaledDeltaTime / 2)
+		{
+			Time.timeScale = Mathf.Lerp(0, 1, t);
+
+			yield return new WaitForEndOfFrame();
+		}
+		_player.Immortal = false;
+		Time.timeScale = 1;
 	}
 
 	public void RestartGame()

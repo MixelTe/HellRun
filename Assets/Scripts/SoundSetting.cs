@@ -40,4 +40,14 @@ public class SoundSetting : MonoBehaviour
         _audioMixer.SetFloat("music", volume);
         PlayerPrefs.SetFloat(Settings.PlayerPrefs_MusicVolume, volume);
     }
+
+    public void Mute()
+	{
+        _audioMixer.SetFloat("master", -80);
+    }
+
+    public void UnMute()
+    {
+        _audioMixer.SetFloat("master", 0);
+    }
 }

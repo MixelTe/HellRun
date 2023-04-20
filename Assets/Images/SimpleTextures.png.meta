@@ -67,12 +67,12 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -935,6 +935,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Sound
+      rect:
+        serializedVersion: 2
+        x: 1246
+        y: 628
+        width: 90
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd54156a08899c142a1577495b180e29
+      internalID: -2047985874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Music
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 634
+        width: 74
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a837f692450cb6b4c98d11de8c46f110
+      internalID: -283480558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Settings
+      rect:
+        serializedVersion: 2
+        x: 1423
+        y: 631
+        width: 90
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52900659f3e0b0445839142a6267984d
+      internalID: -1301489727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -947,6 +1010,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Arrow: -2011134821
+      Avatar: -449594507
+      Background: -1828487356
       Border1: 1500234828
       Border2: -1115953611
       Bottom: -120532295
@@ -961,6 +1026,7 @@ TextureImporter:
       Coin4: 421536837
       Coin5: -1589608881
       Coin6: -1636892798
+      Music: -283480558
       Pause: 1137094835
       Player: -423608965
       Player2: 212836951
@@ -980,7 +1046,9 @@ TextureImporter:
       Player_Death7: -1419662243
       Player_Death8: 915594677
       Player_Death9: -1912435533
+      Settings: -1301489727
       SimpleTextures_1: -2105587624
+      Sound: -2047985874
       Thorns1: -262026111
       Thorns2: -651555021
       Thorns3: 1267708681

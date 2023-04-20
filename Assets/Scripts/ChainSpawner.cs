@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,6 +15,11 @@ public class ChainSpawner : MonoBehaviour
     public void StartSpawn()
 	{
         StartCoroutine(SpawnChains());
+    }
+
+    public void DestroyChains()
+    {
+        transform.DestroyAllChildren();
     }
 
     private IEnumerator SpawnChains()
@@ -59,7 +65,7 @@ public class ChainSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnChain(bool vert, int i)
+	private void SpawnChain(bool vert, int i)
 	{
         Vector3 positon;
         Quaternion rotation;

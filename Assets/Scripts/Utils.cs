@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public static class Utils
 {
@@ -34,5 +35,17 @@ public static class Utils
 			Object.Destroy(child.gameObject);
 		}
 	}
-}
 
+	public static void ScrollTo(this ScrollRect instance, RectTransform child)
+	{
+		if (child == null) return;
+		Canvas.ForceUpdateCanvases();
+		var viewportLocalPosition = instance.viewport.localPosition;
+		var childLocalPosition = child.localPosition;
+		var result = new Vector2(
+			0 - (viewportLocalPosition.x + childLocalPosition.x),
+			0 - (viewportLocalPosition.y + childLocalPosition.y)
+		);
+		instance.content.localPosition = result;
+	}
+}

@@ -61,7 +61,7 @@ public class PauseRiddleSpawner : MonoBehaviour
         _curCoin.OnColected += OnCoinCollected;
     }
 
-    private IEnumerator SpawnThorns()
+	private IEnumerator SpawnThorns()
     {
         yield return new WaitForSeconds(_strikeStartDelay);
         while (true)
@@ -94,5 +94,10 @@ public class PauseRiddleSpawner : MonoBehaviour
         var positon = new Vector3(x, Settings.Height - y - 2 - GameManager.GameField.ScrolledLines);
         var chain = Instantiate(_thornPrefab, positon, Quaternion.identity, transform);
         chain.SetFloat("Speed", 2.1f / (CurStrikeTime * _strikeThornMul));
+    }
+
+    public void DestroyObstacles()
+    {
+        transform.DestroyAllChildren();
     }
 }
