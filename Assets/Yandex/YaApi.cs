@@ -14,6 +14,7 @@ public class YaApi : MonoBehaviour
 	public static Task UpdateRecord() => _inst.SetRecord();
 	public static bool Mobile() => IsMobile();
 	public static Task<bool> Reward() => _inst.UseReward();
+	public static void Adv() => ShowAdv();
 
 	private void Awake()
 	{
@@ -237,4 +238,15 @@ public class YaApi : MonoBehaviour
 		if (_reward < 0)
 			_reward = got;
 	}
+
+
+#if UNITY_EDITOR
+	private static void ShowAdv()
+	{
+		Debug.Log("ShowAdv");
+	}
+#else
+	[DllImport("__Internal")]
+	private static extern void ShowAdv();
+#endif
 }

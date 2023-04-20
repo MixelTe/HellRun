@@ -36,6 +36,7 @@ mergeInto(LibraryManager.library, {
 				onError: (e) =>
 				{
 					console.log('showRewardedVideo -> onClose');
+					console.log(e);
 					myGameInstance.SendMessage("Yandex", "OnReward", 0);
 				}
 			}
@@ -92,6 +93,7 @@ mergeInto(LibraryManager.library, {
 		}).catch(e =>
 		{
 			console.log("JSLib: SetScore error");
+			console.log(e);
 			myGameInstance.SendMessage("Yandex", "OnScoreUpdated", 0);
 		})
 	},
@@ -104,6 +106,7 @@ mergeInto(LibraryManager.library, {
 		}).catch(e =>
 		{
 			console.log("JSLib: GetScore default");
+			console.log(e);
 			myGameInstance.SendMessage("Yandex", "SetCurScore", 0);
 		});
 	},
@@ -117,6 +120,7 @@ mergeInto(LibraryManager.library, {
 		}).catch(e =>
 		{
 			console.log("JSLib: GetScore default");
+			console.log(e);
 			const data = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: false }
 			myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 		});
