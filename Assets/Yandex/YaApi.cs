@@ -69,7 +69,6 @@ public class YaApi : MonoBehaviour
 			var data = await _inst.LoadPlayerData();
 			var score = data.Score;
 			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
-			PlayerPrefs.Save();
 			return score;
 		}
 		else
@@ -87,7 +86,6 @@ public class YaApi : MonoBehaviour
 		if (score > record)
 		{
 			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
-			PlayerPrefs.Save();
 			if (CheckAuth())
 			{
 				SetScore(score);
@@ -99,17 +97,17 @@ public class YaApi : MonoBehaviour
 		}
 	}
 
-	private int _reward = -1;
+	private bool _reward = false;
+	private bool _rewardClosed = false;
 	private async Task<bool> UseReward()
 	{
-		_reward = -1;
+		_reward = false;
+		_rewardClosed = false;
 		ShowRewardAdv();
-		while (_reward < 0)
+		while (!_rewardClosed)
 			await Task.Yield();
-		var reward = _reward;
-		_reward = -1;
-		Debug.Log($"Reward used: {reward == 1}");
-		return reward == 1;
+		Debug.Log($"Reward used: {_reward}");
+		return _reward;
 	}
 
 #if UNITY_EDITOR
@@ -225,6 +223,7 @@ public class YaApi : MonoBehaviour
 #if UNITY_EDITOR
 	private static void ShowRewardAdv()
 	{
+		_inst.OnReward(1);
 		_inst.OnReward(0);
 	}
 #else
@@ -235,8 +234,10 @@ public class YaApi : MonoBehaviour
 	public void OnReward(int got)
 	{
 		Debug.Log($"OnReward: {got}");
-		if (_reward < 0)
-			_reward = got;
+		if (got == 0)
+			_rewardClosed = true;
+		else
+			_reward = got > 0;
 	}
 
 
