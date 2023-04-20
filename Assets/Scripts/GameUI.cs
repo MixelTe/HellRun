@@ -21,6 +21,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private GameObject _overPanel;
     [SerializeField] private PoppingText _scoreFinal;
     [SerializeField] private Button _advButton;
+    [SerializeField] private Notify _advError;
 
     [Header("End Game")]
     [SerializeField] private GameObject _endPanel;
@@ -97,7 +98,11 @@ public class GameUI : MonoBehaviour
 	{
         var rewarded = await YaApi.Reward();
         if (rewarded) GameManager.UseReward();
-        else GameManager.EndGame();
+		else
+		{
+			GameManager.EndGame();
+			_advError.Show();
+		}
 	}
 
     public void ShowEndGame()
@@ -126,10 +131,7 @@ public class GameUI : MonoBehaviour
         _endPanel.SetActive(false);
         _leaderboardPanel.SetActive(true);
 
-        if (YaApi.IsAuth())
-            SaveRecord();
-		else
-            _leaderboard.UpdateData();
+        SaveRecord();
     }
     private async void SaveRecord()
     {
