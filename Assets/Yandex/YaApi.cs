@@ -1,4 +1,5 @@
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -24,9 +25,10 @@ public class YaApi : MonoBehaviour
 	{
 		GetLeaderboard();
 		while (_leaderboardData == null)
-			await Task.Delay(100);
+			await Task.Yield();
 		var leaderboardData = _leaderboardData;
 		_leaderboardData = null;
+		Debug.Log("Leaderboard loaded");
 		return leaderboardData;
 	}
 
@@ -35,7 +37,7 @@ public class YaApi : MonoBehaviour
 	{
 		GetPlayerData();
 		while (_playerData == null)
-			await Task.Delay(100);
+			await Task.Yield();
 		var playerData = _playerData;
 		_playerData = null;
 		if (!playerData.IsPlayer)
@@ -43,6 +45,7 @@ public class YaApi : MonoBehaviour
 			playerData.IsPlayer = true;
 			playerData.Score = GameManager.Score.PlayerScore;
 		}
+		Debug.Log("PlayerData loaded");
 		return playerData;
 	}
 
@@ -51,9 +54,10 @@ public class YaApi : MonoBehaviour
 	{
 		AuthPlayer();
 		while (_auth < 0)
-			await Task.Delay(250);
+			await Task.Yield();
 		var auth = _auth;
 		_auth = -1;
+		Debug.Log($"Auth requested: {auth == 1}");
 		return auth == 1;
 	}
 
@@ -64,6 +68,7 @@ public class YaApi : MonoBehaviour
 			var data = await _inst.LoadPlayerData();
 			var score = data.Score;
 			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
+			PlayerPrefs.Save();
 			return score;
 		}
 		else
@@ -81,11 +86,13 @@ public class YaApi : MonoBehaviour
 		if (score > record)
 		{
 			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
+			PlayerPrefs.Save();
 			if (CheckAuth())
 			{
 				SetScore(score);
 				while (_scoreUpdated < 0)
-					await Task.Delay(50);
+					await Task.Yield();
+				Debug.Log("Score set");
 				_scoreUpdated = -1;
 			}
 		}
@@ -97,24 +104,28 @@ public class YaApi : MonoBehaviour
 		_reward = -1;
 		ShowRewardAdv();
 		while (_reward < 0)
-			await Task.Delay(250);
+			await Task.Yield();
 		var reward = _reward;
 		_reward = -1;
+		Debug.Log($"Reward used: {reward == 1}");
 		return reward == 1;
 	}
 
 #if UNITY_EDITOR
 	private static void GetLeaderboard()
 	{
-		var json = Path.Join(Application.dataPath, "Yandex", "leaderboard.json");
-		if (!File.Exists(json))
-		{
-			Debug.LogError($"File dont exist: {json}");
-			return;
-		}
-
-		using var file = File.OpenText(json);
-		_inst.SetLeaderboard(file.ReadToEnd());
+		var data = new LeaderboardData() {
+			Records = new LeaderboardDataRecord[] {
+				new LeaderboardDataRecord() { Score = 57, Rank = 6, Name = "Super Player 3000", Avatar = "https://avatars.yandex.net/get-music-content/5236179/6e5cc28a.p.3404212/100x100" },
+				new LeaderboardDataRecord() { Score = 780, Rank = 1, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+				new LeaderboardDataRecord() { Score = 650, Rank = 2, Name = "Ультра Вжик", Avatar = "https://avatars.yandex.net/get-music-content/3927581/777ae0d7.a.13658486-1/100x100" },
+				new LeaderboardDataRecord() { Score = 495, Rank = 3, Name = "Dub Dubom", Avatar = "https://avatars.yandex.net/get-music-content/38044/f88a8857.a.3839675-1/100x100" },
+				new LeaderboardDataRecord() { Score = 215, Rank = 4, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100" },
+				new LeaderboardDataRecord() { Score = 104, Rank = 5, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+				new LeaderboardDataRecord() { Score = 10, Rank = 7, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+			}
+		};
+		_inst.SetLeaderboard(JsonUtility.ToJson(data));
 	}
 #else
 	[DllImport("__Internal")]
@@ -124,6 +135,7 @@ public class YaApi : MonoBehaviour
 	public void SetLeaderboard(string data)
 	{
 		_leaderboardData = JsonUtility.FromJson<LeaderboardData>(data);
+		Debug.Log($"SetPlayerData: {data}");
 	}
 
 
@@ -148,6 +160,7 @@ public class YaApi : MonoBehaviour
 	public void SetPlayerData(string data)
 	{
 		_playerData = JsonUtility.FromJson<LeaderboardDataRecord>(data);
+		Debug.Log($"SetPlayerData: {_playerData}");
 	}
 
 
@@ -174,6 +187,7 @@ public class YaApi : MonoBehaviour
 
 	public void OnAuth(int auth)
 	{
+		Debug.Log($"OnAuth: {auth}");
 		_auth = auth;
 	}
 
@@ -190,6 +204,7 @@ public class YaApi : MonoBehaviour
 
 	public void OnScoreUpdated(int updated)
 	{
+		Debug.Log($"OnScoreUpdated: {updated}");
 		_scoreUpdated = updated;
 	}
 
@@ -217,6 +232,7 @@ public class YaApi : MonoBehaviour
 
 	public void OnReward(int got)
 	{
+		Debug.Log($"OnReward: {got}");
 		if (_reward < 0)
 			_reward = got;
 	}

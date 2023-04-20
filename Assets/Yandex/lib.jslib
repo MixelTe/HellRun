@@ -25,14 +25,17 @@ mergeInto(LibraryManager.library, {
 				},
 				onRewarded: () =>
 				{
+					console.log('showRewardedVideo -> onRewarded');
 					myGameInstance.SendMessage("Yandex", "OnReward", 1);
 				},
 				onClose: () =>
 				{
+					console.log('showRewardedVideo -> onClose');
 					myGameInstance.SendMessage("Yandex", "OnReward", 0);
 				},
 				onError: (e) =>
 				{
+					console.log('showRewardedVideo -> onClose');
 					myGameInstance.SendMessage("Yandex", "OnReward", 0);
 				}
 			}

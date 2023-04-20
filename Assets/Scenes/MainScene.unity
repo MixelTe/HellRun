@@ -11894,9 +11894,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1357781975}
-        m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
-        m_MethodName: ShowEndGame
+      - m_Target: {fileID: 2024290238}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: EndGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13098,8 +13098,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Score: 99999999'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
+  m_sharedMaterial: {fileID: -2664746006880618025, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13129,7 +13129,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -13495,7 +13495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1943689374
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15712,15 +15712,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4962584380738062163, guid: 90688b2ba24185d44a5987ad28cdbeb2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 306.46652
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4962584380738062163, guid: 90688b2ba24185d44a5987ad28cdbeb2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 200.92027
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4962584380738062163, guid: 90688b2ba24185d44a5987ad28cdbeb2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.8199358
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4962584380738062163, guid: 90688b2ba24185d44a5987ad28cdbeb2, type: 3}
       propertyPath: m_LocalRotation.w

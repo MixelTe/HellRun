@@ -11,6 +11,7 @@ public class LeaderboardRecord : MonoBehaviour
     [SerializeField] private Color _playerColor;
     [SerializeField] private TMP_Text _rank;
     [SerializeField] private RawImage _image;
+    [SerializeField] private Texture _imageDef;
     [SerializeField] private TMP_Text _name;
     [SerializeField] private TMP_Text _score;
 
@@ -21,7 +22,9 @@ public class LeaderboardRecord : MonoBehaviour
         _score.text = data.Score.ToString();
         if (data.IsPlayer)
             _back.color = _playerColor;
-        StartCoroutine(Downloadlmage(data.Avatar));
+        _image.texture = _imageDef;
+        if (data.Avatar != "")
+            StartCoroutine(Downloadlmage(data.Avatar));
     }
 
     IEnumerator Downloadlmage(string mediaUri)
