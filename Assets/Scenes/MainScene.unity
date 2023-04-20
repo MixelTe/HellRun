@@ -5915,7 +5915,7 @@ MonoBehaviour:
   _thornPrefab: {fileID: -6876160313823248994, guid: c6dbeb9a19a1c204c88fd7fc124d1baa, type: 3}
   _coinPrefab: {fileID: 1698144817221498382, guid: 586aab7c23b60ce45b8eca0949985ee3, type: 3}
   _coinCount: {x: 3, y: 6}
-  _strikeStartDelay: 0.25
+  _strikeStartDelay: 0.5
   _strikeTime: 0.6
   _strikeThornMul: 2
   _thornGroups:
@@ -15396,7 +15396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollSpeedAcceleration: 500
-  _timeToStop: 5
+  _timeToStop: 50
   _timeBeforeFirstStrike: 1.5
 --- !u!114 &2024290241
 MonoBehaviour:
