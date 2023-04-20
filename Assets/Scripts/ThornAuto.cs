@@ -23,4 +23,9 @@ public class ThornAuto : MonoBehaviour, IPollable
 	{
 		_animator.SetFloat("Speed", speed);
 	}
+
+	public void PlaySound()
+	{
+		GameManager.SoundPlayer.PlayThornsSound();
+	}
 }
