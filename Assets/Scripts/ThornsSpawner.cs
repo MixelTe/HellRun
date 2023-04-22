@@ -11,13 +11,12 @@ public class ThornsSpawner : MonoBehaviour
         GameManager.GameField.OnLineMoved += CreateNewThornsRow;
         
         CreateThornRow(0, 0);
-        CreateThornRow(1, 1);
-        CreateThornRow(2, 2);
-        
-        CreateThornRow(Settings.Height - 1, 0);
-        CreateThornRow(Settings.Height, 1);
-        CreateThornRow(Settings.Height + 1, 1);
-    }
+		CreateThornRow(1, 1);
+		CreateThornRow(2, 2);
+
+		CreateThornRow(Settings.Height - 1, 0);
+		CreateThornRow(Settings.Height, 1);
+	}
 
     private void CreateThornRow(int y, int growingState)
     {
@@ -31,6 +30,6 @@ public class ThornsSpawner : MonoBehaviour
     private void CreateNewThornsRow()
     {
         CreateThornRow(-GameManager.GameField.ScrolledLines, 0);
-        CreateThornRow(-GameManager.GameField.ScrolledLines +Settings.Height-1, 0);
+        CreateThornRow(-GameManager.GameField.ScrolledLines + Settings.Height - 1, 0);
     }
 }

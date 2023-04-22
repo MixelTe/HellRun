@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PauseRiddleSpawner : MonoBehaviour
 {
-    [SerializeField] private ThornAuto _thornPrefab;
+    [SerializeField] private ThornAuto _thornAutoPrefab;
+    [SerializeField] private Thorn _thornPrefab;
 	[SerializeField] private Coin _coinPrefab;
 	[SerializeField] private Vector2Int _coinCount;
     [SerializeField] private float _strikeStartDelay;
@@ -16,11 +17,13 @@ public class PauseRiddleSpawner : MonoBehaviour
     private int _coinLeft;
     private Coin _curCoin;
     private Coroutine _thornSpawner;
-    private ObjectPool<ThornAuto> _thornPool;
+    private ObjectPool<ThornAuto> _thornAutoPool;
+    private ObjectPool<Thorn> _thornPool;
 
     private void Start()
     {
-        _thornPool = new(_thornPrefab, Settings.Width * Settings.Height / 4, transform);
+        _thornAutoPool = new(_thornAutoPrefab, Settings.Width * Settings.Height / 4, transform);
+        _thornPool = new(_thornPrefab, Settings.Width * 2, transform);
         GameManager.GameField.OnScrollStopped += OnScrollStopped;
     }
 
@@ -29,6 +32,7 @@ public class PauseRiddleSpawner : MonoBehaviour
 		if (!GameManager.GameIsRunning) return;
 
         _thornSpawner = StartCoroutine(SpawnThorns());
+        SpawnThornsBorder();
 
         _coinLeft = _coinCount.GetRandom();
         SpawnCoin();
@@ -63,7 +67,16 @@ public class PauseRiddleSpawner : MonoBehaviour
         _curCoin.OnColected += OnCoinCollected;
     }
 
-	private IEnumerator SpawnThorns()
+    private void SpawnThornsBorder()
+	{
+		for (int x = 0; x < Settings.Width; x++)
+		{
+            _thornPool.GetFreeElement(new Vector3(x, Settings.Height - 1 - GameManager.GameField.ScrolledLines)).ChangeThornsState(1);
+            _thornPool.GetFreeElement(new Vector3(x, 2 - GameManager.GameField.ScrolledLines)).ChangeThornsState(1);
+        }
+	}
+
+    private IEnumerator SpawnThorns()
     {
         yield return new WaitForSeconds(_strikeStartDelay);
         while (true)
@@ -94,12 +107,13 @@ public class PauseRiddleSpawner : MonoBehaviour
     private void SpawnThorn(int x, int y)
     {
         var positon = new Vector3(x, Settings.Height - y - 2 - GameManager.GameField.ScrolledLines);
-        var thorn = _thornPool.GetFreeElement(positon);
+        var thorn = _thornAutoPool.GetFreeElement(positon);
         thorn.SetAnimSpeed(2.1f / (CurStrikeTime * _strikeThornMul));
     }
 
     public void DestroyObstacles()
     {
+        _thornAutoPool.DestroyAllToPool();
         _thornPool.DestroyAllToPool();
     }
 }

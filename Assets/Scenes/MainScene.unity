@@ -3632,7 +3632,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.25
+  orthographic size: 4.1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5912,7 +5912,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65500e327f9549a45b60c1fc1b374ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _thornPrefab: {fileID: -6876160313823248994, guid: c6dbeb9a19a1c204c88fd7fc124d1baa, type: 3}
+  _thornAutoPrefab: {fileID: -6876160313823248994, guid: c6dbeb9a19a1c204c88fd7fc124d1baa, type: 3}
+  _thornPrefab: {fileID: 6802442283227363780, guid: 9ebbe284db43b62438c980b48d0a9b11, type: 3}
   _coinPrefab: {fileID: 1698144817221498382, guid: 586aab7c23b60ce45b8eca0949985ee3, type: 3}
   _coinCount: {x: 3, y: 6}
   _strikeStartDelay: 0.5
@@ -5971,7 +5972,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953270002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 5.3, z: -10}
+  m_LocalPosition: {x: 1, y: 5.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11615,7 +11616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1704322026}
-  Immortal: 0
+  Immortal: 1
   _moveTime: 0.1
 --- !u!50 &1704322024
 Rigidbody2D:
@@ -11742,7 +11743,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712556139}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.8, y: 1.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12459,7 +12460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shakeAnimator: {fileID: 519420033}
   _camera: {fileID: 519420031}
-  _bestHeight: 4.25
+  _bestHeight: 4.1
   _minWidth: 3.5
 --- !u!4 &1779856858
 Transform:
@@ -15396,7 +15397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollSpeedAcceleration: 500
-  _timeToStop: 50
+  _timeToStop: 5
   _timeBeforeFirstStrike: 1.5
 --- !u!114 &2024290241
 MonoBehaviour:

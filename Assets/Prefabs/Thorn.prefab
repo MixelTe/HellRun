@@ -145,7 +145,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 690211835945845741}
-  GrowingState: 0
 --- !u!61 &5362998557843930842
 BoxCollider2D:
   m_ObjectHideFlags: 0

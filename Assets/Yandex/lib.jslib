@@ -44,11 +44,15 @@ mergeInto(LibraryManager.library, {
 	},
 	IsMobile: function ()
 	{
-		return Module.SystemInfo.mobile;
+		var isMobile = Module.SystemInfo.mobile
+		console.log("JSLib: isMobile: ", isMobile);
+		return isMobile;
 	},
 	CheckAuth: function ()
 	{
-		return player.getMode() !== 'lite';
+		const auth = player.getMode() !== 'lite';
+		console.log("JSLib: CheckAuth: ", auth);
+		return auth;
 	},
 	AuthPlayer: function ()
 	{
@@ -59,13 +63,16 @@ mergeInto(LibraryManager.library, {
 				console.log("JSLib: OnAuth");
 				initPlayer().then(p =>
 					myGameInstance.SendMessage("Yandex", "OnAuth", 1));
-			}).catch(() =>
+			}).catch(e =>
 			{
+				console.log("JSLib: OnAuth: Error");
+				console.log(e);
 				myGameInstance.SendMessage("Yandex", "OnAuth", 0);
 			});
 		}
 		else
 		{
+			console.log("JSLib: OnAuth: Already authorized");
 			myGameInstance.SendMessage("Yandex", "OnAuth", 1);
 		}
 	},

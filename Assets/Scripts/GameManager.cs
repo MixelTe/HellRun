@@ -55,8 +55,6 @@ public class GameManager : MonoBehaviour
 			Time.timeScale = 0;
 			_gameIsPaused = true;
 			_gameUI.ShowGameOver();
-			_chainSpawner.DestroyChains();
-			_pauseRiddleSpawner.DestroyObstacles();
 			_soundPlayer.PauseEnable();
 			print("Over Game!");
 		}
@@ -79,6 +77,8 @@ public class GameManager : MonoBehaviour
 		_gameIsPaused = false;
 		_gameUI.ShowGame();
 		_soundPlayer.PauseDisable();
+		_chainSpawner.DestroyChains();
+		_pauseRiddleSpawner.DestroyObstacles();
 
 		StartCoroutine(ReRunGame());
 

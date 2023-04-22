@@ -13,20 +13,25 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         _timeLeftForStop = _timeToStop;
+		GameManager.GameField.OnLineMoved += OnLineMoved;
         StartCoroutine(StartChains());
     }
 
-    private void Update()
+	private void Update()
     {
         if (GameManager.GameIsRunning && GameManager.GameField.Scroling)
         {
             _timeLeftForStop -= Time.deltaTime;
             GameManager.GameField.ScrollSpeed += Time.deltaTime / _scrollSpeedAcceleration;
-            if (_timeLeftForStop < 0)
-            {
-                GameManager.GameField.StopScrolling();
-                _timeLeftForStop = _timeToStop;
-            }
+        }
+    }
+
+    private void OnLineMoved()
+    {
+        if (_timeLeftForStop < 0)
+        {
+            GameManager.GameField.StopScrolling();
+            _timeLeftForStop = _timeToStop;
         }
     }
 

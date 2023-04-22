@@ -139,8 +139,9 @@ public class GameUI : MonoBehaviour
     }
     private async void SaveRecord()
     {
-        _authButton.gameObject.SetActive(false);
-        await YaApi.UpdateRecord();
+		bool hasAuth = YaApi.IsAuth();
+		_authButton.gameObject.SetActive(!hasAuth);
+		await YaApi.UpdateRecord();
         _leaderboard.UpdateData();
     }
 
