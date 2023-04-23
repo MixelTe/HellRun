@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     private float _moveState = 1;
     private Vector2Int _nextMove = Vector2Int.zero;
 
+    public Vector2Int Position { get => _position; }
+
     private void Start()
     {
         _position.x = Mathf.FloorToInt(transform.position.x);

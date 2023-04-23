@@ -118,7 +118,6 @@ public class GameUI : MonoBehaviour
         _scoreFinal2.Pop();
         _scoreRecord.SetText("Загрузка рекорда");
         LoadRecord();
-        YaApi.Adv();
     }
     private async void LoadRecord()
 	{
@@ -135,6 +134,7 @@ public class GameUI : MonoBehaviour
         _endPanel.SetActive(false);
         _leaderboardPanel.SetActive(true);
 
+        YaApi.Adv();
         SaveRecord();
     }
     private async void SaveRecord()
