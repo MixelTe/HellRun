@@ -44,7 +44,10 @@ public class YaApi : MonoBehaviour
 		if (!playerData.IsPlayer)
 		{
 			playerData.IsPlayer = true;
-			playerData.Score = GameManager.Score.PlayerScore;
+			if (GameManager.Exist)
+				playerData.Score = GameManager.Score.PlayerScore;
+			else
+				playerData.Score = await GetRecord();
 		}
 		Debug.Log("PlayerData loaded");
 		return playerData;
@@ -81,17 +84,19 @@ public class YaApi : MonoBehaviour
 	private int _scoreUpdated = -1;
 	private async Task SetRecord()
 	{
+		Debug.Log("SetRecord");
 		var record = await GetRecord();
 		var score = GameManager.Score.PlayerScore;
 		if (score > record)
 		{
+			Debug.Log("SetRecord: New record");
 			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
 			if (CheckAuth())
 			{
 				SetScore(score);
 				while (_scoreUpdated < 0)
 					await Task.Yield();
-				Debug.Log("Score set");
+				Debug.Log("SetRecord: Score set");
 				_scoreUpdated = -1;
 			}
 		}

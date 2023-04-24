@@ -998,6 +998,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Leaderboard
+      rect:
+        serializedVersion: 2
+        x: 1324
+        y: 504
+        width: 130
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6dabe8bdf1c14a4eb6ba3b28f03b292
+      internalID: -305374097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BackArrow
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 504
+        width: 130
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b0421b8d84e3004180aadad16c6fe2c
+      internalID: 1348035670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1011,6 +1053,7 @@ TextureImporter:
     nameFileIdTable:
       Arrow: -2011134821
       Avatar: -449594507
+      BackArrow: 1348035670
       Background: -1828487356
       Border1: 1500234828
       Border2: -1115953611
@@ -1026,6 +1069,7 @@ TextureImporter:
       Coin4: 421536837
       Coin5: -1589608881
       Coin6: -1636892798
+      Leaderboard: -305374097
       Music: -283480558
       Pause: 1137094835
       Player: -423608965

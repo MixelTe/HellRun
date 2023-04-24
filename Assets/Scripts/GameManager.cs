@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 	private bool _gameIsPaused = false;
 	private bool _rewardUsed = false;
 
+	public static bool Exist { get => _inst != null; }
 	public static GameField GameField { get => _inst._gameField; }
 	public static PlayerInput PlayerInput { get => _inst._playerInput; }
 	public static ChainSpawner ChainSpawner { get => _inst._chainSpawner; }
