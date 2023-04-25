@@ -11,7 +11,12 @@ public class PlayerInput : MonoBehaviour
 
     public void Update()
     {
-        if (!GameManager.GameIsRunning || GameManager.GameIsPaused)
+        if (!GameManager.GameIsRunning) return;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            GameManager.TogglePause();
+        
+        if (GameManager.GameIsPaused)
 		{
             _afterPause = true;
             return;

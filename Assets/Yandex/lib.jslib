@@ -6,11 +6,13 @@ mergeInto(LibraryManager.library, {
 				onClose: function (wasShown)
 				{
 					console.log("showFullscreenAdv -> onClose");
+					myGameInstance.SendMessage("Yandex", "OnAdvClosed");
 				},
 				onError: function (error)
 				{
 					console.log("showFullscreenAdv -> onError");
 					console.log(error);
+					myGameInstance.SendMessage("Yandex", "OnAdvClosed");
 				}
 			}
 		});
@@ -81,7 +83,7 @@ mergeInto(LibraryManager.library, {
 		const param = player.getMode() === 'lite' ?
 			{ quantityTop: 14 } :
 			{ quantityTop: 5, includeUser: false, quantityAround: 3 }
-		lb.getLeaderboardEntries('score', param)
+		lb.getLeaderboardEntries("scores", param)
 			.then(res =>
 			{
 				console.log("JSLib: GetLeaderboard");
@@ -93,7 +95,7 @@ mergeInto(LibraryManager.library, {
 	},
 	SetScore: function (score)
 	{
-		lb.setLeaderboardScore('score', score).then(() =>
+		lb.setLeaderboardScore("scores", score).then(() =>
 		{
 			console.log("JSLib: SetScore success");
 			myGameInstance.SendMessage("Yandex", "OnScoreUpdated", 1);
@@ -106,7 +108,7 @@ mergeInto(LibraryManager.library, {
 	},
 	GetScore: function ()
 	{
-		lb.getLeaderboardPlayerEntry('score').then(res =>
+		lb.getLeaderboardPlayerEntry("scores").then(res =>
 		{
 			console.log("JSLib: GetScore success");
 			myGameInstance.SendMessage("Yandex", "SetCurScore", res.score);
@@ -119,7 +121,7 @@ mergeInto(LibraryManager.library, {
 	},
 	GetPlayerData: function ()
 	{
-		lb.getLeaderboardPlayerEntry('score').then(res =>
+		lb.getLeaderboardPlayerEntry("scores").then(res =>
 		{
 			console.log("JSLib: GetScore success");
 			const data = { ID: res.player.uniqueID, Score: res.score, Rank: res.rank, Avatar: res.player.getAvatarSrc("small"), Name: res.player.publicName, IsPlayer: true }

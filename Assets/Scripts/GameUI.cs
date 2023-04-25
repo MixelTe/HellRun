@@ -71,8 +71,8 @@ public class GameUI : MonoBehaviour
 	{
         var auth = await YaApi.Auth();
         Debug.Log($"Auth: {auth}");
-        if (auth)
-            ShowLeaderboard();
+        if (auth && !GameManager.GameIsRunning)
+            ShowLeaderboard(false);
     }
 
     public void ShowGame()
@@ -126,7 +126,8 @@ public class GameUI : MonoBehaviour
         _scoreRecord.Pop();
     }
 
-    public void ShowLeaderboard()
+    public void ShowLeaderboard() => ShowLeaderboard(true);
+    private void ShowLeaderboard(bool showAdv)
     {
         _gamePanel.SetActive(false);
         _pausePanel.SetActive(false);
@@ -134,9 +135,17 @@ public class GameUI : MonoBehaviour
         _endPanel.SetActive(false);
         _leaderboardPanel.SetActive(true);
 
-        YaApi.Adv();
+        if (showAdv) ShowAdv();
         SaveRecord();
     }
+
+    private async void ShowAdv()
+	{
+        GameManager.SoundSetting.Mute();
+        await YaApi.Adv();
+        GameManager.SoundSetting.UnMute();
+    }
+
     private async void SaveRecord()
     {
 		bool hasAuth = YaApi.IsAuth();

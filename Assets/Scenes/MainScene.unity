@@ -4462,7 +4462,7 @@ GameObject:
   - component: {fileID: 647626980}
   - component: {fileID: 647626979}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: Next
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

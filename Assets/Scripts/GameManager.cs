@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour
 	public static void OverGame() => _inst.OverGameImpl();
 	public static void EndGame() => _inst.EndGameImpl();
 	public static void UseReward() => _inst.UseRewardImpl();
+	public static void TogglePause()
+	{
+		if (_inst._gameIsPaused) _inst.UnpauseGame();
+		else _inst.PauseGame();
+	}
 
 	private void Awake()
 	{

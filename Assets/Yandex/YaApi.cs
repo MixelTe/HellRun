@@ -14,7 +14,7 @@ public class YaApi : MonoBehaviour
 	public static Task UpdateRecord() => _inst.SetRecord();
 	public static bool Mobile() => IsMobile();
 	public static Task<bool> Reward() => _inst.UseReward();
-	public static void Adv() => ShowAdv();
+	public static Task Adv() => _inst.RunAdv();
 
 	private void Awake()
 	{
@@ -47,7 +47,7 @@ public class YaApi : MonoBehaviour
 			if (GameManager.Exist)
 				playerData.Score = GameManager.Score.PlayerScore;
 			else
-				playerData.Score = await GetRecord();
+				playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
 		}
 		Debug.Log("PlayerData loaded");
 		return playerData;
@@ -115,6 +115,15 @@ public class YaApi : MonoBehaviour
 		return _reward;
 	}
 
+	private bool _adv = false;
+	private async Task RunAdv()
+	{
+		_adv = false;
+		ShowAdv();
+		while (!_adv)
+			await Task.Yield();
+	}
+
 #if UNITY_EDITOR
 	private static void GetLeaderboard()
 	{
@@ -139,7 +148,7 @@ public class YaApi : MonoBehaviour
 	public void SetLeaderboard(string data)
 	{
 		_leaderboardData = JsonUtility.FromJson<LeaderboardData>(data);
-		Debug.Log($"SetPlayerData: {data}");
+		Debug.Log($"SetLeaderboard: {data}");
 	}
 
 
@@ -250,9 +259,15 @@ public class YaApi : MonoBehaviour
 	private static void ShowAdv()
 	{
 		Debug.Log("ShowAdv");
+		_inst.OnAdvClosed();
 	}
 #else
 	[DllImport("__Internal")]
 	private static extern void ShowAdv();
 #endif
+
+	public void OnAdvClosed()
+	{
+		_adv = true;
+	}
 }
