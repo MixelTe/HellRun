@@ -10,8 +10,7 @@ public class YaApi : MonoBehaviour
 	public static Task<LeaderboardDataRecord> PlayerData() => _inst.LoadPlayerData();
 	public static bool IsAuth() => CheckAuth();
 	public static Task<bool> Auth() => _inst.AskAuth();
-	public static Task<int> Record() => GetRecord();
-	public static Task UpdateRecord() => _inst.SetRecord();
+	public static Task UpdateRecord(LeaderboardDataRecord currentData) => _inst.SetRecord(currentData);
 	public static bool Mobile() => IsMobile();
 	public static Task<bool> Reward() => _inst.UseReward();
 	public static Task Adv() => _inst.RunAdv();
@@ -41,9 +40,8 @@ public class YaApi : MonoBehaviour
 			await Task.Yield();
 		var playerData = _playerData;
 		_playerData = null;
-		if (!playerData.IsPlayer)
+		if (!playerData.HasSavedRecord)
 		{
-			playerData.IsPlayer = true;
 			if (GameManager.Exist)
 				playerData.Score = GameManager.Score.PlayerScore;
 			else
@@ -71,26 +69,35 @@ public class YaApi : MonoBehaviour
 		{
 			var data = await _inst.LoadPlayerData();
 			var score = data.Score;
+			if (!data.IsPlayer)
+			{
+				Debug.Log($"GetRecord: Auth: No Record");
+				return 0;
+			}
 			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
+			PlayerPrefs.Save();
+			Debug.Log($"GetRecord: Auth: {score}");
 			return score;
 		}
 		else
 		{ 
 			var score = PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
+			Debug.Log($"GetRecord: Local: {score}");
 			return score;
 		}
 	}
 
 	private int _scoreUpdated = -1;
-	private async Task SetRecord()
+	private async Task SetRecord(LeaderboardDataRecord currentData)
 	{
 		Debug.Log("SetRecord");
-		var record = await GetRecord();
+		var record = currentData.HasSavedRecord ? currentData.Score : 0;
 		var score = GameManager.Score.PlayerScore;
 		if (score > record)
 		{
 			Debug.Log("SetRecord: New record");
 			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
+			PlayerPrefs.Save();
 			if (CheckAuth())
 			{
 				SetScore(score);
@@ -148,7 +155,7 @@ public class YaApi : MonoBehaviour
 	public void SetLeaderboard(string data)
 	{
 		_leaderboardData = JsonUtility.FromJson<LeaderboardData>(data);
-		Debug.Log($"SetLeaderboard: {data}");
+		Debug.Log($"SetLeaderboard: {_leaderboardData != null} {data}");
 	}
 
 
@@ -174,7 +181,7 @@ public class YaApi : MonoBehaviour
 	public void SetPlayerData(string data)
 	{
 		_playerData = JsonUtility.FromJson<LeaderboardDataRecord>(data);
-		Debug.Log($"SetPlayerData: {_playerData}");
+		Debug.Log($"SetPlayerData: {_playerData != null} {data}");
 	}
 
 

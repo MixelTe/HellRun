@@ -124,13 +124,13 @@ mergeInto(LibraryManager.library, {
 		lb.getLeaderboardPlayerEntry("scores").then(res =>
 		{
 			console.log("JSLib: GetScore success");
-			const data = { ID: res.player.uniqueID, Score: res.score, Rank: res.rank, Avatar: res.player.getAvatarSrc("small"), Name: res.player.publicName, IsPlayer: true }
+			const data = { ID: res.player.uniqueID, Score: res.score, Rank: res.rank, Avatar: res.player.getAvatarSrc("small"), Name: res.player.publicName, IsPlayer: true, HasSavedRecord: true }
 			myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 		}).catch(e =>
 		{
 			console.log("JSLib: GetScore default");
 			console.log(e);
-			const data = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: false }
+			const data = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: true, HasSavedRecord: false }
 			myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 		});
 	},

@@ -33,12 +33,14 @@ public class SoundSetting : MonoBehaviour
     {
         _audioMixer.SetFloat("sounds", volume);
         PlayerPrefs.SetFloat(Settings.PlayerPrefs_SoundVolume, volume);
+		PlayerPrefs.Save();
     }
 
     public void SetMusicVolume(float volume)
     {
         _audioMixer.SetFloat("music", volume);
         PlayerPrefs.SetFloat(Settings.PlayerPrefs_MusicVolume, volume);
+        PlayerPrefs.Save();
     }
 
     public void Mute()

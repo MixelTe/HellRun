@@ -30,10 +30,10 @@ public class Leaderboard : MonoBehaviour
 		    });
 	}
 
-	public async void UpdateData()
+    public async void UpdateData(LeaderboardDataRecord playerData = null)
     {
         var data = await YaApi.Leaderboard();
-        await AddPlayerToData(data);
+        await AddPlayerToData(data, playerData);
         _updated = true;
         _container.transform.DestroyAllChildren();
         LeaderboardRecord playerRecord = null;
@@ -48,9 +48,9 @@ public class Leaderboard : MonoBehaviour
             _scrollRect.ScrollTo(playerRecord.GetComponent<RectTransform>());
     }
 
-	private async Task AddPlayerToData(LeaderboardData data)
+	private async Task AddPlayerToData(LeaderboardData data, LeaderboardDataRecord playerData)
 	{
-        var playerRecord = await YaApi.PlayerData();
+        var playerRecord = playerData ?? await YaApi.PlayerData();
         data.Records = data.Records
             .Where(v => v.ID != playerRecord.ID)
             .Append(playerRecord)
@@ -74,4 +74,5 @@ public class LeaderboardDataRecord
     public string Avatar;
     public string Name;
     public bool IsPlayer;
+    public bool HasSavedRecord;
 }

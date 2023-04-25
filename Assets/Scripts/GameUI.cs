@@ -34,6 +34,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Button _authButton;
 
     private bool _isMobile;
+    private LeaderboardDataRecord _playerData;
+    private LeaderboardDataRecord _playerDataNew;
 
     private void Start()
     {
@@ -67,30 +69,42 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    private void SetActivePanel(Panel panel)
+	{
+        _gamePanel.SetActive(panel == Panel.Game);
+        _pausePanel.SetActive(panel == Panel.Pause);
+        _overPanel.SetActive(panel == Panel.Over);
+        _endPanel.SetActive(panel == Panel.End);
+        _leaderboardPanel.SetActive(panel == Panel.Leaderboard);
+    }
+	enum Panel
+	{
+        Game,
+        Pause,
+        Over,
+        End,
+        Leaderboard,
+    }
+
     private async Task Auth()
 	{
         var auth = await YaApi.Auth();
         Debug.Log($"Auth: {auth}");
         if (auth && !GameManager.GameIsRunning)
-            ShowLeaderboard(false);
+		{
+            _playerDataNew = await YaApi.PlayerData();
+            _leaderboard.UpdateData(_playerDataNew);
+        }
     }
 
     public void ShowGame()
     {
-        _gamePanel.SetActive(true);
-        _pausePanel.SetActive(false);
-        _overPanel.SetActive(false);
-        _endPanel.SetActive(false);
-        _leaderboardPanel.SetActive(false);
+        SetActivePanel(Panel.Game);
     }
 
     public void ShowGameOver()
 	{
-        _gamePanel.SetActive(false);
-        _pausePanel.SetActive(false);
-        _overPanel.SetActive(true);
-        _endPanel.SetActive(false);
-        _leaderboardPanel.SetActive(false);
+        SetActivePanel(Panel.Over);
         _scoreFinal.Pop();
     }
 
@@ -110,33 +124,29 @@ public class GameUI : MonoBehaviour
 
     public void ShowEndGame()
     {
-        _gamePanel.SetActive(false);
-        _pausePanel.SetActive(false);
-        _overPanel.SetActive(false);
-        _endPanel.SetActive(true);
-        _leaderboardPanel.SetActive(false);
+        SetActivePanel(Panel.End);
         _scoreFinal2.Pop();
         _scoreRecord.SetText("Загрузка рекорда");
-        LoadRecord();
+        SaveLoadRecord();
     }
-    private async void LoadRecord()
+    private async void SaveLoadRecord()
 	{
-        var record = await YaApi.Record();
-        _scoreRecord.SetText($"Рекорд: {record}");
+        _playerData = await YaApi.PlayerData();
+        _scoreRecord.SetText($"Рекорд: {_playerData.Score}");
         _scoreRecord.Pop();
+		await YaApi.UpdateRecord(_playerData);
+        _playerDataNew = await YaApi.PlayerData();
     }
 
-    public void ShowLeaderboard() => ShowLeaderboard(true);
-    private void ShowLeaderboard(bool showAdv)
+    public void ShowLeaderboard()
     {
-        _gamePanel.SetActive(false);
-        _pausePanel.SetActive(false);
-        _overPanel.SetActive(false);
-        _endPanel.SetActive(false);
-        _leaderboardPanel.SetActive(true);
+        SetActivePanel(Panel.Leaderboard);
 
-        if (showAdv) ShowAdv();
-        SaveRecord();
+        ShowAdv();
+        LoadLeaderboard();
+
+        bool hasAuth = YaApi.IsAuth();
+        _authButton.gameObject.SetActive(!hasAuth);
     }
 
     private async void ShowAdv()
@@ -146,12 +156,11 @@ public class GameUI : MonoBehaviour
         GameManager.SoundSetting.UnMute();
     }
 
-    private async void SaveRecord()
+    private async void LoadLeaderboard()
     {
-		bool hasAuth = YaApi.IsAuth();
-		_authButton.gameObject.SetActive(!hasAuth);
-		await YaApi.UpdateRecord();
-        _leaderboard.UpdateData();
+        while (_playerDataNew == null)
+            await Task.Yield();
+        _leaderboard.UpdateData(_playerDataNew);
     }
 
     public void UpdateScore(int score, bool pop = false)
