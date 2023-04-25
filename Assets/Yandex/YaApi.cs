@@ -41,12 +41,7 @@ public class YaApi : MonoBehaviour
 		var playerData = _playerData;
 		_playerData = null;
 		if (!playerData.HasSavedRecord)
-		{
-			if (GameManager.Exist)
-				playerData.Score = GameManager.Score.PlayerScore;
-			else
-				playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
-		}
+			playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
 		Debug.Log("PlayerData loaded");
 		return playerData;
 	}
@@ -63,35 +58,13 @@ public class YaApi : MonoBehaviour
 		return auth == 1;
 	}
 
-	private static async Task<int> GetRecord()
-	{
-		if (CheckAuth())
-		{
-			var data = await _inst.LoadPlayerData();
-			var score = data.Score;
-			if (!data.IsPlayer)
-			{
-				Debug.Log($"GetRecord: Auth: No Record");
-				return 0;
-			}
-			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
-			PlayerPrefs.Save();
-			Debug.Log($"GetRecord: Auth: {score}");
-			return score;
-		}
-		else
-		{ 
-			var score = PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
-			Debug.Log($"GetRecord: Local: {score}");
-			return score;
-		}
-	}
-
 	private int _scoreUpdated = -1;
 	private async Task SetRecord(LeaderboardDataRecord currentData)
 	{
 		Debug.Log("SetRecord");
-		var record = currentData.HasSavedRecord ? currentData.Score : 0;
+		var record = currentData.HasSavedRecord ? 
+			currentData.Score : 
+			PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
 		var score = GameManager.Score.PlayerScore;
 		if (score > record)
 		{
@@ -165,7 +138,7 @@ public class YaApi : MonoBehaviour
 		var data = new LeaderboardDataRecord()
 		{
 			ID = "",
-			IsPlayer = false,
+			IsPlayer = true,
 			Avatar = "",
 			Name = "Вы",
 			Rank = 0,
