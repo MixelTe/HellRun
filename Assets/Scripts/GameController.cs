@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    //The time for which the game will accelerate by 2 times
+    //The time for which the game will accelerate by 1
     [SerializeField] private float _scrollSpeedAcceleration  = 120f;
-    [SerializeField] private float _timeToStop = 120f;
+    [SerializeField] private int _scoreToStop = 500;
     [SerializeField] private float _timeBeforeFirstStrike = 2f;
-    private float _timeLeftForStop = 0f;
+    private int _lastScoreStop = 0;
 
     private void Start()
     {
-        _timeLeftForStop = _timeToStop;
 		GameManager.GameField.OnLineMoved += OnLineMoved;
         StartCoroutine(StartChains());
     }
@@ -21,17 +20,16 @@ public class GameController : MonoBehaviour
     {
         if (GameManager.GameIsRunning && GameManager.GameField.Scroling)
         {
-            _timeLeftForStop -= Time.deltaTime;
             GameManager.GameField.ScrollSpeed += Time.deltaTime / _scrollSpeedAcceleration;
         }
     }
 
     private void OnLineMoved()
     {
-        if (_timeLeftForStop < 0)
+        if (GameManager.Score.PlayerScore - _lastScoreStop > _scoreToStop)
         {
             GameManager.GameField.StopScrolling();
-            _timeLeftForStop = _timeToStop;
+            _lastScoreStop += _scoreToStop;
         }
     }
 

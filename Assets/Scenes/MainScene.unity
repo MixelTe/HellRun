@@ -2917,11 +2917,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 798859566}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -45}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &422161884
@@ -5199,8 +5199,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 422161883}
   - {fileID: 1564922191}
+  - {fileID: 422161883}
   - {fileID: 1372396896}
   - {fileID: 1757326532}
   m_Father: {fileID: 156622932}
@@ -9229,6 +9229,7 @@ MonoBehaviour:
   _widthForDouble: 500
   _pausePanel: {fileID: 1819451411}
   _overPanel: {fileID: 156622931}
+  _recordLeftText: {fileID: 1564922192}
   _scoreFinal: {fileID: 422161884}
   _advButton: {fileID: 1372396897}
   _advError: {fileID: 1995057835}
@@ -9307,7 +9308,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -120}
+  m_AnchoredPosition: {x: 0, y: -115}
   m_SizeDelta: {x: 180, y: 70}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1372396897
@@ -10331,11 +10332,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 798859566}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1564922192
@@ -10358,7 +10359,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C?"
+  m_text: "\u0414\u043E \u0440\u0435\u043A\u043E\u0440\u0434\u0430:"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
   m_sharedMaterial: {fileID: -2664746006880618025, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
@@ -15377,7 +15378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollSpeedAcceleration: 500
-  _timeToStop: 50
+  _scoreToStop: 500
   _timeBeforeFirstStrike: 1.5
 --- !u!114 &2024290241
 MonoBehaviour:

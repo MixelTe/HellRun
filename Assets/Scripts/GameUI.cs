@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ public class GameUI : MonoBehaviour
 
     [Header("Game over")]
     [SerializeField] private GameObject _overPanel;
+    [SerializeField] private TMP_Text _recordLeftText;
     [SerializeField] private PoppingText _scoreFinal;
     [SerializeField] private Button _advButton;
     [SerializeField] private Notify _advError;
@@ -105,7 +107,24 @@ public class GameUI : MonoBehaviour
     public void ShowGameOver()
 	{
         SetActivePanel(Panel.Over);
-        _scoreFinal.Pop();
+        _recordLeftText.text = "Продолжить?";
+        _scoreFinal.SetText("");
+        GameOver();
+    }
+    private async void GameOver()
+    {
+        _playerData = await YaApi.PlayerData();
+        if (GameManager.Score.PlayerScore <= _playerData.Score)
+		{
+            _recordLeftText.text = "До рекорда:";
+            _scoreFinal.SetText($"{_playerData.Score - GameManager.Score.PlayerScore}");
+            _scoreFinal.Pop();
+		}
+		else
+        {
+            _scoreFinal.SetText($"{GameManager.Score.PlayerScore}");
+            _scoreFinal.Pop();
+        }
     }
 
     private async void ShowReward()
@@ -127,11 +146,12 @@ public class GameUI : MonoBehaviour
         SetActivePanel(Panel.End);
         _scoreFinal2.Pop();
         _scoreRecord.SetText("Загрузка рекорда");
-        SaveLoadRecord();
+        EndGame();
     }
-    private async void SaveLoadRecord()
+    private async void EndGame()
 	{
-        _playerData = await YaApi.PlayerData();
+        while (_playerData == null)
+            await Task.Yield();
         _scoreRecord.SetText($"Рекорд: {_playerData.Score}");
         _scoreRecord.Pop();
 		await YaApi.UpdateRecord(_playerData);
