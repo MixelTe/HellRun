@@ -95,6 +95,7 @@ public class GameUI : MonoBehaviour
         Debug.Log($"Auth: {auth}");
         if (auth && !GameManager.GameIsRunning)
 		{
+		    await YaApi.UpdateRecord(_playerData);
             _playerDataNew = await YaApi.PlayerData();
             _leaderboard.UpdateData(_playerDataNew);
         }
