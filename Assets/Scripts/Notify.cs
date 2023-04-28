@@ -12,24 +12,31 @@ public class Notify : MonoBehaviour
     private RectTransform _transform;
     private Coroutine _anim;
 
-    public void Show()
+	private void Awake()
+	{
+        gameObject.SetActive(false);
+	}
+
+	public void Show(bool hideOnEnd = true)
 	{
         if (_anim != null)
             StopCoroutine(_anim);
         UpdatePosition(0);
         gameObject.SetActive(true);
-        _anim = StartCoroutine(ShowAnim());
+        _anim = StartCoroutine(ShowAnim(hideOnEnd));
     }
 
-    private IEnumerator ShowAnim()
+    private IEnumerator ShowAnim(bool hideOnEnd)
 	{
 		for (float t = 0; t < 1; t += Time.unscaledDeltaTime / _animTime)
 		{
 			UpdatePosition(t);
 			yield return new WaitForEndOfFrame();
 		}
-		gameObject.SetActive(false);
-        _anim = null;
+		UpdatePosition(1);
+		_anim = null;
+		if (hideOnEnd)
+			gameObject.SetActive(false);
     }
 
 	private void UpdatePosition(float t)

@@ -1040,6 +1040,174 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ArrowKey_Left
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 880
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6fccd2872894d74789cba1b6f99b165
+      internalID: 1456624737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowKey_Down
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 880
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40309d92e46bbcc45a8898251542290b
+      internalID: 433769082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowKey_Right
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 880
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40870aaad95827f4a9adb33012ce0b66
+      internalID: 1580465378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowKey_Up
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 944
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e679590a9821e0b4ebfe27d8219d601b
+      internalID: -98223781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowKey_Left_Pressed
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 880
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e12167e72489ec84482ed5bc33ae7545
+      internalID: 1023540355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowKey_Down_Pressed
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 880
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cce01179601d33449bd7e078bed5f52
+      internalID: -1238734082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowKey_Right_Pressed
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 880
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51fe81b9e497b9a458d5dde89a645eba
+      internalID: -558537225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowKey_Up_Pressed
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 944
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e30422255aaf5434993d855997463d80
+      internalID: 1733966047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1052,6 +1220,14 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Arrow: -2011134821
+      ArrowKey_Down: 433769082
+      ArrowKey_Down_Pressed: -1238734082
+      ArrowKey_Left: 1456624737
+      ArrowKey_Left_Pressed: 1023540355
+      ArrowKey_Right: 1580465378
+      ArrowKey_Right_Pressed: -558537225
+      ArrowKey_Up: -98223781
+      ArrowKey_Up_Pressed: 1733966047
       Avatar: -449594507
       BackArrow: 1348035670
       Background: -1828487356

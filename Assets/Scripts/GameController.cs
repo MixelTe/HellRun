@@ -5,15 +5,14 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     //The time for which the game will accelerate by 1
-    [SerializeField] private float _scrollSpeedAcceleration  = 120f;
+    [SerializeField] private float _scrollSpeedAcceleration = 120f;
     [SerializeField] private int _scoreToStop = 500;
-    [SerializeField] private float _timeBeforeFirstStrike = 2f;
     private int _lastScoreStop = 0;
 
     private void Start()
     {
 		GameManager.GameField.OnLineMoved += OnLineMoved;
-        StartCoroutine(StartChains());
+        GameManager.PlayerInput.OnMoved += StartGame;
     }
 
 	private void Update()
@@ -33,9 +32,10 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private IEnumerator StartChains()
+    private void StartGame(Vector2Int vector2)
     {
-        yield return new WaitForSeconds(_timeBeforeFirstStrike);
+        GameManager.PlayerInput.OnMoved -= StartGame;
+        GameManager.GameField.StartScrolling();
         GameManager.ChainSpawner.StartSpawn();
     }
 }
