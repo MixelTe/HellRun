@@ -10,9 +10,8 @@ public class Tutor : MonoBehaviour
     [SerializeField] private Animator _controlsMobile3;
     [SerializeField] private GameObject _controlsDesktop;
     [SerializeField] private Notify _hint;
-    [SerializeField] private TMP_Text _hintText;
-    [SerializeField, TextArea] private string _hintTextDesktop;
-    [SerializeField, TextArea] private string _hintTextMobile;
+    [SerializeField] private TMP_Text _hintTextDesktop;
+    [SerializeField] private TMP_Text _hintTextMobile;
     [SerializeField] private float _hintShowTime;
     private bool _hidden = false;
 
@@ -23,8 +22,8 @@ public class Tutor : MonoBehaviour
 
 		GameManager.PlayerInput.OnMoved += HideTutor;
 
-        if (mobile) _hintText.text = _hintTextMobile;
-        else _hintText.text = _hintTextDesktop;
+        _hintTextDesktop.gameObject.SetActive(!mobile);
+        _hintTextMobile.gameObject.SetActive(mobile);
 
         StartCoroutine(ShowHint());
     }

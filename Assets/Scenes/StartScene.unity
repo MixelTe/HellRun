@@ -1032,6 +1032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 693266836}
   - component: {fileID: 693266838}
+  - component: {fileID: 693266839}
   - component: {fileID: 693266837}
   m_Layer: 5
   m_Name: Title
@@ -1098,6 +1099,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 693266835}
   m_CullTransparentMesh: 1
+--- !u!114 &693266839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693266835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d95c293d81ed246a1e55cbc653d757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Localizations:
+  - {fileID: 1374977563, guid: 399ae55c1219ec94dab71f4a37cdf70d, type: 3}
+  - {fileID: 1053937883, guid: 399ae55c1219ec94dab71f4a37cdf70d, type: 3}
 --- !u!1 &717355275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 856181768}
   - component: {fileID: 856181770}
+  - component: {fileID: 856181771}
   - component: {fileID: 856181769}
   m_Layer: 5
   m_Name: Text (TMP)
@@ -1428,6 +1445,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856181767}
   m_CullTransparentMesh: 1
+--- !u!114 &856181771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856181767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3099c5efd8e6389488ea465496086eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Localizations:
+  - "\u0421\u0442\u0430\u0440\u0442"
+  - Start
 --- !u!1 &1179914525
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,6 +2286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2048007270}
   - component: {fileID: 2048007272}
+  - component: {fileID: 2048007273}
   - component: {fileID: 2048007271}
   m_Layer: 5
   m_Name: Score Text
@@ -2379,6 +2412,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048007269}
   m_CullTransparentMesh: 1
+--- !u!114 &2048007273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048007269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3099c5efd8e6389488ea465496086eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Localizations:
+  - "\u0422\u0430\u0431\u043B\u0438\u0446\u0430 \u043B\u0438\u0434\u0435\u0440\u043E\u0432"
+  - Leaderboard
 --- !u!1 &2102554901
 GameObject:
   m_ObjectHideFlags: 0

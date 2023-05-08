@@ -20,7 +20,7 @@ public class GameUI : MonoBehaviour
 
     [Header("Game over")]
     [SerializeField] private GameObject _overPanel;
-    [SerializeField] private TMP_Text _recordLeftText;
+    [SerializeField] private LocalizeTextDynamic _recordLeftText;
     [SerializeField] private PoppingText _scoreFinal;
     [SerializeField] private Button _advButton;
     [SerializeField] private Notify _advError;
@@ -109,8 +109,8 @@ public class GameUI : MonoBehaviour
     public void ShowGameOver()
 	{
         SetActivePanel(Panel.Over);
-        _recordLeftText.text = "Продолжить?";
-        _scoreFinal.SetText("");
+        _recordLeftText.SetText("Continue");
+        _scoreFinal.SetText("Empty");
         GameOver();
     }
     private async void GameOver()
@@ -118,13 +118,13 @@ public class GameUI : MonoBehaviour
         _playerData = await YaApi.PlayerData();
         if (GameManager.Score.PlayerScore <= _playerData.Score)
 		{
-            _recordLeftText.text = "До рекорда:";
-            _scoreFinal.SetText($"{_playerData.Score - GameManager.Score.PlayerScore}");
+            _recordLeftText.SetText("Left");
+            _scoreFinal.SetText("Left", _playerData.Score - GameManager.Score.PlayerScore);
             _scoreFinal.Pop();
 		}
 		else
         {
-            _scoreFinal.SetText($"{GameManager.Score.PlayerScore}");
+            _scoreFinal.SetText("Score", $"{GameManager.Score.PlayerScore}");
             _scoreFinal.Pop();
         }
     }
@@ -147,14 +147,14 @@ public class GameUI : MonoBehaviour
     {
         SetActivePanel(Panel.End);
         _scoreFinal2.Pop();
-        _scoreRecord.SetText("Загрузка рекорда");
+        _scoreRecord.SetText("Loading");
         EndGame();
     }
     private async void EndGame()
 	{
         while (_playerData == null)
             await Task.Yield();
-        _scoreRecord.SetText($"Рекорд: {_playerData.Score}");
+        _scoreRecord.SetText("Score", _playerData.Score);
         _scoreRecord.Pop();
 		await YaApi.UpdateRecord(_playerData);
         _playerDataNew = await YaApi.PlayerData();
@@ -187,9 +187,9 @@ public class GameUI : MonoBehaviour
 
     public void UpdateScore(int score, bool pop = false)
 	{
-        _score.SetText("Счёт: " + score);
-        _scoreFinal.SetText(score.ToString());
-        _scoreFinal2.SetText("Счёт: " + score);
+        _score.SetText("Score", score);
+        _scoreFinal.SetText("Score", score);
+        _scoreFinal2.SetText("Score", score);
 
         if (pop)
             _score.Pop();

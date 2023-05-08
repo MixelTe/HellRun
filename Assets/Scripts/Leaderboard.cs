@@ -21,12 +21,12 @@ public class Leaderboard : MonoBehaviour
 			{
 				IsPlayer = true,
 				Score = GameManager.Score.PlayerScore,
-				Name = "Вы",
+				Name = Localization.Language == Languages.ru ? "Вы" : "You",
 			});
 		Instantiate(_recordPrefab, _container)
 		    .Init(new LeaderboardDataRecord()
 		    {
-			    Name = "Загрузка...",
+			    Name = Localization.Language == Languages.ru ? "Загрузка..." : "Loading...",
 		    });
 	}
 
