@@ -117,11 +117,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Title
+      name: Title_en
       rect:
         serializedVersion: 2
         x: 0
-        y: 303
+        y: 1327
         width: 1485
         height: 721
       alignment: 0
@@ -137,6 +137,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Title_ru
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 494
+        width: 2048
+        height: 844
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 604c993ff3f30914880cf161aa33c490
+      internalID: 1374977563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -148,7 +169,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Title: 1053937883
+      Title_en: 1053937883
+      Title_ru: 1374977563
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
