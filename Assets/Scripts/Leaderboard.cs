@@ -9,6 +9,8 @@ public class Leaderboard : MonoBehaviour
     [SerializeField] private ScrollRect _scrollRect;
     [SerializeField] private RectTransform _container;
     [SerializeField] private LeaderboardRecord _recordPrefab;
+    [SerializeField] private LocalizedString _text_itsYou;
+    [SerializeField] private LocalizedString _text_Loading;
 
     private bool _updated = false;
 
@@ -21,12 +23,12 @@ public class Leaderboard : MonoBehaviour
 			{
 				IsPlayer = true,
 				Score = GameManager.Score.PlayerScore,
-				Name = Localization.Language == Languages.ru ? "Вы" : "You",
+				Name = _text_itsYou.Value,
 			});
 		Instantiate(_recordPrefab, _container)
 		    .Init(new LeaderboardDataRecord()
 		    {
-			    Name = Localization.Language == Languages.ru ? "Загрузка..." : "Loading...",
+			    Name = _text_Loading.Value,
 		    });
 	}
 
@@ -51,6 +53,7 @@ public class Leaderboard : MonoBehaviour
 	private async Task AddPlayerToData(LeaderboardData data, LeaderboardDataRecord playerData)
 	{
         var playerRecord = playerData ?? await YaApi.PlayerData();
+        if (!playerRecord.HasSavedRecord) playerRecord.Name = _text_itsYou.Value;
         data.Records = data.Records
             .Where(v => v.ID != playerRecord.ID)
             .Append(playerRecord)

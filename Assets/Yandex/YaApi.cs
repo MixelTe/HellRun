@@ -140,7 +140,7 @@ public class YaApi : MonoBehaviour
 			ID = "",
 			IsPlayer = true,
 			Avatar = "",
-			Name = "Вы",
+			Name = "",
 			Rank = 0,
 			Score = 0,
 		};
