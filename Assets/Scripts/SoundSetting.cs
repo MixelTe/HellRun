@@ -31,15 +31,19 @@ public class SoundSetting : MonoBehaviour
 
     public void SetSoundVolume(float volume)
     {
-        _audioMixer.SetFloat("sounds", volume);
-        PlayerPrefs.SetFloat(Settings.PlayerPrefs_SoundVolume, volume);
-		PlayerPrefs.Save();
+        SetVolume("sounds", Settings.PlayerPrefs_SoundVolume, volume);
     }
 
     public void SetMusicVolume(float volume)
     {
-        _audioMixer.SetFloat("music", volume);
-        PlayerPrefs.SetFloat(Settings.PlayerPrefs_MusicVolume, volume);
+        SetVolume("music", Settings.PlayerPrefs_MusicVolume, volume);
+    }
+
+    private void SetVolume(string mixerKey, string prefsKey, float volumeLiniar)
+    {
+        var volume = Mathf.Log(volumeLiniar) * 20f;
+        _audioMixer.SetFloat(mixerKey, volume);
+        PlayerPrefs.SetFloat(prefsKey, volumeLiniar);
         PlayerPrefs.Save();
     }
 
