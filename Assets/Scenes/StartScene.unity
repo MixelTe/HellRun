@@ -528,19 +528,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9060651817151625323, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.71428573
       objectReference: {fileID: 0}
     - target: {fileID: 9060651817151625323, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9060651817431330478, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.71428573
       objectReference: {fileID: 0}
     - target: {fileID: 9060651817431330478, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9060651817653488638, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_Pivot.x
@@ -632,7 +632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9060651817653488639, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9060651817923867897, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 464253697}
   - component: {fileID: 464253696}
   m_Layer: 5
-  m_Name: Settings
+  m_Name: Settings Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1083,15 +1083,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: ru
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fd2b4f425063a6045876a9f0132f5ea6, type: 2}
-  m_sharedMaterial: {fileID: -2664746006880618025, guid: fd2b4f425063a6045876a9f0132f5ea6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
+  m_sharedMaterial: {fileID: -2664746006880618025, guid: 4185962402b683949aa91bbe8662c08d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4282503162
+  m_fontColor: {r: 0.98039216, g: 0.8117647, b: 0.25490198, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

@@ -9,7 +9,6 @@ public class PlayerPrefsWindow : EditorWindow
     {
         var window = (PlayerPrefsWindow)GetWindow(typeof(PlayerPrefsWindow));
         window.titleContent = new GUIContent("Player Prefs");
-        window.Init();
         window.Show();
     }
     void OnEnable()
@@ -60,6 +59,9 @@ public class PlayerPrefsWindow : EditorWindow
 
     void OnGUI()
     {
+        if (_fields.Length == 0)
+            Init();
+
         EditorGUILayout.LabelField("Player Prefs Editor", EditorStyles.boldLabel);
         EditorGUILayout.Separator();
         
@@ -71,7 +73,7 @@ public class PlayerPrefsWindow : EditorWindow
 		foreach (var field in _fields)
 		{
             EditorGUILayout.BeginHorizontal();
-            field.value = EditorGUILayout.TextField(field.key, field.value);
+            field.value = EditorGUILayout.TextField(Utils.SpacesByUppercase(field.key), field.value);
 
             if (GUILayout.Button("Set", GUILayout.Width(36)))
             {
