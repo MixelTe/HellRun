@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 5317630707726041862}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 5317630707658807677}
@@ -640,7 +640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7847728457333889055, guid: 390287a4f7af4bc489e470a5fe4fad4e, type: 3}
       propertyPath: m_fontSize
-      value: 15.55
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 390287a4f7af4bc489e470a5fe4fad4e, type: 3}

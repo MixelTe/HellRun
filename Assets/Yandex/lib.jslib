@@ -134,4 +134,13 @@ mergeInto(LibraryManager.library, {
 			myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 		});
 	},
+	GetLang: function ()
+	{
+		const langStr = ysdk.environment.i18n.lang;
+		const ru = ["ru", "be", "kk", "uk", "uz"];
+		const lang = ru.indexOf(langStr) >= 0 ? 0 : 1;
+		console.log("JSLib: GetLang: ", langStr, lang);
+
+		return lang;
+	},
 });

@@ -6,4 +6,5 @@ public static class Settings
     public static readonly string PlayerPrefsRecordScore = "RecordScore";
     public static readonly string PlayerPrefs_SoundVolume = "SoundVolume";
     public static readonly string PlayerPrefs_MusicVolume = "MusicVolume";
+    public static readonly string PlayerPrefs_Language = "Language";
 }

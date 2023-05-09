@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ public class YaApi : MonoBehaviour
 	public static bool Mobile() => IsMobile();
 	public static Task<bool> Reward() => _inst.UseReward();
 	public static Task Adv() => _inst.RunAdv();
+	public static Languages Language() => GetLanguage();
 
 	private void Awake()
 	{
@@ -102,6 +104,15 @@ public class YaApi : MonoBehaviour
 		ShowAdv();
 		while (!_adv)
 			await Task.Yield();
+	}
+
+	private static Languages GetLanguage()
+	{
+		var lang = GetLang();
+		var langs = Enum.GetValues(typeof(Languages));
+		if (lang >= langs.Length)
+			Debug.Log($"Wrong language: {lang}");
+		return (Languages)(lang % langs.Length);
 	}
 
 #if UNITY_EDITOR
@@ -250,4 +261,15 @@ public class YaApi : MonoBehaviour
 	{
 		_adv = true;
 	}
+
+
+#if UNITY_EDITOR
+	private static int GetLang()
+	{
+		return 0;
+	}
+#else
+	[DllImport("__Internal")]
+	private static extern int GetLang();
+#endif
 }

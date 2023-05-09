@@ -427,7 +427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9060651817653488638}
   m_Layer: 5
-  m_Name: Sliders
+  m_Name: Settings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

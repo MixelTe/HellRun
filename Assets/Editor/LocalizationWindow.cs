@@ -4,16 +4,22 @@ using System;
 
 class LocalizationWindow : EditorWindow
 {
-    [MenuItem("Window/Localization Window")]
+    [MenuItem("HellRun/Localization")]
     public static void ShowWindow()
     {
 		var window = GetWindow(typeof(LocalizationWindow));
+        window.titleContent = new GUIContent("Localization");
 		var position = window.position;
 		position.size = new Vector2(200, 100);
 		window.position = position;
 	}
+	void OnEnable()
+	{
+		var myIcon = EditorGUIUtility.Load("Assets/Editor/Icon.png") as Texture2D;
+		titleContent.image = myIcon;
+	}
 
-    private void OnGUI()
+	private void OnGUI()
     {
 		GUILayout.BeginVertical();
         GUILayout.Label("Localizations", EditorStyles.boldLabel);
