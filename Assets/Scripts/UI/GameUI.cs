@@ -35,7 +35,6 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Leaderboard _leaderboard;
     [SerializeField] private Button _authButton;
 
-    private bool _isMobile;
     private LeaderboardDataRecord _playerData;
     private LeaderboardDataRecord _playerDataNew;
 
@@ -46,13 +45,13 @@ public class GameUI : MonoBehaviour
         _authButton.onClick.AddListener(() => Auth());
         _advButton.onClick.AddListener(() => ShowReward());
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        _isMobile = YaApi.Mobile();
         UpdateScore(0);
+        UpdateControls();
     }
 
-    private void Update()
+    private void UpdateControls()
     {
-        if (_isMobile)
+        if (YaApi.Mobile())
 		{
             if (_canvas.rect.width >= _widthForDouble)
             {
