@@ -1,7 +1,7 @@
-mergeInto(LibraryManager.library, {
+const YandexApiLib = {
 	ShowAdv: function ()
 	{
-		this.Try(() =>
+		Try(() =>
 			ysdk.adv.showFullscreenAdv({
 				callbacks: {
 					onClose: function (wasShown)
@@ -21,7 +21,7 @@ mergeInto(LibraryManager.library, {
 	},
 	ShowRewardAdv: function ()
 	{
-		this.Try(() =>
+		Try(() =>
 			ysdk.adv.showRewardedVideo({
 				callbacks: {
 					onOpen: () =>
@@ -50,7 +50,7 @@ mergeInto(LibraryManager.library, {
 	},
 	IsMobile: function ()
 	{
-		return this.Try(() =>
+		return Try(() =>
 		{
 			var isMobile = Module.SystemInfo.mobile
 			console.log("JSLib: isMobile: ", isMobile);
@@ -59,7 +59,7 @@ mergeInto(LibraryManager.library, {
 	},
 	CheckAuth: function ()
 	{
-		return this.Try(() =>
+		return Try(() =>
 		{
 			const auth = player.getMode() !== 'lite';
 			console.log("JSLib: CheckAuth: ", auth);
@@ -68,7 +68,7 @@ mergeInto(LibraryManager.library, {
 	},
 	AuthPlayer: function ()
 	{
-		this.Try(() =>
+		Try(() =>
 		{
 			if (player.getMode() === 'lite')
 			{
@@ -94,7 +94,7 @@ mergeInto(LibraryManager.library, {
 	},
 	GetLeaderboard: function ()
 	{
-		this.Try(() =>
+		Try(() =>
 		{
 			const param = player.getMode() === 'lite' ?
 				{ quantityTop: 14 } :
@@ -112,7 +112,7 @@ mergeInto(LibraryManager.library, {
 	},
 	SetScore: function (score)
 	{
-		this.Try(() =>
+		Try(() =>
 			lb.setLeaderboardScore("scores", score).then(() =>
 			{
 				console.log("JSLib: SetScore success");
@@ -127,7 +127,7 @@ mergeInto(LibraryManager.library, {
 	},
 	GetScore: function ()
 	{
-		this.Try(() =>
+		Try(() =>
 			lb.getLeaderboardPlayerEntry("scores").then(res =>
 			{
 				console.log("JSLib: GetScore success");
@@ -143,7 +143,7 @@ mergeInto(LibraryManager.library, {
 	GetPlayerData: function ()
 	{
 		const emptyData = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: true, HasSavedRecord: false }
-		this.Try(() =>
+		Try(() =>
 			lb.getLeaderboardPlayerEntry("scores").then(res =>
 			{
 				console.log("JSLib: GetScore success");
@@ -159,7 +159,7 @@ mergeInto(LibraryManager.library, {
 	},
 	GetLang: function ()
 	{
-		return this.Try(() =>
+		return Try(() =>
 		{
 			const langStr = ysdk.environment.i18n.lang;
 			const ru = ["ru", "be", "kk", "uk", "uz"];
@@ -180,17 +180,17 @@ mergeInto(LibraryManager.library, {
 			language: language == 0 ? "ru" : "en",
 		};
 		console.log("JSLib: UpdateUserStatus: ", params);
-		this.Try(() =>
+		Try(() =>
 			ym(MID, 'userParams', params));
 	},
 	SendMetrika: function (goal)
 	{
 		const goalStr = UTF8ToString(goal);
 		console.log("JSLib: SendMetrika: ", goalStr);
-		this.Try(() =>
+		Try(() =>
 			ym(MID, 'reachGoal', goalStr));
 	},
-	Try: function (f, ef)
+	$Try: function (f, ef)
 	{
 		try
 		{
@@ -203,4 +203,7 @@ mergeInto(LibraryManager.library, {
 				return ef();
 		}
 	}
-});
+}
+
+autoAddDeps(YandexApiLib, '$Try');
+mergeInto(LibraryManager.library, YandexApiLib);
