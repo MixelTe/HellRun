@@ -173,8 +173,8 @@ public class YaApi : MonoBehaviour
 	{
 		var rank = currentData.Rank;
 		var record = currentData.Score;
-		var volume_sound = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_SoundVolume) / 2 * 100); // 2 - max volume, 100 - 100%
-		var volume_music = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_MusicVolume) / 2 * 100);
+		var volume_sound = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_SoundVolume, 1) / 2 * 100); // 2 - max volume, 100 - 100%
+		var volume_music = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_MusicVolume, 1) / 2 * 100);
 		var auth = IsAuth();
 		var language = (int)Localization.Language;
 		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language);
