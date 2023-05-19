@@ -11,6 +11,8 @@ public class SoundSetting : MonoBehaviour
     [SerializeField] private Slider _allSounSlider;
 
     [SerializeField] private AudioMixer _audioMixer;
+	private Coroutine _sendMetrikaDelay;
+	private bool _sendMetrikaDisable = true;
 
     private void Start()
     {
@@ -27,6 +29,7 @@ public class SoundSetting : MonoBehaviour
             _musicSlider.value = volume;
             SetMusicVolume(volume);
         }
+        _sendMetrikaDisable = false;
     }
 
     public void SetSoundVolume(float volume)
@@ -45,6 +48,7 @@ public class SoundSetting : MonoBehaviour
         _audioMixer.SetFloat(mixerKey, volume);
         PlayerPrefs.SetFloat(prefsKey, volumeLiniar);
         PlayerPrefs.Save();
+        SendMetrika();
     }
 
     public void Mute()
@@ -55,5 +59,19 @@ public class SoundSetting : MonoBehaviour
     public void UnMute()
     {
         _audioMixer.SetFloat("master", 0);
+    }
+
+    private void SendMetrika()
+	{
+        if (_sendMetrikaDisable) return;
+
+        if (_sendMetrikaDelay != null)
+            StopCoroutine(_sendMetrikaDelay);
+        _sendMetrikaDelay = StartCoroutine(SendMetrikaDelay());
+	}
+    private IEnumerator SendMetrikaDelay()
+	{
+        yield return new WaitForSeconds(2);
+        YaApi.MetrikaGoal(YaApi.MetrikaGoals.VolumeChanged);
     }
 }

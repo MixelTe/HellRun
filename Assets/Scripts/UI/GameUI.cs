@@ -138,12 +138,13 @@ public class GameUI : MonoBehaviour
 		else
 		{
 			GameManager.EndGame();
-			_advError.Show();
+            _advError.Show();
 		}
 	}
 
     public void ShowEndGame()
     {
+        YaApi.MetrikaGoal(YaApi.MetrikaGoals.Gameover);
         SetActivePanel(Panel.End);
         _scoreFinal2.Pop();
         _scoreRecord.SetText("Loading");
@@ -155,7 +156,7 @@ public class GameUI : MonoBehaviour
             await Task.Yield();
         _scoreRecord.SetText("Score", _playerData.Score);
         _scoreRecord.Pop();
-		await YaApi.UpdateRecord(_playerData);
+        await YaApi.UpdateRecord(_playerData);
         _playerDataNew = await YaApi.PlayerData();
     }
 
@@ -196,6 +197,7 @@ public class GameUI : MonoBehaviour
 
     public void ShowPause()
     {
+        YaApi.MetrikaGoal(YaApi.MetrikaGoals.Paused);
         _gamePanel.SetActive(false);
         _pausePanel.SetActive(true);
     }

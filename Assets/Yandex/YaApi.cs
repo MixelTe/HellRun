@@ -16,6 +16,8 @@ public class YaApi : MonoBehaviour
 	public static Task<bool> Reward() => _inst.UseReward();
 	public static Task Adv() => _inst.RunAdv();
 	public static Languages Language() => GetLanguage();
+	public static void MetrikaStatus(LeaderboardDataRecord currentData) => SetUserStatus(currentData);
+	public static void MetrikaGoal(MetrikaGoals goal) => SendMetrikaGoal(goal);
 
 	private void Awake()
 	{
@@ -44,6 +46,7 @@ public class YaApi : MonoBehaviour
 		_playerData = null;
 		if (!playerData.HasSavedRecord)
 			playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
+		SetUserStatus(playerData);
 		Debug.Log("PlayerData loaded");
 		return playerData;
 	}
@@ -51,13 +54,16 @@ public class YaApi : MonoBehaviour
 	private int _auth = -1;
 	private async Task<bool> AskAuth()
 	{
+		MetrikaGoal(MetrikaGoals.AuthTry);
 		AuthPlayer();
 		while (_auth < 0)
 			await Task.Yield();
-		var auth = _auth;
+		var authSuccessful = _auth == 1;
 		_auth = -1;
-		Debug.Log($"Auth requested: {auth == 1}");
-		return auth == 1;
+		Debug.Log($"Auth requested: {authSuccessful}");
+		if (authSuccessful)
+			MetrikaGoal(MetrikaGoals.Auth);
+		return authSuccessful;
 	}
 
 	private int _scoreUpdated = -1;
@@ -71,6 +77,8 @@ public class YaApi : MonoBehaviour
 		if (score > record)
 		{
 			Debug.Log("SetRecord: New record");
+			MetrikaGoal(MetrikaGoals.NewRecord);
+
 			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
 			PlayerPrefs.Save();
 			if (CheckAuth())
@@ -88,12 +96,15 @@ public class YaApi : MonoBehaviour
 	private bool _rewardClosed = false;
 	private async Task<bool> UseReward()
 	{
+		MetrikaGoal(MetrikaGoals.Adv);
 		_reward = false;
 		_rewardClosed = false;
 		ShowRewardAdv();
 		while (!_rewardClosed)
 			await Task.Yield();
 		Debug.Log($"Reward used: {_reward}");
+		if (!_reward)
+			MetrikaGoal(MetrikaGoals.AdvError);
 		return _reward;
 	}
 
@@ -113,6 +124,60 @@ public class YaApi : MonoBehaviour
 		if (lang >= langs.Length)
 			Debug.Log($"Wrong language: {lang}");
 		return (Languages)(lang % langs.Length);
+	}
+
+	private static void SendMetrikaGoal(MetrikaGoals goal)
+	{
+		var goalStr = MetrikaGoalsToString(goal);
+		if (goalStr == "")
+		{
+			Debug.Log($"Wrong Goal: {goal}");
+			return;
+		}
+		SendMetrika(goalStr);
+	}
+	private static string MetrikaGoalsToString(MetrikaGoals goal)
+	{
+		return goal switch
+		{
+			MetrikaGoals.LanguageChanged => "language_changed",
+			MetrikaGoals.VolumeChanged => "volume_changed",
+			MetrikaGoals.Start => "start",
+			MetrikaGoals.Paused => "paused",
+			MetrikaGoals.Adv => "adv",
+			MetrikaGoals.AdvError => "adv_error",
+			MetrikaGoals.Gameover => "gameover",
+			MetrikaGoals.NewRecord => "new_record",
+			MetrikaGoals.AuthTry => "auth_try",
+			MetrikaGoals.Auth => "auth",
+			MetrikaGoals.Restart => "restart",
+			_ => "",
+		};
+	}
+	public enum MetrikaGoals
+	{
+		LanguageChanged,
+		VolumeChanged,
+		Start,
+		Paused,
+		Adv,
+		AdvError,
+		Gameover,
+		NewRecord,
+		AuthTry,
+		Auth,
+		Restart,
+	}
+
+	private static void SetUserStatus(LeaderboardDataRecord currentData)
+	{
+		var rank = currentData.Rank;
+		var record = currentData.Score;
+		var volume_sound = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_SoundVolume) / 2 * 100); // 2 - max volume, 100 - 100%
+		var volume_music = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_MusicVolume) / 2 * 100);
+		var auth = IsAuth();
+		var language = (int)Localization.Language;
+		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language);
 	}
 
 #if UNITY_EDITOR
@@ -271,5 +336,30 @@ public class YaApi : MonoBehaviour
 #else
 	[DllImport("__Internal")]
 	private static extern int GetLang();
+#endif
+
+
+
+#if UNITY_EDITOR
+	private static void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language)
+	{
+		Debug.Log($"UpdateUserStatus: rank: {rank}, record: {record}, volume_sound: {volume_sound}, volume_music: {volume_music}, auth: {auth}, language: {language}");
+		return;
+	}
+#else
+	[DllImport("__Internal")]
+	private static extern void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language);
+#endif
+
+
+#if UNITY_EDITOR
+	private static void SendMetrika(string goal)
+	{
+		Debug.Log($"SendMetrika: {goal}");
+		return;
+	}
+#else
+	[DllImport("__Internal")]
+	private static extern void SendMetrika(string goal);
 #endif
 }

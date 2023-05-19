@@ -32,6 +32,7 @@ public class StartUI : MonoBehaviour
 
 	public void StartGame()
 	{
+		YaApi.MetrikaGoal(YaApi.MetrikaGoals.Start);
 		SceneManager.LoadScene("MainScene");
 	}
 
@@ -50,6 +51,7 @@ public class StartUI : MonoBehaviour
 
 	public void ChangeLang()
 	{
+		YaApi.MetrikaGoal(YaApi.MetrikaGoals.LanguageChanged);
 		Localization.Language = Localization.Language == Languages.ru ? Languages.en : Languages.ru;
 		PlayerPrefs.SetInt(Settings.PlayerPrefs_Language, (int)Localization.Language);
 	}

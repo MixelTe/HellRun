@@ -34,6 +34,18 @@ public class BuildPostprocessor
         using var insertHtmlFile = File.OpenText(insertHtmlPath);
         var insertHtml = insertHtmlFile.ReadToEnd();
 
+        var metrikaIdPath = Path.Join(Directory.GetParent(Application.dataPath).FullName, "metrika_id.txt");
+        if (File.Exists(metrikaIdPath))
+        {
+            using var metrikaIdFile = File.OpenText(metrikaIdPath);
+            var metrikaId = metrikaIdFile.ReadToEnd();
+            insertHtml = insertHtml.Replace("'%MID%'", metrikaId);
+        }
+        else
+        {
+            Debug.LogError($"Failed to set Metrica Id. File dont exist: {metrikaIdPath}");
+        }
+
         html = html.Replace("width: 960px; height: 600px;", "width: 100%; height: 100%;");
         html = html.Replace("margin: 0;", "margin: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex;");
         html = html.Replace("</head>", insertHtml + "</head>");

@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
 
 	public void RestartGame()
 	{
+		YaApi.MetrikaGoal(YaApi.MetrikaGoals.Restart);
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 

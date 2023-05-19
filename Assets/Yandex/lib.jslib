@@ -143,4 +143,23 @@ mergeInto(LibraryManager.library, {
 
 		return lang;
 	},
+	UpdateUserStatus: function (rank, record, volume_sound, volume_music, auth, language)
+	{
+		const params = {
+			rank,
+			record,
+			volume_sound,
+			volume_music,
+			auth,
+			language: language == 0 ? "ru" : "en",
+		};
+		console.log("JSLib: UpdateUserStatus: ", params);
+		ym(MID, 'userParams', params);
+	},
+	SendMetrika: function (goal)
+	{
+		const goalStr = UTF8ToString(goal);
+		console.log("JSLib: SendMetrika: ", goalStr);
+		ym(MID, 'reachGoal', goalStr);
+	},
 });
