@@ -34,6 +34,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private GameObject _leaderboardPanel;
     [SerializeField] private Leaderboard _leaderboard;
     [SerializeField] private Button _authButton;
+    [SerializeField] private Notify _authError;
 
     private LeaderboardDataRecord _playerData;
     private LeaderboardDataRecord _playerDataNew;
@@ -92,12 +93,19 @@ public class GameUI : MonoBehaviour
 	{
         var auth = await YaApi.Auth();
         Debug.Log($"Auth: {auth}");
-        if (auth && !GameManager.GameIsRunning)
+        if (!GameManager.GameIsRunning)
 		{
-		    await YaApi.UpdateRecord(_playerData);
-            _playerDataNew = await YaApi.PlayerData();
-            _leaderboard.UpdateData(_playerDataNew);
-            _authButton.gameObject.SetActive(false);
+            if (auth)
+			{
+		        await YaApi.UpdateRecord(_playerData);
+                _playerDataNew = await YaApi.PlayerData();
+                _leaderboard.UpdateData(_playerDataNew);
+                _authButton.gameObject.SetActive(false);
+			}
+            else
+			{
+                _authError.Show();
+            }
         }
     }
 

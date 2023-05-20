@@ -8,19 +8,21 @@ public class PlayerInput : MonoBehaviour
 
     public event Action<Vector2Int> OnMoved;
     private bool _afterPause = true;
+    private bool _afterPauseInst = true;
 
     public void Update()
     {
         if (!GameManager.GameIsRunning) return;
-
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
-			GameManager.TogglePause();
         
         if (GameManager.GameIsPaused)
 		{
             _afterPause = true;
+            _afterPauseInst = true;
             return;
-		}
+        }
+
+        if (!_afterPauseInst && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)))
+            GameManager.Pause();
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -47,6 +49,8 @@ public class PlayerInput : MonoBehaviour
      
         else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             MoveLeft();
+
+        _afterPauseInst = false;
     }
 
     private void OnTap(Vector2 position)

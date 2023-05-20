@@ -11,15 +11,18 @@ public class Notify : MonoBehaviour
 
     private RectTransform _transform;
     private Coroutine _anim;
+    private bool _started = false;
 
 	private void Awake()
 	{
-        gameObject.SetActive(false);
+        if (!_started)
+			gameObject.SetActive(false);
 	}
 
 	public void Show(bool hideOnEnd = true)
 	{
-        if (_anim != null)
+		_started = true;
+		if (_anim != null)
             StopCoroutine(_anim);
         UpdatePosition(0);
         gameObject.SetActive(true);

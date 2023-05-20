@@ -19,13 +19,14 @@ public class Leaderboard : MonoBehaviour
 	{
         if (_updated) return;
 		_container.transform.DestroyAllChildren();
-		Instantiate(_recordPrefab, _container)
-			.Init(new LeaderboardDataRecord()
-			{
-				IsPlayer = true,
-				Score = GameManager.Score.PlayerScore,
-				Name = _text_itsYou.Value,
-			});
+        if (GameManager.Exist)
+		    Instantiate(_recordPrefab, _container)
+			    .Init(new LeaderboardDataRecord()
+			    {
+				    IsPlayer = true,
+				    Score = GameManager.Score.PlayerScore,
+				    Name = _text_itsYou.Value,
+			    });
 		Instantiate(_recordPrefab, _container)
 		    .Init(new LeaderboardDataRecord()
 		    {
