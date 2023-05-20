@@ -11,6 +11,7 @@ public class Leaderboard : MonoBehaviour
     [SerializeField] private LeaderboardRecord _recordPrefab;
     [SerializeField] private LocalizedString _text_itsYou;
     [SerializeField] private LocalizedString _text_Loading;
+    [SerializeField] private LocalizedString _text_HiddenPlayer;
 
     private bool _updated = false;
 
@@ -41,6 +42,9 @@ public class Leaderboard : MonoBehaviour
         LeaderboardRecord playerRecord = null;
         foreach (var recordData in data.Records)
         {
+            if (recordData.Name == "")
+                recordData.Name = _text_HiddenPlayer.Value;
+
             var record = Instantiate(_recordPrefab, _container);
             record.Init(recordData);
             if (recordData.IsPlayer)
@@ -53,7 +57,8 @@ public class Leaderboard : MonoBehaviour
 	private async Task AddPlayerToData(LeaderboardData data, LeaderboardDataRecord playerData)
 	{
         var playerRecord = playerData ?? await YaApi.PlayerData();
-        if (!playerRecord.HasSavedRecord) playerRecord.Name = _text_itsYou.Value;
+        if (!playerRecord.HasSavedRecord || playerRecord.Name == "") 
+            playerRecord.Name = _text_itsYou.Value;
         data.Records = data.Records
             .Where(v => v.ID != playerRecord.ID)
             .Append(playerRecord)

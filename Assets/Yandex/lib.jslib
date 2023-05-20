@@ -147,7 +147,15 @@ const YandexApiLib = {
 			lb.getLeaderboardPlayerEntry("scores").then(res =>
 			{
 				console.log("JSLib: GetScore success");
-				const data = { ID: res.player.uniqueID, Score: res.score, Rank: res.rank, Avatar: res.player.getAvatarSrc("small"), Name: res.player.publicName, IsPlayer: true, HasSavedRecord: true }
+				const data = {
+					ID: res.player.uniqueID,
+					Score: res.score,
+					Rank: res.rank,
+					Avatar: res.player.scopePermissions.avatar != "forbid" ? res.player.getAvatarSrc("small") : "",
+					Name: res.player.publicName,
+					IsPlayer: true,
+					HasSavedRecord: true
+				}
 				myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 			}).catch(e =>
 			{

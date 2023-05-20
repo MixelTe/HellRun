@@ -97,6 +97,7 @@ public class GameUI : MonoBehaviour
 		    await YaApi.UpdateRecord(_playerData);
             _playerDataNew = await YaApi.PlayerData();
             _leaderboard.UpdateData(_playerDataNew);
+            _authButton.gameObject.SetActive(false);
         }
     }
 
