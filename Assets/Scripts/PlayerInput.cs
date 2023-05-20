@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
         if (!GameManager.GameIsRunning) return;
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
-            GameManager.TogglePause();
+			GameManager.TogglePause();
         
         if (GameManager.GameIsPaused)
 		{

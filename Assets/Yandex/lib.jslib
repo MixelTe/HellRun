@@ -104,7 +104,16 @@ const YandexApiLib = {
 				{
 					console.log("JSLib: GetLeaderboard");
 					console.log(res);
-					const data = { Records: res.entries.map(v => ({ ID: v.player.uniqueID, Score: v.score, Rank: v.rank, Avatar: v.player.getAvatarSrc("small"), Name: v.player.publicName, IsPlayer: false })) };
+					const data = {
+						Records: res.entries.map(v => ({
+							ID: v.player.uniqueID,
+							Score: v.score,
+							Rank: v.rank,
+							Avatar: v.player.scopePermissions.avatar != "forbid" ? v.player.getAvatarSrc("small") : "",
+							Name: v.player.publicName,
+							IsPlayer: false
+						}))
+					};
 					console.log(data);
 					myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify(data));
 				});
@@ -156,6 +165,7 @@ const YandexApiLib = {
 					IsPlayer: true,
 					HasSavedRecord: true
 				}
+				console.log(data);
 				myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
 			}).catch(e =>
 			{

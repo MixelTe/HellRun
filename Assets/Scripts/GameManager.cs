@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 	private bool _gameIsRunning = true;
 	private bool _gameIsPaused = false;
 	private bool _rewardUsed = false;
+	private int _pauseUsedNow = 0;
 
 	public static bool Exist { get => _inst != null; }
 	public static GameField GameField { get => _inst._gameField; }
@@ -45,6 +46,12 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		_inst = this;
+	}
+
+	private void Update()
+	{
+		if (_pauseUsedNow > 0)
+			_pauseUsedNow--;
 	}
 
 	private void OnEnable()
@@ -121,6 +128,8 @@ public class GameManager : MonoBehaviour
 
 	public void PauseGame()
 	{
+		if (_pauseUsedNow > 0) return;
+		_pauseUsedNow = 5;
 		Time.timeScale = 0;
 		_gameIsPaused = true;
 		_gameUI.ShowPause();
@@ -129,6 +138,8 @@ public class GameManager : MonoBehaviour
 
 	public void UnpauseGame()
 	{
+		if (_pauseUsedNow > 0) return;
+		_pauseUsedNow = 5;
 		Time.timeScale = 1;
 		_gameIsPaused = false;
 		_gameUI.HidePause();

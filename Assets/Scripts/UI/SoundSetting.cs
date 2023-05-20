@@ -14,8 +14,8 @@ public class SoundSetting : MonoBehaviour
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private AudioSource _soundChange;
 	private float _sendMetrikaDelay = -1;
+	private float _soundDelay = -1;
     private bool _disableOnChange = true;
-	private Coroutine _soundDelay;
 
     private void Start()
     {
@@ -40,12 +40,7 @@ public class SoundSetting : MonoBehaviour
     private void SetSoundVolume(float volume)
     {
         SetVolume("sounds", Settings.PlayerPrefs_SoundVolume, volume);
-        
-        if (_disableOnChange)
-            return;
-        if (_soundDelay != null)
-            StopCoroutine(_soundDelay);
-        _soundDelay = StartCoroutine(PlaySound());
+        PlaySound();
     }
 
     private void SetMusicVolume(float volume)
@@ -84,7 +79,7 @@ public class SoundSetting : MonoBehaviour
 
 		while (_sendMetrikaDelay > 0)
 		{
-            _sendMetrikaDelay -= Time.deltaTime;
+            _sendMetrikaDelay -= Time.unscaledDeltaTime;
             await Task.Yield();
         }
 
@@ -92,10 +87,23 @@ public class SoundSetting : MonoBehaviour
         _sendMetrikaDelay = -1;
     }
 
-    private IEnumerator PlaySound()
+    private async void PlaySound()
     {
-        yield return new WaitForSeconds(0.15f);
+        if (_disableOnChange)
+            return;
+
+        var alreadyRan = _soundDelay >= 0;
+        _soundDelay = 0.15f;
+        if (alreadyRan)
+            return;
+
+        while (_soundDelay > 0)
+        {
+            _soundDelay -= Time.unscaledDeltaTime;
+            await Task.Yield();
+        }
+
         _soundChange.Play();
-        _soundDelay = null;
+        _soundDelay = -1;
     }
 }
