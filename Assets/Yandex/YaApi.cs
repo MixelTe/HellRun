@@ -142,6 +142,7 @@ public class YaApi : MonoBehaviour
 		{
 			MetrikaGoals.LanguageChanged => "language_changed",
 			MetrikaGoals.VolumeChanged => "volume_changed",
+			MetrikaGoals.Leaderboard => "leaderboard",
 			MetrikaGoals.Start => "start",
 			MetrikaGoals.Paused => "paused",
 			MetrikaGoals.Adv => "adv",
@@ -151,6 +152,7 @@ public class YaApi : MonoBehaviour
 			MetrikaGoals.AuthTry => "auth_try",
 			MetrikaGoals.Auth => "auth",
 			MetrikaGoals.Restart => "restart",
+			MetrikaGoals.Home => "home",
 			_ => "",
 		};
 	}
@@ -158,6 +160,7 @@ public class YaApi : MonoBehaviour
 	{
 		LanguageChanged,
 		VolumeChanged,
+		Leaderboard,
 		Start,
 		Paused,
 		Adv,
@@ -167,6 +170,7 @@ public class YaApi : MonoBehaviour
 		AuthTry,
 		Auth,
 		Restart,
+		Home,
 	}
 
 	private static void SetUserStatus(LeaderboardDataRecord currentData)

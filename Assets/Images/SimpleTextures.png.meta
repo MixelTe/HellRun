@@ -1049,7 +1049,7 @@ TextureImporter:
         width: 60
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1070,7 +1070,7 @@ TextureImporter:
         width: 60
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1091,7 +1091,7 @@ TextureImporter:
         width: 60
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1112,7 +1112,7 @@ TextureImporter:
         width: 60
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1133,7 +1133,7 @@ TextureImporter:
         width: 60
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1154,7 +1154,7 @@ TextureImporter:
         width: 60
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1175,7 +1175,7 @@ TextureImporter:
         width: 60
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1196,7 +1196,7 @@ TextureImporter:
         width: 60
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1204,6 +1204,27 @@ TextureImporter:
       bones: []
       spriteID: e30422255aaf5434993d855997463d80
       internalID: 1733966047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Menu
+      rect:
+        serializedVersion: 2
+        x: 1512
+        y: 643
+        width: 65
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6054cccb4b47b494c89558175e14ac6a
+      internalID: 1853362627
       vertices: []
       indices: 
       edges: []
@@ -1246,6 +1267,7 @@ TextureImporter:
       Coin5: -1589608881
       Coin6: -1636892798
       Leaderboard: -305374097
+      Menu: 1853362627
       Music: -283480558
       Pause: 1137094835
       Player: -423608965

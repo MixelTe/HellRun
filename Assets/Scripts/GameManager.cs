@@ -113,6 +113,12 @@ public class GameManager : MonoBehaviour
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 
+	public void ToStartScene()
+	{
+		YaApi.MetrikaGoal(YaApi.MetrikaGoals.Home);
+		SceneManager.LoadScene("StartScene");
+	}
+
 	public void PauseGame()
 	{
 		Time.timeScale = 0;

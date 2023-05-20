@@ -44,6 +44,7 @@ public class StartUI : MonoBehaviour
 
 	public void ShowLeaderboard()
 	{
+		YaApi.MetrikaGoal(YaApi.MetrikaGoals.Leaderboard);
 		_mainPanel.SetActive(false);
 		_leaderboardPanel.SetActive(true);
 		_leaderboard.UpdateData();
