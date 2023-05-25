@@ -38,6 +38,7 @@ public class GameUI : MonoBehaviour
 
     private LeaderboardDataRecord _playerData;
     private LeaderboardDataRecord _playerDataNew;
+    private bool _isMobile;
 
     private void Start()
     {
@@ -47,23 +48,16 @@ public class GameUI : MonoBehaviour
         _advButton.onClick.AddListener(() => ShowReward());
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         UpdateScore(0);
-        UpdateControls();
+        _isMobile = YaApi.Mobile();
     }
 
-    private void UpdateControls()
-    {
-        if (YaApi.Mobile())
+	private void Update()
+	{
+        if (_isMobile)
 		{
-            if (_canvas.rect.width >= _widthForDouble)
-            {
-                _double.SetActive(true);
-                _single.SetActive(false);
-            }
-            else
-            {
-                _double.SetActive(false);
-                _single.SetActive(true);
-            }
+            var isDouble = _canvas.rect.width >= _widthForDouble;
+            _double.SetActive(isDouble);
+            _single.SetActive(!isDouble);
 		}
 		else
         {

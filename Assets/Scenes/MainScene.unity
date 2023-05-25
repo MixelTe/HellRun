@@ -13137,6 +13137,30 @@ MonoBehaviour:
   _animator: {fileID: 1704322026}
   Immortal: 0
   _moveTime: 0.1
+  _moveTimeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!50 &1704322024
 Rigidbody2D:
   serializedVersion: 4
@@ -18439,6 +18463,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4962584380738062162, guid: 90688b2ba24185d44a5987ad28cdbeb2, type: 3}
+      propertyPath: _isMobile
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4962584380738062163, guid: 90688b2ba24185d44a5987ad28cdbeb2, type: 3}
       propertyPath: m_RootOrder
       value: 1

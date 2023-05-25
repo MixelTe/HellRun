@@ -20,7 +20,11 @@ public class Tutor : MonoBehaviour
         var mobile = YaApi.Mobile();
         _controlsDesktop.SetActive(!mobile);
 
-		GameManager.PlayerInput.OnMoved += HideTutor;
+        _controlsMobile1.SetTrigger("Enable");
+        _controlsMobile2.SetTrigger("Enable");
+        _controlsMobile3.SetTrigger("Enable");
+
+        GameManager.PlayerInput.OnMoved += HideTutor;
 
         _hintTextDesktop.gameObject.SetActive(!mobile);
         _hintTextMobile.gameObject.SetActive(mobile);

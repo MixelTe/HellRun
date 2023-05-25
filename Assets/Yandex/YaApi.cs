@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class YaApi : MonoBehaviour
 {
-	private static YaApi _inst;
 	public static Task<LeaderboardData> Leaderboard() => _inst.LoadLeaderboard();
 	public static Task<LeaderboardDataRecord> PlayerData() => _inst.LoadPlayerData();
 	public static bool IsAuth() => CheckAuth();
@@ -18,10 +17,20 @@ public class YaApi : MonoBehaviour
 	public static Languages Language() => GetLanguage();
 	public static void MetrikaStatus(LeaderboardDataRecord currentData) => SetUserStatus(currentData);
 	public static void MetrikaGoal(MetrikaGoals goal) => SendMetrikaGoal(goal);
+	
+	private static YaApi _inst;
+	[Header("Dev values")]
+	[SerializeField] private bool _isMobile;
+	[SerializeField] private bool _isAuth;
+	[SerializeField] private Languages _language;
 
 	private void Awake()
 	{
 		_inst = this;
+	}
+	private void Start()
+	{
+		OnStart();
 	}
 
 	private LeaderboardData _leaderboardData;
@@ -140,6 +149,7 @@ public class YaApi : MonoBehaviour
 	{
 		return goal switch
 		{
+			MetrikaGoals.Open => "open",
 			MetrikaGoals.LanguageChanged => "language_changed",
 			MetrikaGoals.VolumeChanged => "volume_changed",
 			MetrikaGoals.Leaderboard => "leaderboard",
@@ -153,11 +163,13 @@ public class YaApi : MonoBehaviour
 			MetrikaGoals.Auth => "auth",
 			MetrikaGoals.Restart => "restart",
 			MetrikaGoals.Home => "home",
+			MetrikaGoals.Error => "error",
 			_ => "",
 		};
 	}
 	public enum MetrikaGoals
 	{
+		Open,
 		LanguageChanged,
 		VolumeChanged,
 		Leaderboard,
@@ -171,6 +183,7 @@ public class YaApi : MonoBehaviour
 		Auth,
 		Restart,
 		Home,
+		Error,
 	}
 
 	private static void SetUserStatus(LeaderboardDataRecord currentData)
@@ -183,6 +196,19 @@ public class YaApi : MonoBehaviour
 		var language = (int)Localization.Language;
 		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language);
 	}
+
+
+
+#if UNITY_EDITOR
+	private static void OnStart()
+	{
+		Debug.Log("OnStart");
+	}
+#else
+	[DllImport("__Internal")]
+	private static extern void OnStart();
+#endif
+
 
 #if UNITY_EDITOR
 	private static void GetLeaderboard()
@@ -242,6 +268,8 @@ public class YaApi : MonoBehaviour
 #if UNITY_EDITOR
 	private static bool CheckAuth()
 	{
+		if (_inst != null)
+			return _inst._isAuth;
 		return false;
 	}
 #else
@@ -287,6 +315,8 @@ public class YaApi : MonoBehaviour
 #if UNITY_EDITOR
 	private static bool IsMobile()
 	{
+		if (_inst != null) 
+			return _inst._isMobile;
 		return false;
 	}
 #else
@@ -336,6 +366,8 @@ public class YaApi : MonoBehaviour
 #if UNITY_EDITOR
 	private static int GetLang()
 	{
+		if (_inst != null)
+			return (int)_inst._language;
 		return 0;
 	}
 #else

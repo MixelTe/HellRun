@@ -16,8 +16,17 @@
 		 accurateTrackBounce:true,
 		 webvisor:true
 	});
+	ym(MID,'reachGoal','open');
 </script>
 <!-- /Yandex.Metrika counter -->
+
+<script>
+	window.addEventListener("error", e =>
+		{
+			const er = e.error.stack;
+			ym(MID, 'reachGoal', 'error', { error: er });
+		});
+</script>
 
 <script src="https://yandex.ru/games/sdk/v2"></script>
 <script>

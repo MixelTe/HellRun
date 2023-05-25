@@ -1,4 +1,8 @@
 const YandexApiLib = {
+	OnStart: function ()
+	{
+		console.log("Game started!");
+	},
 	ShowAdv: function ()
 	{
 		Try(() =>
