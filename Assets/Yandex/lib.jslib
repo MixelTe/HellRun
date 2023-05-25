@@ -2,6 +2,7 @@ const YandexApiLib = {
 	OnStart: function ()
 	{
 		console.log("Game started!");
+		CloseSpinner();
 	},
 	ShowAdv: function ()
 	{
