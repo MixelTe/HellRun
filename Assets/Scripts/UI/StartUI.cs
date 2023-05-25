@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,11 +8,13 @@ public class StartUI : MonoBehaviour
 	[SerializeField] private GameObject _mainPanel;
 	[SerializeField] private GameObject _leaderboardPanel;
 	[SerializeField] private Leaderboard _leaderboard;
+	[SerializeField] private TMP_Text _version;
 
 	private void Start()
 	{
 		ShowMain();
 		SetupLang();
+		_version.text = "v" + Application.version;
 	}
 
 	private void SetupLang()
