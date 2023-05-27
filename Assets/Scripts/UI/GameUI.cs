@@ -29,6 +29,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] private GameObject _endPanel;
     [SerializeField] private PoppingText _scoreFinal2;
     [SerializeField] private PoppingText _scoreRecord;
+    [SerializeField] private PoppingText _newRecord;
+    [SerializeField] private ParticleSystem _particles;
 
     [Header("Leaderboard")]
     [SerializeField] private GameObject _leaderboardPanel;
@@ -49,6 +51,7 @@ public class GameUI : MonoBehaviour
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         UpdateScore(0);
         _isMobile = YaApi.Mobile();
+        _newRecord.SetText("Empty");
     }
 
 	private void Update()
@@ -160,6 +163,12 @@ public class GameUI : MonoBehaviour
         _scoreRecord.SetText("Score", _playerData.Score);
         _scoreRecord.Pop();
         await YaApi.UpdateRecord(_playerData);
+        if (GameManager.Score.PlayerScore > _playerData.Score)
+		{
+            _newRecord.SetText("NewRecord");
+            _newRecord.Pop();
+            _particles.Play();
+        }
         _playerDataNew = await YaApi.PlayerData();
     }
 
@@ -185,7 +194,7 @@ public class GameUI : MonoBehaviour
     {
         while (_playerDataNew == null)
             await Task.Yield();
-        _leaderboard.UpdateData(_playerDataNew);
+        _leaderboard.UpdateData(_playerDataNew, _playerData.Rank);
     }
 
     public void UpdateScore(int score, bool pop = false)

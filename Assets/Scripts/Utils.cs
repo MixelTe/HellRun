@@ -45,7 +45,7 @@ public static class Utils
 		var childLocalPosition = child.localPosition;
 		var result = new Vector2(
 			0 - (viewportLocalPosition.x + childLocalPosition.x),
-			0 - (viewportLocalPosition.y + childLocalPosition.y)
+			0 - (viewportLocalPosition.y + childLocalPosition.y + (instance.viewport.rect.height + child.rect.height) / 2)
 		);
 		instance.content.localPosition = result;
 	}

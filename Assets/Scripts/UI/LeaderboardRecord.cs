@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 public class LeaderboardRecord : MonoBehaviour
 {
+    public LeaderboardDataRecord Data { get; private set; }
     [SerializeField] private Image _back;
     [SerializeField] private Color _playerColor;
     [SerializeField] private TMP_Text _rank;
@@ -17,6 +18,7 @@ public class LeaderboardRecord : MonoBehaviour
 
     public void Init(LeaderboardDataRecord data)
 	{
+        Data = data;
         _rank.text = data.Rank.ToString();
         _name.text = data.Name;
         _score.text = data.Score.ToString();
@@ -25,6 +27,16 @@ public class LeaderboardRecord : MonoBehaviour
         _image.texture = _imageDef;
         if (data.Avatar != "")
             StartCoroutine(Downloadlmage(data.Avatar));
+    }
+
+    public void SetRank(int rank)
+	{
+        _rank.text = rank.ToString();
+    }
+
+    public void SetScore(int score)
+    {
+        _score.text = score.ToString();
     }
 
     IEnumerator Downloadlmage(string mediaUri)

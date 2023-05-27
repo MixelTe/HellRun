@@ -14,8 +14,6 @@ public class LocalizeTextDynamic : MonoBehaviour
 
 	private void Awake()
 	{
-		if (Localizations.Count > 0)
-			_localization = Localizations[0];
 		SetLang(Localization.Language);
 	}
 
