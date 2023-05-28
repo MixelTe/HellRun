@@ -103,7 +103,7 @@ const YandexApiLib = {
 		{
 			const param = player.getMode() === 'lite' ?
 				{ quantityTop: 14 } :
-				{ quantityTop: 5, includeUser: false, quantityAround: 5 }
+				{ quantityTop: 5, includeUser: true, quantityAround: 6 }
 			lb.getLeaderboardEntries("scores", param)
 				.then(res =>
 				{
