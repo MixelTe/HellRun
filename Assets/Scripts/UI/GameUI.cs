@@ -37,10 +37,12 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Leaderboard _leaderboard;
     [SerializeField] private Button _authButton;
     [SerializeField] private Notify _authError;
+    [SerializeField] private NewRankAnim _newRankAnim;
 
     private LeaderboardDataRecord _playerData;
     private LeaderboardDataRecord _playerDataNew;
     private bool _isMobile;
+    private bool _advClosed = false;
 
     private void Start()
     {
@@ -88,31 +90,32 @@ public class GameUI : MonoBehaviour
 
     private async Task Auth()
 	{
-        var auth = await YaApi.Auth();
-        Debug.Log($"Auth: {auth}");
-        if (!GameManager.GameIsRunning)
+		var auth = await YaApi.Auth();
+		Debug.Log($"Auth: {auth}");
+		if (GameManager.GameIsRunning)
+			return;
+		
+        if (auth)
 		{
-            if (auth)
-			{
-		        await YaApi.UpdateRecord(_playerData);
-                _playerDataNew = await YaApi.PlayerData();
-                _leaderboard.UpdateData(_playerDataNew);
-                _authButton.gameObject.SetActive(false);
-			}
-            else
-			{
-                _authError.Show();
-            }
-        }
-    }
+			await YaApi.UpdateRecord(_playerData);
+			_playerDataNew = await YaApi.PlayerData();
+			_authButton.gameObject.SetActive(false);
+            await _leaderboard.UpdateData(_playerDataNew);
+		}
+		else
+		{
+			_authError.Show();
+		}
+	}
 
-    public void ShowGame()
+	public void ShowGame()
     {
         SetActivePanel(Panel.Game);
     }
 
     public void ShowGameOver()
 	{
+        YaApi.MetrikaGoal(YaApi.MetrikaGoals.ContinueScreen);
         SetActivePanel(Panel.Over);
         _recordLeftText.SetText("Continue");
         _scoreFinal.SetText("Empty");
@@ -185,8 +188,10 @@ public class GameUI : MonoBehaviour
 
     private async void ShowAdv()
 	{
+        _advClosed = false;
         GameManager.SoundSetting.Mute();
         await YaApi.Adv();
+        _advClosed = true;
         GameManager.SoundSetting.UnMute();
     }
 
@@ -194,7 +199,12 @@ public class GameUI : MonoBehaviour
     {
         while (_playerDataNew == null)
             await Task.Yield();
-        _leaderboard.UpdateData(_playerDataNew, _playerData.Rank);
+        var data = await _leaderboard.UpdateData(_playerDataNew);
+        data.PastRank = _playerData.Rank;
+        while (!_advClosed)
+            await Task.Yield();
+        if (data.RecordPlayer != null && data.RecordPlayer.Rank < data.PastRank)
+            _newRankAnim.Show(data);
     }
 
     public void UpdateScore(int score, bool pop = false)

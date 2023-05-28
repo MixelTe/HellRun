@@ -23,47 +23,40 @@ public class NewRankAnim : MonoBehaviour
             gameObject.SetActive(false);
 	}
 
-	public void Show(LeaderboardDataRecord recordNext1,
-		LeaderboardDataRecord recordNext2,
-		LeaderboardDataRecord recordPlayer,
-		LeaderboardDataRecord recordPast1,
-		LeaderboardDataRecord recordPast2,
-		LeaderboardDataRecord recordPast3,
-        int pastRank)
+	public void Show(NewRankAnimData data)
     {
         _showed = true;
         gameObject.SetActive(true);
 
-        if (recordNext1 == null) _recordNext1.gameObject.SetActive(false); 
-        else _recordNext1.Init(recordNext1);
+        if (data.RecordNext1 == null) _recordNext1.gameObject.SetActive(false); 
+        else _recordNext1.Init(data.RecordNext1);
 
-        if (recordNext2 == null) _recordNext2.gameObject.SetActive(false); 
-        else _recordNext2.Init(recordNext2);
+        if (data.RecordNext2 == null) _recordNext2.gameObject.SetActive(false); 
+        else _recordNext2.Init(data.RecordNext2);
 
-        if (recordPlayer == null) _recordPlayer.gameObject.SetActive(false);
+        if (data.RecordPlayer == null) _recordPlayer.gameObject.SetActive(false);
         else
         {
-            _rank = recordPlayer.Rank;
-            _pastRank = pastRank;
-            _recordPlayer.Init(recordPlayer);
-            _recordPlayer.SetRank(pastRank);
+            _rank = data.RecordPlayer.Rank;
+            _pastRank = data.PastRank;
+            _recordPlayer.Init(data.RecordPlayer);
+            _recordPlayer.SetRank(data.PastRank);
         }
 
-        if (recordPast1 == null) _recordPast1.gameObject.SetActive(false); 
-        else _recordPast1.Init(recordPast1);
+        if (data.RecordPast1 == null) _recordPast1.gameObject.SetActive(false); 
+        else _recordPast1.Init(data.RecordPast1);
 
-        if (recordPast2 == null) _recordPast2.gameObject.SetActive(false); 
-        else _recordPast2.Init(recordPast2);
+        if (data.RecordPast2 == null) _recordPast2.gameObject.SetActive(false); 
+        else _recordPast2.Init(data.RecordPast2);
 
-        if (recordPast3 == null) _recordPast3.gameObject.SetActive(false); 
-        else _recordPast3.Init(recordPast3);
+        if (data.RecordPast3 == null) _recordPast3.gameObject.SetActive(false); 
+        else _recordPast3.Init(data.RecordPast3);
 
         _animator.SetTrigger("Start");
     }
 
     public void AnimStart(float time)
     {
-        _particles.Play();
         _recordPlayer.SetRank(_pastRank);
         StartCoroutine(AnimScore(_recordPlayer, time));
     }
@@ -71,6 +64,11 @@ public class NewRankAnim : MonoBehaviour
     public void AnimEvent()
 	{
         _recordPlayer.SetRank(_rank);
+    }
+
+    public void AnimParticles()
+    {
+        _particles.Play();
     }
 
     public void AnimEnd()
@@ -89,4 +87,26 @@ public class NewRankAnim : MonoBehaviour
 		}
         record.SetScore(score);
     }
+}
+
+public struct NewRankAnimData
+{
+	public LeaderboardDataRecord RecordNext1;
+	public LeaderboardDataRecord RecordNext2;
+	public LeaderboardDataRecord RecordPlayer;
+	public LeaderboardDataRecord RecordPast1;
+	public LeaderboardDataRecord RecordPast2;
+	public LeaderboardDataRecord RecordPast3;
+    public int PastRank;
+
+	public NewRankAnimData(LeaderboardDataRecord recordNext1, LeaderboardDataRecord recordNext2, LeaderboardDataRecord recordPlayer, LeaderboardDataRecord recordPast1, LeaderboardDataRecord recordPast2, LeaderboardDataRecord recordPast3, int pastRank)
+	{
+		RecordNext1 = recordNext1;
+		RecordNext2 = recordNext2;
+		RecordPlayer = recordPlayer;
+		RecordPast1 = recordPast1;
+		RecordPast2 = recordPast2;
+		RecordPast3 = recordPast3;
+		PastRank = pastRank;
+	}
 }

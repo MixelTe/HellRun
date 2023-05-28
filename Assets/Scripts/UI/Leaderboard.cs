@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Leaderboard : MonoBehaviour
 {
-    [SerializeField] private NewRankAnim _newRankAnim;
     [SerializeField] private ScrollRect _scrollRect;
     [SerializeField] private RectTransform _container;
     [SerializeField] private LeaderboardRecord _recordPrefab;
@@ -35,7 +34,7 @@ public class Leaderboard : MonoBehaviour
 		    });
 	}
 
-    public async void UpdateData(LeaderboardDataRecord playerData = null, int pastRank = 0)
+    public async Task<NewRankAnimData> UpdateData(LeaderboardDataRecord playerData = null)
     {
         var data = await YaApi.Leaderboard();
         await AddPlayerToData(data, playerData);
@@ -56,19 +55,17 @@ public class Leaderboard : MonoBehaviour
 		{
             _scrollRect.ScrollTo(playerRecord.GetComponent<RectTransform>());
 
-            if (_newRankAnim != null && playerData.Rank < pastRank)
-            {
-                var playerI = Array.IndexOf(data.Records, playerRecord.Data);
-                var recordNext1 = playerI - 2 >= 0 ? data.Records[playerI - 2] : null;
-                var recordNext2 = playerI - 1 >= 0 ? data.Records[playerI - 1] : null;
-                var recordPlayer = data.Records[playerI];
-                var recordPast1 = playerI + 1 < data.Records.Length ? data.Records[playerI + 1] : null;
-                var recordPast2 = playerI + 2 < data.Records.Length ? data.Records[playerI + 2] : null;
-                var recordPast3 = playerI + 3 < data.Records.Length ? data.Records[playerI + 3] : null;
+            var playerI = Array.IndexOf(data.Records, playerRecord.Data);
+            var recordNext1 = playerI - 2 >= 0 ? data.Records[playerI - 2] : null;
+            var recordNext2 = playerI - 1 >= 0 ? data.Records[playerI - 1] : null;
+            var recordPlayer = data.Records[playerI];
+            var recordPast1 = playerI + 1 < data.Records.Length ? data.Records[playerI + 1] : null;
+            var recordPast2 = playerI + 2 < data.Records.Length ? data.Records[playerI + 2] : null;
+            var recordPast3 = playerI + 3 < data.Records.Length ? data.Records[playerI + 3] : null;
 
-                _newRankAnim.Show(recordNext1, recordNext2, recordPlayer, recordPast1, recordPast2, recordPast3, pastRank);
-            }
+            return new NewRankAnimData(recordNext1, recordNext2, recordPlayer, recordPast1, recordPast2, recordPast3, 0);
         }
+        return new NewRankAnimData();
     }
 
 	private async Task AddPlayerToData(LeaderboardData data, LeaderboardDataRecord playerData)

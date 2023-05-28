@@ -1595,7 +1595,7 @@ TextureImporter:
         width: 11
         height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1603,6 +1603,48 @@ TextureImporter:
       bones: []
       spriteID: e63c8402ea387374a8b3faee420edbe4
       internalID: -927769074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Crown
+      rect:
+        serializedVersion: 2
+        x: 1241
+        y: 570
+        width: 73
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d3d06cd14e23334c82afd104908c1d8
+      internalID: -1697191796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LaurelWreath
+      rect:
+        serializedVersion: 2
+        x: 1253
+        y: 535
+        width: 44
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d59662f70b439f4a83ab910a87e55e3
+      internalID: 515957031
       vertices: []
       indices: 
       edges: []
@@ -1660,11 +1702,13 @@ TextureImporter:
       Confetti7: -2076329478
       Confetti8: 1589246177
       Confetti9: -1088016469
+      Crown: -1697191796
       Ghost1: -2008963980
       Ghost2: -865475862
       Ghost3: 338869799
       Ghost4: 1538964156
       Ghost5: -1874391066
+      LaurelWreath: 515957031
       Leaderboard: -305374097
       Menu: 1853362627
       Music: -283480558
