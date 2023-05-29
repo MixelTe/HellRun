@@ -22,6 +22,7 @@ public class LeaderboardRecord : MonoBehaviour
     [SerializeField] private Texture _imageDef;
     [SerializeField] private TMP_Text _name;
     [SerializeField] private TMP_Text _score;
+    [SerializeField] private TMP_Text _gamesPlayed;
 
     public void Init(LeaderboardDataRecord data)
 	{
@@ -29,6 +30,7 @@ public class LeaderboardRecord : MonoBehaviour
         SetRank(data.Rank);
         SetScore(data.Score);
         _name.text = data.Name;
+        _gamesPlayed.text = data.GamesPlayed.ToString();
         if (data.IsPlayer)
             _back.color = _playerColor;
         _image.texture = _imageDef;

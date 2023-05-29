@@ -120,6 +120,7 @@ const YandexApiLib = {
 							RatedGame: v.extraData.includes("RatedGame"),
 							WasTop: v.extraData.includes("WasTop"),
 							WasFirst: v.extraData.includes("WasFirst"),
+							GamesPlayed: parseInt(v.extraData.split(";")[0]) ?? 0,
 						}))
 					};
 					console.log(data);
@@ -127,9 +128,10 @@ const YandexApiLib = {
 				});
 		}, () => myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify({ Records: [] })));
 	},
-	SetScore: function (score, rated_game, was_top, was_first)
+	SetScore: function (score, games_played, rated_game, was_top, was_first)
 	{
 		const extraData = [
+			`${games_played}`,
 			rated_game ? "RatedGame" : "",
 			was_top ? "WasTop" : "",
 			was_first ? "WasFirst" : ""
@@ -181,6 +183,7 @@ const YandexApiLib = {
 					RatedGame: res.extraData.includes("RatedGame"),
 					WasTop: res.extraData.includes("WasTop"),
 					WasFirst: res.extraData.includes("WasFirst"),
+					GamesPlayed: parseInt(res.extraData.split(";")[0]) ?? 0,
 				}
 				console.log(data);
 				myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
@@ -204,7 +207,7 @@ const YandexApiLib = {
 			return lang;
 		}, () => 0)
 	},
-	UpdateUserStatus: function (rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first)
+	UpdateUserStatus: function (rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first, games_played)
 	{
 		const params = {
 			rank,
@@ -216,6 +219,7 @@ const YandexApiLib = {
 			rated_game,
 			was_top,
 			was_first,
+			games_played,
 		};
 		console.log("JSLib: UpdateUserStatus: ", params);
 		Try(() =>
@@ -227,6 +231,26 @@ const YandexApiLib = {
 		console.log("JSLib: SendMetrika: ", goalStr);
 		Try(() =>
 			ym(MID, 'reachGoal', goalStr));
+	},
+	CanReview: function ()
+	{
+		console.log("JSLib: CanReview");
+		Try(() => ysdk.feedback.canReview().then(({ value, reason }) =>
+		{
+			console.log("JSLib: CanReview:", value, reason);
+			myGameInstance.SendMessage("Yandex", "OnCanReview", value ? 1 : 0, reason == "GAME_RATED" ? 1 : 0);
+		}),
+			() => myGameInstance.SendMessage("Yandex", "OnCanReview", 0, 0));
+	},
+	RequestReview: function ()
+	{
+		console.log("JSLib: RequestReview");
+		Try(() => ysdk.feedback.requestReview().then(({ feedbackSent }) =>
+		{
+			console.log("JSLib: RequestReview:", feedbackSent);
+			myGameInstance.SendMessage("Yandex", "OnReviewRequested", feedbackSent ? 1 : 0);
+		}),
+			() => myGameInstance.SendMessage("Yandex", "OnReviewRequested", 0));
 	},
 	$Try: function (f, ef)
 	{

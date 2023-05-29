@@ -14,6 +14,7 @@ public class Leaderboard : MonoBehaviour
     [SerializeField] private LocalizedString _text_HiddenPlayer;
 
     private bool _updated = false;
+    private LeaderboardRecord _playerRecord;
 
     private void Start()
 	{
@@ -40,7 +41,7 @@ public class Leaderboard : MonoBehaviour
         await AddPlayerToData(data, playerData);
         _updated = true;
         _container.transform.DestroyAllChildren();
-        LeaderboardRecord playerRecord = null;
+        _playerRecord = null;
         foreach (var recordData in data.Records)
         {
             if (recordData.Name == "")
@@ -49,13 +50,13 @@ public class Leaderboard : MonoBehaviour
             var record = Instantiate(_recordPrefab, _container);
             record.Init(recordData);
             if (recordData.IsPlayer)
-                playerRecord = record;
+                _playerRecord = record;
         }
-        if (playerRecord != null)
+        if (_playerRecord != null)
 		{
-            _scrollRect.ScrollTo(playerRecord.GetComponent<RectTransform>());
+            _scrollRect.ScrollTo(_playerRecord.GetComponent<RectTransform>());
 
-            var playerI = Array.IndexOf(data.Records, playerRecord.Data);
+            var playerI = Array.IndexOf(data.Records, _playerRecord.Data);
             var recordNext1 = playerI - 2 >= 0 ? data.Records[playerI - 2] : null;
             var recordNext2 = playerI - 1 >= 0 ? data.Records[playerI - 1] : null;
             var recordPlayer = data.Records[playerI];
@@ -68,7 +69,12 @@ public class Leaderboard : MonoBehaviour
         return new NewRankAnimData();
     }
 
-	private async Task AddPlayerToData(LeaderboardData data, LeaderboardDataRecord playerData)
+    public void UpdatePlayer(LeaderboardDataRecord playerData)
+	{
+        _playerRecord.Init(playerData);
+    }
+
+    private async Task AddPlayerToData(LeaderboardData data, LeaderboardDataRecord playerData)
 	{
         var playerRecord = playerData ?? await YaApi.PlayerData();
         if (!playerRecord.HasSavedRecord || playerRecord.Name == "") 
@@ -100,4 +106,5 @@ public class LeaderboardDataRecord
     public bool RatedGame;
     public bool WasTop;
     public bool WasFirst;
+    public int GamesPlayed;
 }

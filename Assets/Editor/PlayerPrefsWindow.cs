@@ -49,10 +49,11 @@ public class PlayerPrefsWindow : EditorWindow
 	{
         _fields = new Field[]
         {
-            new Field("RecordScore", FieldType.Integer),
-            new Field("SoundVolume", FieldType.Float),
-            new Field("MusicVolume", FieldType.Float),
-            new Field("Language", FieldType.Integer),
+            new Field(Settings.PlayerPrefs_RecordScore, FieldType.Integer),
+            new Field(Settings.PlayerPrefs_SoundVolume, FieldType.Float),
+            new Field(Settings.PlayerPrefs_MusicVolume, FieldType.Float),
+            new Field(Settings.PlayerPrefs_Language, FieldType.Integer),
+            new Field(Settings.PlayerPrefs_GamesPlayed, FieldType.Integer),
         };
         _error = "";
     }

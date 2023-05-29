@@ -39,6 +39,13 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Notify _authError;
     [SerializeField] private NewRankAnim _newRankAnim;
 
+    [Header("Rate Game")]
+    [SerializeField] private GameObject _ratePanel;
+    [SerializeField] private GameObject _rateThanksPanel;
+    [SerializeField] private LeaderboardRecord _playerRecord;
+    [SerializeField] private LeaderboardRecord _playerRecord2;
+    [SerializeField] private Button _rateButton;
+
     private LeaderboardDataRecord _playerData;
     private LeaderboardDataRecord _playerDataNew;
     private bool _isMobile;
@@ -50,6 +57,7 @@ public class GameUI : MonoBehaviour
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         _authButton.onClick.AddListener(() => Auth());
         _advButton.onClick.AddListener(() => ShowReward());
+        _rateButton.onClick.AddListener(() => Rate());
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         UpdateScore(0);
         _isMobile = YaApi.Mobile();
@@ -78,6 +86,8 @@ public class GameUI : MonoBehaviour
         _overPanel.SetActive(panel == Panel.Over);
         _endPanel.SetActive(panel == Panel.End);
         _leaderboardPanel.SetActive(panel == Panel.Leaderboard);
+        _ratePanel.SetActive(panel == Panel.Rate);
+        _rateThanksPanel.SetActive(panel == Panel.RateThanks);
     }
 	enum Panel
 	{
@@ -86,6 +96,8 @@ public class GameUI : MonoBehaviour
         Over,
         End,
         Leaderboard,
+        Rate,
+        RateThanks,
     }
 
     private async Task Auth()
@@ -106,9 +118,29 @@ public class GameUI : MonoBehaviour
 		{
 			_authError.Show();
 		}
+    }
+
+    private async Task Rate()
+    {
+        var rate = await YaApi.Rate();
+		Debug.Log($"Rate: {rate}");
+		if (GameManager.GameIsRunning)
+			return;
+
+		if (rate)
+		{
+			SetActivePanel(Panel.RateThanks);
+			_ = YaApi.UpdateData(_playerDataNew, true);
+			_leaderboard.UpdatePlayer(_playerDataNew);
+            _particles.Play();
+		}
+		else
+		{
+			HideRate();
+		}
 	}
 
-	public void ShowGame()
+    public void ShowGame()
     {
         SetActivePanel(Panel.Game);
     }
@@ -154,6 +186,7 @@ public class GameUI : MonoBehaviour
     public void ShowEndGame()
     {
         YaApi.MetrikaGoal(YaApi.MetrikaGoals.Gameover);
+        YaApi.GamePlayed();
         SetActivePanel(Panel.End);
         _scoreFinal2.Pop();
         _scoreRecord.SetText("Loading");
@@ -205,6 +238,35 @@ public class GameUI : MonoBehaviour
             await Task.Yield();
         if (data.RecordPlayer != null && data.RecordPlayer.Rank < data.PastRank)
             _newRankAnim.Show(data);
+        else
+            TryShowRate();
+    }
+
+    private async void TryShowRate()
+	{
+        var gamesPlayed = _playerDataNew.GamesPlayed;
+        if (gamesPlayed % 10 != 0)
+            return;
+
+        var canRate = await YaApi.CanRate(_playerDataNew);
+		if (!canRate)
+			return;
+
+		ShowRate();
+	}
+
+    private void ShowRate()
+    {
+        SetActivePanel(Panel.Rate);
+        _playerDataNew.RatedGame = true;
+        _playerRecord.Init(_playerDataNew);
+        _playerRecord2.Init(_playerDataNew);
+        _playerDataNew.RatedGame = false;
+    }
+
+    public void HideRate()
+    {
+        SetActivePanel(Panel.Leaderboard);
     }
 
     public void UpdateScore(int score, bool pop = false)

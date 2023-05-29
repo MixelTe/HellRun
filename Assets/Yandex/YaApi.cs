@@ -18,11 +18,19 @@ public class YaApi : MonoBehaviour
 	public static Languages Language() => GetLanguage();
 	public static void MetrikaStatus(LeaderboardDataRecord currentData) => SetUserStatus(currentData);
 	public static void MetrikaGoal(MetrikaGoals goal) => SendMetrikaGoal(goal);
-	
+	public static void GamePlayed() => IncreaseGamesPlayed();
+	public static Task<bool> CanRate(LeaderboardDataRecord currentData) => _inst.CheckCanRate(currentData);
+	public static Task<bool> Rate() => _inst.RateGame();
+
 	private static YaApi _inst;
 	[Header("Dev values")]
 	[SerializeField] private bool _isMobile;
 	[SerializeField] private bool _isAuth;
+	[SerializeField] private bool _canReview;
+	[SerializeField] private bool _reviewSuccess;
+	[SerializeField] private bool _ratedGame;
+	[SerializeField] private bool _wasFirst;
+	[SerializeField] private bool _wasTop;
 	[SerializeField] private Languages _language;
 	[SerializeField] private int _playerRank = 0;
 
@@ -56,9 +64,14 @@ public class YaApi : MonoBehaviour
 		var playerData = _playerData;
 		_playerData = null;
 		if (!playerData.HasSavedRecord)
-			playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
+			playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefs_RecordScore, 0);
+
+		var savedGamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
+		playerData.GamesPlayed = Mathf.Max(playerData.GamesPlayed, savedGamesPlayed);
+		PlayerPrefs.SetInt(Settings.PlayerPrefs_GamesPlayed, playerData.GamesPlayed);
+
 		SetUserStatus(playerData);
-		_ = UpdateData(playerData, false);
+		_ = SetData(playerData, false);
 		Debug.Log("PlayerData loaded");
 		return playerData;
 	}
@@ -84,18 +97,18 @@ public class YaApi : MonoBehaviour
 		Debug.Log("SetRecord");
 		var record = currentData.HasSavedRecord ? 
 			currentData.Score : 
-			PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
+			PlayerPrefs.GetInt(Settings.PlayerPrefs_RecordScore, 0);
 		var score = GameManager.Score.PlayerScore;
 		if (score > record)
 		{
 			Debug.Log("SetRecord: New record");
 			MetrikaGoal(MetrikaGoals.NewRecord);
 
-			PlayerPrefs.SetInt(Settings.PlayerPrefsRecordScore, score);
+			PlayerPrefs.SetInt(Settings.PlayerPrefs_RecordScore, score);
 			PlayerPrefs.Save();
 			if (CheckAuth())
 			{
-				SetScore(score, currentData.RatedGame, currentData.WasTop, currentData.WasFirst);
+				SetScore(score, currentData.GamesPlayed, currentData.RatedGame, currentData.WasTop, currentData.WasFirst);
 				while (_scoreUpdated < 0)
 					await Task.Yield();
 				Debug.Log("SetRecord: Score set");
@@ -109,22 +122,34 @@ public class YaApi : MonoBehaviour
 		Debug.Log("SetData");
 		if (CheckAuth())
 		{
+			var gamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
 			var ratedGame = currentData.RatedGame || rated;
 			var wasTop = currentData.WasTop || currentData.Rank == 1;
 			var wasFirst = currentData.WasFirst || currentData.Rank <= 4;
 
-			if (ratedGame != currentData.RatedGame ||
+			if (gamesPlayed - currentData.GamesPlayed > 3 ||
+				ratedGame != currentData.RatedGame ||
 				wasTop != currentData.WasTop ||
 				wasFirst != currentData.WasFirst)
 			{
+				currentData.RatedGame = ratedGame;
+				currentData.WasTop = wasTop;
+				currentData.WasFirst = wasFirst;
 				Debug.Log("SetData: New data");
-				SetScore(currentData.Score, ratedGame, wasTop, wasFirst);
+				SetScore(currentData.Score, currentData.GamesPlayed, ratedGame, wasTop, wasFirst);
 				while (_scoreUpdated < 0)
 					await Task.Yield();
 				Debug.Log("SetData: Data set");
 				_scoreUpdated = -1;
 			}
 		}
+	}
+
+	private static void IncreaseGamesPlayed()
+	{
+		var savedGamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
+		savedGamesPlayed++;
+		PlayerPrefs.SetInt(Settings.PlayerPrefs_GamesPlayed, savedGamesPlayed);
 	}
 
 	private bool _reward = false;
@@ -220,12 +245,49 @@ public class YaApi : MonoBehaviour
 		var record = currentData.Score;
 		var volume_sound = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_SoundVolume, 1) / 2 * 100); // 2 - max volume, 100 - 100%
 		var volume_music = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_MusicVolume, 1) / 2 * 100);
-		var auth = IsAuth();
+		var auth = CheckAuth();
 		var language = (int)Localization.Language;
 		var rated_game = currentData.RatedGame;
 		var was_top = currentData.WasTop;
 		var was_first = currentData.WasFirst;
-		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first);
+		var games_played = currentData.GamesPlayed;
+		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first, games_played);
+	}
+
+	private int _canRate = -1;
+	private bool _alreadyRated = false;
+	private async Task<bool> CheckCanRate(LeaderboardDataRecord currentData)
+	{
+		if (currentData.RatedGame)
+			return false;
+
+		if (!CheckAuth())
+			return false;
+
+		_canRate = -1;
+		_alreadyRated = false;
+		CanReview();
+		while (_canRate < 0)
+			await Task.Yield();
+
+		if (_alreadyRated)
+			_ = SetData(currentData, true);
+
+		return _canRate > 0;
+	}
+
+	private int _rated = -1;
+	private async Task<bool> RateGame()
+	{
+		if (!CheckAuth())
+			return false;
+
+		_rated = -1;
+		RequestReview();
+		while (_rated < 0)
+			await Task.Yield();
+
+		return _rated > 0;
 	}
 
 
@@ -246,14 +308,14 @@ public class YaApi : MonoBehaviour
 	{
 		var data = new LeaderboardData() {
 			Records = new LeaderboardDataRecord[] {
-				new LeaderboardDataRecord() { ID = "1", Score = 57, Rank = 7, Name = "Super Player 3000", Avatar = "https://avatars.yandex.net/get-music-content/5236179/6e5cc28a.p.3404212/100x100", WasFirst = true },
-				new LeaderboardDataRecord() { ID = "2", Score = 790, Rank = 1, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", RatedGame = true, WasFirst = true, WasTop = true },
-				new LeaderboardDataRecord() { ID = "3", Score = 650, Rank = 4, Name = "Ультра Вжик", Avatar = "https://avatars.yandex.net/get-music-content/3927581/777ae0d7.a.13658486-1/100x100", RatedGame = true, WasTop = true },
-				new LeaderboardDataRecord() { ID = "4", Score = 495, Rank = 5, Name = "Dub Dubom", Avatar = "https://avatars.yandex.net/get-music-content/38044/f88a8857.a.3839675-1/100x100", RatedGame = true, WasFirst = true },
-				new LeaderboardDataRecord() { ID = "5", Score = 215, Rank = 6, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100", WasFirst = true },
-				new LeaderboardDataRecord() { ID = "6", Score = 104, Rank = 8, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", WasTop = true },
-				new LeaderboardDataRecord() { ID = "7", Score = 10, Rank = 10, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
-				new LeaderboardDataRecord() { ID = "8", Score = 780, Rank = 2, Name = "", Avatar = "", WasFirst = true, RatedGame = true },
+				new LeaderboardDataRecord() { ID = "1", Score = 57, Rank = 7, GamesPlayed = 10, Name = "Super Player 3000", Avatar = "https://avatars.yandex.net/get-music-content/5236179/6e5cc28a.p.3404212/100x100", WasFirst = true },
+				new LeaderboardDataRecord() { ID = "2", Score = 790, Rank = 1, GamesPlayed = 34, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", RatedGame = true, WasFirst = true, WasTop = true },
+				new LeaderboardDataRecord() { ID = "3", Score = 650, Rank = 4, GamesPlayed = 679, Name = "Ультра Вжик", Avatar = "https://avatars.yandex.net/get-music-content/3927581/777ae0d7.a.13658486-1/100x100", RatedGame = true, WasTop = true },
+				new LeaderboardDataRecord() { ID = "4", Score = 495, Rank = 5, GamesPlayed = 69, Name = "Dub Dubom", Avatar = "https://avatars.yandex.net/get-music-content/38044/f88a8857.a.3839675-1/100x100", RatedGame = true, WasFirst = true },
+				new LeaderboardDataRecord() { ID = "5", Score = 215, Rank = 6, GamesPlayed = 45, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100", WasFirst = true },
+				new LeaderboardDataRecord() { ID = "6", Score = 104, Rank = 8, GamesPlayed = 270, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", WasTop = true },
+				new LeaderboardDataRecord() { ID = "7", Score = 10, Rank = 10, GamesPlayed = 2, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+				new LeaderboardDataRecord() { ID = "8", Score = 780, Rank = 2, GamesPlayed = 57, Name = "", Avatar = "", WasFirst = true, RatedGame = true },
 			}
 		};
 		_inst.SetLeaderboard(JsonUtility.ToJson(data));
@@ -281,6 +343,9 @@ public class YaApi : MonoBehaviour
 			Name = "",
 			Rank = _inst == null ? 0 : _inst._playerRank,
 			Score = 0,
+			RatedGame = _inst != null && _inst._ratedGame,
+			WasFirst = _inst != null && _inst._wasFirst,
+			WasTop = _inst != null && _inst._wasTop,
 		};
 		_inst.SetPlayerData(JsonUtility.ToJson(data));
 	}
@@ -327,13 +392,13 @@ public class YaApi : MonoBehaviour
 
 
 #if UNITY_EDITOR
-	private static void SetScore(int score, bool rated_game, bool was_top, bool was_first)
+	private static void SetScore(int score, int games_played, bool rated_game, bool was_top, bool was_first)
 	{
 		_inst.OnScoreUpdated(1);
 	}
 #else
 	[DllImport("__Internal")]
-	private static extern void SetScore(int score, bool rated_game, bool was_top, bool was_first);
+	private static extern void SetScore(int score, int games_played, bool rated_game, bool was_top, bool was_first);
 #endif
 
 	public void OnScoreUpdated(int updated)
@@ -409,14 +474,14 @@ public class YaApi : MonoBehaviour
 
 
 #if UNITY_EDITOR
-	private static void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first)
+	private static void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first, int games_played)
 	{
-		Debug.Log($"UpdateUserStatus: rank: {rank}, record: {record}, volume_sound: {volume_sound}, volume_music: {volume_music}, auth: {auth}, language: {language}, rated_game: {rated_game}, was_top: {was_top}, was_first: {was_first}");
+		Debug.Log($"UpdateUserStatus: rank: {rank}, record: {record}, volume_sound: {volume_sound}, volume_music: {volume_music}, auth: {auth}, language: {language}, rated_game: {rated_game}, was_top: {was_top}, was_first: {was_first}, games_played: {games_played}");
 		return;
 	}
 #else
 	[DllImport("__Internal")]
-	private static extern void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first);
+	private static extern void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first, int games_played);
 #endif
 
 
@@ -430,4 +495,39 @@ public class YaApi : MonoBehaviour
 	[DllImport("__Internal")]
 	private static extern void SendMetrika(string goal);
 #endif
+
+
+#if UNITY_EDITOR
+	private static void CanReview()
+	{
+		_inst.OnCanReview((_inst != null && _inst._canReview) ? 1 : 0, 0);
+	}
+#else
+	[DllImport("__Internal")]
+	private static extern void CanReview();
+#endif
+
+	public void OnCanReview(int canReview, int alreadyRated)
+	{
+		Debug.Log($"OnCanReview: {canReview}");
+		_canRate = canReview;
+		_alreadyRated = alreadyRated == 1;
+	}
+
+
+#if UNITY_EDITOR
+	private static void RequestReview()
+	{
+		_inst.OnReviewRequested((_inst != null && _inst._reviewSuccess) ? 1 : 0);
+	}
+#else
+	[DllImport("__Internal")]
+	private static extern void RequestReview();
+#endif
+
+	public void OnReviewRequested(int rated)
+	{
+		Debug.Log($"OnReviewRequested: {rated}");
+		_rated = rated;
+	}
 }
