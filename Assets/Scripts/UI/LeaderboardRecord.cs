@@ -13,7 +13,12 @@ public class LeaderboardRecord : MonoBehaviour
     [SerializeField] private TMP_Text _rank;
     [SerializeField] private RawImage _image;
     [SerializeField] private Image _crown;
+    [SerializeField] private Image _crownSmall;
+    [SerializeField] private Image _crownSmallWreath;
     [SerializeField] private Image _wreath;
+    [SerializeField] private Image _wreathSmall;
+    [SerializeField] private Image _start;
+    [SerializeField] private Image _startWreath;
     [SerializeField] private Texture _imageDef;
     [SerializeField] private TMP_Text _name;
     [SerializeField] private TMP_Text _score;
@@ -34,8 +39,18 @@ public class LeaderboardRecord : MonoBehaviour
     public void SetRank(int rank)
 	{
         _rank.text = rank.ToString();
+
+        // Top 4
         _crown.gameObject.SetActive(rank == 1);
-        _wreath.gameObject.SetActive(rank > 1 && rank <= 4);
+        _wreath.gameObject.SetActive(rank <= 4);
+        
+        _crownSmallWreath.gameObject.SetActive(rank > 1 && rank <= 4 && Data.WasFirst);
+        _startWreath.gameObject.SetActive(rank <= 4 && Data.RatedGame);
+
+        // Rest
+        _crownSmall.gameObject.SetActive(rank > 4 && Data.WasFirst);
+        _wreathSmall.gameObject.SetActive(rank > 4 && Data.WasTop && !Data.WasFirst);
+        _start.gameObject.SetActive(rank > 4 && Data.RatedGame);
     }
 
     public void SetScore(int score)

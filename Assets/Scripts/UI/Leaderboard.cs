@@ -97,4 +97,7 @@ public class LeaderboardDataRecord
     public string Name;
     public bool IsPlayer;
     public bool HasSavedRecord;
+    public bool RatedGame;
+    public bool WasTop;
+    public bool WasFirst;
 }

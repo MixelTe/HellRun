@@ -11,6 +11,7 @@ public class YaApi : MonoBehaviour
 	public static bool IsAuth() => CheckAuth();
 	public static Task<bool> Auth() => _inst.AskAuth();
 	public static Task UpdateRecord(LeaderboardDataRecord currentData) => _inst.SetRecord(currentData);
+	public static Task UpdateData(LeaderboardDataRecord currentData, bool rated = false) => _inst.SetData(currentData, rated);
 	public static bool Mobile() => IsMobile();
 	public static Task<bool> Reward() => _inst.UseReward();
 	public static Task Adv() => _inst.RunAdv();
@@ -57,6 +58,7 @@ public class YaApi : MonoBehaviour
 		if (!playerData.HasSavedRecord)
 			playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefsRecordScore, 0);
 		SetUserStatus(playerData);
+		_ = UpdateData(playerData, false);
 		Debug.Log("PlayerData loaded");
 		return playerData;
 	}
@@ -93,10 +95,33 @@ public class YaApi : MonoBehaviour
 			PlayerPrefs.Save();
 			if (CheckAuth())
 			{
-				SetScore(score);
+				SetScore(score, currentData.RatedGame, currentData.WasTop, currentData.WasFirst);
 				while (_scoreUpdated < 0)
 					await Task.Yield();
 				Debug.Log("SetRecord: Score set");
+				_scoreUpdated = -1;
+			}
+		}
+	}
+
+	private async Task SetData(LeaderboardDataRecord currentData, bool rated)
+	{
+		Debug.Log("SetData");
+		if (CheckAuth())
+		{
+			var ratedGame = currentData.RatedGame || rated;
+			var wasTop = currentData.WasTop || currentData.Rank == 1;
+			var wasFirst = currentData.WasFirst || currentData.Rank <= 4;
+
+			if (ratedGame != currentData.RatedGame ||
+				wasTop != currentData.WasTop ||
+				wasFirst != currentData.WasFirst)
+			{
+				Debug.Log("SetData: New data");
+				SetScore(currentData.Score, ratedGame, wasTop, wasFirst);
+				while (_scoreUpdated < 0)
+					await Task.Yield();
+				Debug.Log("SetData: Data set");
 				_scoreUpdated = -1;
 			}
 		}
@@ -197,7 +222,10 @@ public class YaApi : MonoBehaviour
 		var volume_music = Mathf.RoundToInt(PlayerPrefs.GetFloat(Settings.PlayerPrefs_MusicVolume, 1) / 2 * 100);
 		var auth = IsAuth();
 		var language = (int)Localization.Language;
-		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language);
+		var rated_game = currentData.RatedGame;
+		var was_top = currentData.WasTop;
+		var was_first = currentData.WasFirst;
+		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first);
 	}
 
 
@@ -218,14 +246,14 @@ public class YaApi : MonoBehaviour
 	{
 		var data = new LeaderboardData() {
 			Records = new LeaderboardDataRecord[] {
-				new LeaderboardDataRecord() { ID = "1", Score = 57, Rank = 7, Name = "Super Player 3000", Avatar = "https://avatars.yandex.net/get-music-content/5236179/6e5cc28a.p.3404212/100x100" },
-				new LeaderboardDataRecord() { ID = "2", Score = 790, Rank = 1, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
-				new LeaderboardDataRecord() { ID = "3", Score = 650, Rank = 4, Name = "Ультра Вжик", Avatar = "https://avatars.yandex.net/get-music-content/3927581/777ae0d7.a.13658486-1/100x100" },
-				new LeaderboardDataRecord() { ID = "4", Score = 495, Rank = 5, Name = "Dub Dubom", Avatar = "https://avatars.yandex.net/get-music-content/38044/f88a8857.a.3839675-1/100x100" },
-				new LeaderboardDataRecord() { ID = "5", Score = 215, Rank = 6, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100" },
-				new LeaderboardDataRecord() { ID = "6", Score = 104, Rank = 8, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+				new LeaderboardDataRecord() { ID = "1", Score = 57, Rank = 7, Name = "Super Player 3000", Avatar = "https://avatars.yandex.net/get-music-content/5236179/6e5cc28a.p.3404212/100x100", WasFirst = true },
+				new LeaderboardDataRecord() { ID = "2", Score = 790, Rank = 1, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", RatedGame = true, WasFirst = true, WasTop = true },
+				new LeaderboardDataRecord() { ID = "3", Score = 650, Rank = 4, Name = "Ультра Вжик", Avatar = "https://avatars.yandex.net/get-music-content/3927581/777ae0d7.a.13658486-1/100x100", RatedGame = true, WasTop = true },
+				new LeaderboardDataRecord() { ID = "4", Score = 495, Rank = 5, Name = "Dub Dubom", Avatar = "https://avatars.yandex.net/get-music-content/38044/f88a8857.a.3839675-1/100x100", RatedGame = true, WasFirst = true },
+				new LeaderboardDataRecord() { ID = "5", Score = 215, Rank = 6, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100", WasFirst = true },
+				new LeaderboardDataRecord() { ID = "6", Score = 104, Rank = 8, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", WasTop = true },
 				new LeaderboardDataRecord() { ID = "7", Score = 10, Rank = 10, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
-				new LeaderboardDataRecord() { ID = "8", Score = 780, Rank = 2, Name = "", Avatar = "" },
+				new LeaderboardDataRecord() { ID = "8", Score = 780, Rank = 2, Name = "", Avatar = "", WasFirst = true, RatedGame = true },
 			}
 		};
 		_inst.SetLeaderboard(JsonUtility.ToJson(data));
@@ -299,13 +327,13 @@ public class YaApi : MonoBehaviour
 
 
 #if UNITY_EDITOR
-	private static void SetScore(int score)
+	private static void SetScore(int score, bool rated_game, bool was_top, bool was_first)
 	{
-		_inst.OnScoreUpdated(score);
+		_inst.OnScoreUpdated(1);
 	}
 #else
 	[DllImport("__Internal")]
-	private static extern void SetScore(int score);
+	private static extern void SetScore(int score, bool rated_game, bool was_top, bool was_first);
 #endif
 
 	public void OnScoreUpdated(int updated)
@@ -381,14 +409,14 @@ public class YaApi : MonoBehaviour
 
 
 #if UNITY_EDITOR
-	private static void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language)
+	private static void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first)
 	{
-		Debug.Log($"UpdateUserStatus: rank: {rank}, record: {record}, volume_sound: {volume_sound}, volume_music: {volume_music}, auth: {auth}, language: {language}");
+		Debug.Log($"UpdateUserStatus: rank: {rank}, record: {record}, volume_sound: {volume_sound}, volume_music: {volume_music}, auth: {auth}, language: {language}, rated_game: {rated_game}, was_top: {was_top}, was_first: {was_first}");
 		return;
 	}
 #else
 	[DllImport("__Internal")]
-	private static extern void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language);
+	private static extern void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first);
 #endif
 
 

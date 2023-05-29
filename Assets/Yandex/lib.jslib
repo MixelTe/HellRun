@@ -116,7 +116,10 @@ const YandexApiLib = {
 							Rank: v.rank,
 							Avatar: v.player.scopePermissions.avatar != "forbid" ? v.player.getAvatarSrc("small") : "",
 							Name: v.player.publicName,
-							IsPlayer: false
+							IsPlayer: false,
+							RatedGame: v.extraData.includes("RatedGame"),
+							WasTop: v.extraData.includes("WasTop"),
+							WasFirst: v.extraData.includes("WasFirst"),
 						}))
 					};
 					console.log(data);
@@ -124,10 +127,15 @@ const YandexApiLib = {
 				});
 		}, () => myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify({ Records: [] })));
 	},
-	SetScore: function (score)
+	SetScore: function (score, rated_game, was_top, was_first)
 	{
+		const extraData = [
+			rated_game ? "RatedGame" : "",
+			was_top ? "WasTop" : "",
+			was_first ? "WasFirst" : ""
+		].join(";");
 		Try(() =>
-			lb.setLeaderboardScore("scores", score).then(() =>
+			lb.setLeaderboardScore("scores", score, extraData).then(() =>
 			{
 				console.log("JSLib: SetScore success");
 				myGameInstance.SendMessage("Yandex", "OnScoreUpdated", 1);
@@ -141,6 +149,7 @@ const YandexApiLib = {
 	},
 	GetScore: function ()
 	{
+		// Not used
 		Try(() =>
 			lb.getLeaderboardPlayerEntry("scores").then(res =>
 			{
@@ -156,7 +165,7 @@ const YandexApiLib = {
 	},
 	GetPlayerData: function ()
 	{
-		const emptyData = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: true, HasSavedRecord: false }
+		const emptyData = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: true, HasSavedRecord: false, RatedGame: false, WasTop: false, WasFirst: false }
 		Try(() =>
 			lb.getLeaderboardPlayerEntry("scores").then(res =>
 			{
@@ -168,7 +177,10 @@ const YandexApiLib = {
 					Avatar: res.player.scopePermissions.avatar != "forbid" ? res.player.getAvatarSrc("small") : "",
 					Name: res.player.publicName,
 					IsPlayer: true,
-					HasSavedRecord: true
+					HasSavedRecord: true,
+					RatedGame: res.extraData.includes("RatedGame"),
+					WasTop: res.extraData.includes("WasTop"),
+					WasFirst: res.extraData.includes("WasFirst"),
 				}
 				console.log(data);
 				myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
@@ -192,7 +204,7 @@ const YandexApiLib = {
 			return lang;
 		}, () => 0)
 	},
-	UpdateUserStatus: function (rank, record, volume_sound, volume_music, auth, language)
+	UpdateUserStatus: function (rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first)
 	{
 		const params = {
 			rank,
@@ -201,6 +213,9 @@ const YandexApiLib = {
 			volume_music,
 			auth,
 			language: language == 0 ? "ru" : "en",
+			rated_game,
+			was_top,
+			was_first,
 		};
 		console.log("JSLib: UpdateUserStatus: ", params);
 		Try(() =>
