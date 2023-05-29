@@ -1700,7 +1700,7 @@ TextureImporter:
         width: 21
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1708,6 +1708,69 @@ TextureImporter:
       bones: []
       spriteID: 88f554b9fa7fcb74f9b33792abd201cd
       internalID: 414137870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gear1
+      rect:
+        serializedVersion: 2
+        x: 1224
+        y: 578
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e88c2a8026dae4c42b6e3fc115b988e0
+      internalID: 2147098927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gear2
+      rect:
+        serializedVersion: 2
+        x: 1224
+        y: 599
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ff6d4b07d8ebc74dbae8ba6837557ef
+      internalID: 1043525662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gear3
+      rect:
+        serializedVersion: 2
+        x: 1224
+        y: 620
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d584543bdecfd748ac51b603d251971
+      internalID: -44949016
       vertices: []
       indices: 
       edges: []
@@ -1767,6 +1830,9 @@ TextureImporter:
       Confetti9: -1088016469
       Crown: -1697191796
       CrownSmall: -845194602
+      Gear1: 2147098927
+      Gear2: 1043525662
+      Gear3: -44949016
       Ghost1: -2008963980
       Ghost2: -865475862
       Ghost3: 338869799

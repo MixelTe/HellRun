@@ -106,5 +106,6 @@ public class LeaderboardDataRecord
     public bool RatedGame;
     public bool WasTop;
     public bool WasFirst;
+    public bool HasGear;
     public int GamesPlayed;
 }

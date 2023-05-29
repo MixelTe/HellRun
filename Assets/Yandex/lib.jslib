@@ -121,6 +121,7 @@ const YandexApiLib = {
 							WasTop: v.extraData.includes("WasTop"),
 							WasFirst: v.extraData.includes("WasFirst"),
 							GamesPlayed: parseInt(v.extraData.split(";")[0]) ?? 0,
+							HasGear: v.extraData.includes("HasGear"),
 						}))
 					};
 					console.log(data);
@@ -128,13 +129,14 @@ const YandexApiLib = {
 				});
 		}, () => myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify({ Records: [] })));
 	},
-	SetScore: function (score, games_played, rated_game, was_top, was_first)
+	SetScore: function (score, games_played, rated_game, was_top, was_first, has_gear)
 	{
 		const extraData = [
 			`${games_played}`,
 			rated_game ? "RatedGame" : "",
 			was_top ? "WasTop" : "",
-			was_first ? "WasFirst" : ""
+			was_first ? "WasFirst" : "",
+			has_gear ? "HasGear" : "",
 		].join(";");
 		Try(() =>
 			lb.setLeaderboardScore("scores", score, extraData).then(() =>
@@ -167,7 +169,7 @@ const YandexApiLib = {
 	},
 	GetPlayerData: function ()
 	{
-		const emptyData = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: true, HasSavedRecord: false, RatedGame: false, WasTop: false, WasFirst: false }
+		const emptyData = { ID: "", Score: 0, Rank: 0, Avatar: "", Name: "", IsPlayer: true, HasSavedRecord: false, RatedGame: false, WasTop: false, WasFirst: false, HasGear: false }
 		Try(() =>
 			lb.getLeaderboardPlayerEntry("scores").then(res =>
 			{
@@ -184,6 +186,7 @@ const YandexApiLib = {
 					WasTop: res.extraData.includes("WasTop"),
 					WasFirst: res.extraData.includes("WasFirst"),
 					GamesPlayed: parseInt(res.extraData.split(";")[0]) ?? 0,
+					HasGear: res.extraData.includes("HasGear"),
 				}
 				console.log(data);
 				myGameInstance.SendMessage("Yandex", "SetPlayerData", JSON.stringify(data));
@@ -207,7 +210,7 @@ const YandexApiLib = {
 			return lang;
 		}, () => 0)
 	},
-	UpdateUserStatus: function (rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first, games_played)
+	UpdateUserStatus: function (rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first, games_played, has_gear)
 	{
 		const params = {
 			rank,
@@ -220,6 +223,7 @@ const YandexApiLib = {
 			was_top,
 			was_first,
 			games_played,
+			has_gear,
 		};
 		console.log("JSLib: UpdateUserStatus: ", params);
 		Try(() =>

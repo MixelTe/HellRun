@@ -108,7 +108,7 @@ public class YaApi : MonoBehaviour
 			PlayerPrefs.Save();
 			if (CheckAuth())
 			{
-				SetScore(score, currentData.GamesPlayed, currentData.RatedGame, currentData.WasTop, currentData.WasFirst);
+				SetScore(score, currentData.GamesPlayed, currentData.RatedGame, currentData.WasTop, currentData.WasFirst, currentData.HasGear);
 				while (_scoreUpdated < 0)
 					await Task.Yield();
 				Debug.Log("SetRecord: Score set");
@@ -125,7 +125,8 @@ public class YaApi : MonoBehaviour
 			var gamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
 			var ratedGame = currentData.RatedGame || rated;
 			var wasTop = currentData.WasTop || currentData.Rank == 1;
-			var wasFirst = currentData.WasFirst || currentData.Rank <= 4;
+			var wasFirst = currentData.WasFirst || (currentData.Rank > 0 && currentData.Rank <= 5);
+			var hasGear = currentData.HasGear || true;
 
 			if (gamesPlayed - currentData.GamesPlayed > 3 ||
 				ratedGame != currentData.RatedGame ||
@@ -135,8 +136,9 @@ public class YaApi : MonoBehaviour
 				currentData.RatedGame = ratedGame;
 				currentData.WasTop = wasTop;
 				currentData.WasFirst = wasFirst;
+				currentData.HasGear = hasGear;
 				Debug.Log("SetData: New data");
-				SetScore(currentData.Score, currentData.GamesPlayed, ratedGame, wasTop, wasFirst);
+				SetScore(currentData.Score, currentData.GamesPlayed, ratedGame, wasTop, wasFirst, hasGear);
 				while (_scoreUpdated < 0)
 					await Task.Yield();
 				Debug.Log("SetData: Data set");
@@ -251,7 +253,8 @@ public class YaApi : MonoBehaviour
 		var was_top = currentData.WasTop;
 		var was_first = currentData.WasFirst;
 		var games_played = currentData.GamesPlayed;
-		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first, games_played);
+		var has_gear = currentData.HasGear;
+		UpdateUserStatus(rank, record, volume_sound, volume_music, auth, language, rated_game, was_top, was_first, games_played, has_gear);
 	}
 
 	private int _canRate = -1;
@@ -309,12 +312,12 @@ public class YaApi : MonoBehaviour
 		var data = new LeaderboardData() {
 			Records = new LeaderboardDataRecord[] {
 				new LeaderboardDataRecord() { ID = "1", Score = 57, Rank = 7, GamesPlayed = 10, Name = "Super Player 3000", Avatar = "https://avatars.yandex.net/get-music-content/5236179/6e5cc28a.p.3404212/100x100", WasFirst = true },
-				new LeaderboardDataRecord() { ID = "2", Score = 790, Rank = 1, GamesPlayed = 34, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", RatedGame = true, WasFirst = true, WasTop = true },
+				new LeaderboardDataRecord() { ID = "2", Score = 790, Rank = 1, GamesPlayed = 34, Name = "Vasya", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", RatedGame = true, WasFirst = true, WasTop = true, HasGear = true },
 				new LeaderboardDataRecord() { ID = "3", Score = 650, Rank = 4, GamesPlayed = 679, Name = "Ультра Вжик", Avatar = "https://avatars.yandex.net/get-music-content/3927581/777ae0d7.a.13658486-1/100x100", RatedGame = true, WasTop = true },
 				new LeaderboardDataRecord() { ID = "4", Score = 495, Rank = 5, GamesPlayed = 69, Name = "Dub Dubom", Avatar = "https://avatars.yandex.net/get-music-content/38044/f88a8857.a.3839675-1/100x100", RatedGame = true, WasFirst = true },
-				new LeaderboardDataRecord() { ID = "5", Score = 215, Rank = 6, GamesPlayed = 45, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100", WasFirst = true },
+				new LeaderboardDataRecord() { ID = "5", Score = 215, Rank = 6, GamesPlayed = 45, Name = "The Петя", Avatar = "https://avatars.yandex.net/get-music-content/32236/c21fa65f.p.59307/100x100", WasFirst = true, HasGear = true },
 				new LeaderboardDataRecord() { ID = "6", Score = 104, Rank = 8, GamesPlayed = 270, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", WasTop = true },
-				new LeaderboardDataRecord() { ID = "7", Score = 10, Rank = 10, GamesPlayed = 2, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle" },
+				new LeaderboardDataRecord() { ID = "7", Score = 10, Rank = 10, GamesPlayed = 2, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", HasGear = true },
 				new LeaderboardDataRecord() { ID = "8", Score = 780, Rank = 2, GamesPlayed = 57, Name = "", Avatar = "", WasFirst = true, RatedGame = true },
 			}
 		};
@@ -392,13 +395,13 @@ public class YaApi : MonoBehaviour
 
 
 #if UNITY_EDITOR
-	private static void SetScore(int score, int games_played, bool rated_game, bool was_top, bool was_first)
+	private static void SetScore(int score, int games_played, bool rated_game, bool was_top, bool was_first, bool has_gear)
 	{
 		_inst.OnScoreUpdated(1);
 	}
 #else
 	[DllImport("__Internal")]
-	private static extern void SetScore(int score, int games_played, bool rated_game, bool was_top, bool was_first);
+	private static extern void SetScore(int score, int games_played, bool rated_game, bool was_top, bool was_first, bool has_gear);
 #endif
 
 	public void OnScoreUpdated(int updated)
@@ -474,14 +477,14 @@ public class YaApi : MonoBehaviour
 
 
 #if UNITY_EDITOR
-	private static void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first, int games_played)
+	private static void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first, int games_played, bool has_gear)
 	{
-		Debug.Log($"UpdateUserStatus: rank: {rank}, record: {record}, volume_sound: {volume_sound}, volume_music: {volume_music}, auth: {auth}, language: {language}, rated_game: {rated_game}, was_top: {was_top}, was_first: {was_first}, games_played: {games_played}");
+		Debug.Log($"UpdateUserStatus: rank: {rank}, record: {record}, volume_sound: {volume_sound}, volume_music: {volume_music}, auth: {auth}, language: {language}, rated_game: {rated_game}, was_top: {was_top}, was_first: {was_first}, games_played: {games_played}, has_gear: {has_gear}");
 		return;
 	}
 #else
 	[DllImport("__Internal")]
-	private static extern void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first, int games_played);
+	private static extern void UpdateUserStatus(int rank, int record, int volume_sound, int volume_music, bool auth, int language, bool rated_game, bool was_top, bool was_first, int games_played, bool has_gear);
 #endif
 
 
