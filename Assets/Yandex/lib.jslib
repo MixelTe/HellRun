@@ -120,7 +120,7 @@ const YandexApiLib = {
 							RatedGame: v.extraData.includes("RatedGame"),
 							WasTop: v.extraData.includes("WasTop"),
 							WasFirst: v.extraData.includes("WasFirst"),
-							GamesPlayed: parseInt(v.extraData.split(";")[0]) ?? 0,
+							GamesPlayed: parseInt(v.extraData.split(";")[0]) || 0,
 							HasGear: v.extraData.includes("HasGear"),
 						}))
 					};
@@ -185,7 +185,7 @@ const YandexApiLib = {
 					RatedGame: res.extraData.includes("RatedGame"),
 					WasTop: res.extraData.includes("WasTop"),
 					WasFirst: res.extraData.includes("WasFirst"),
-					GamesPlayed: parseInt(res.extraData.split(";")[0]) ?? 0,
+					GamesPlayed: parseInt(res.extraData.split(";")[0]) || 0,
 					HasGear: res.extraData.includes("HasGear"),
 				}
 				console.log(data);

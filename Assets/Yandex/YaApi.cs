@@ -63,7 +63,9 @@ public class YaApi : MonoBehaviour
 			await Task.Yield();
 		var playerData = _playerData;
 		_playerData = null;
-		if (!playerData.HasSavedRecord)
+		if (playerData.HasSavedRecord)
+			PlayerPrefs.SetInt(Settings.PlayerPrefs_RecordScore, playerData.Score);
+		else
 			playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefs_RecordScore, 0);
 
 		var savedGamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
@@ -124,18 +126,19 @@ public class YaApi : MonoBehaviour
 		{
 			var gamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
 			var ratedGame = currentData.RatedGame || rated;
-			var wasTop = currentData.WasTop || currentData.Rank == 1;
-			var wasFirst = currentData.WasFirst || (currentData.Rank > 0 && currentData.Rank <= 5);
+			var wasFirst = currentData.WasFirst || currentData.Rank == 1;
+			var wasTop = currentData.WasTop || (currentData.Rank > 0 && currentData.Rank <= 5);
 			var hasGear = currentData.HasGear || true;
 
 			if (gamesPlayed - currentData.GamesPlayed > 3 ||
 				ratedGame != currentData.RatedGame ||
 				wasTop != currentData.WasTop ||
-				wasFirst != currentData.WasFirst)
+				wasFirst != currentData.WasFirst ||
+				hasGear != currentData.HasGear)
 			{
 				currentData.RatedGame = ratedGame;
-				currentData.WasTop = wasTop;
 				currentData.WasFirst = wasFirst;
+				currentData.WasTop = wasTop;
 				currentData.HasGear = hasGear;
 				Debug.Log("SetData: New data");
 				SetScore(currentData.Score, currentData.GamesPlayed, ratedGame, wasTop, wasFirst, hasGear);

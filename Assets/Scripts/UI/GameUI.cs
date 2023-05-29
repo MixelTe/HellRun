@@ -245,7 +245,7 @@ public class GameUI : MonoBehaviour
     private async void TryShowRate()
 	{
         var gamesPlayed = _playerDataNew.GamesPlayed;
-        if (gamesPlayed % 10 != 0)
+        if (gamesPlayed == 10 || (gamesPlayed > 10 && gamesPlayed % 7 != 0))
             return;
 
         var canRate = await YaApi.CanRate(_playerDataNew);

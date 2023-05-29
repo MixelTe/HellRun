@@ -46,7 +46,7 @@ public class LeaderboardRecord : MonoBehaviour
 
         // Top 5
         _crown.gameObject.SetActive(rank == 1);
-        _wreath.gameObject.SetActive(rank <= 5);
+        _wreath.gameObject.SetActive(rank > 0 && rank <= 5);
         
         _crownSmallWreath.gameObject.SetActive(rank > 1 && rank <= 5 && Data.WasFirst);
         _startWreath.gameObject.SetActive(rank <= 5 && Data.RatedGame);

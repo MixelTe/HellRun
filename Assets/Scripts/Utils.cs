@@ -47,7 +47,7 @@ public static class Utils
 			//0 - (viewportLocalPosition.x + childLocalPosition.x),
 			//0 - (viewportLocalPosition.y + childLocalPosition.y)
 			0,
-			0 - (childLocalPosition.y + child.rect.height * 2 + (instance.viewport.rect.height - child.rect.height) / 2)
+			0 - (childLocalPosition.y + instance.viewport.rect.height / 2)
 		);
 		instance.content.localPosition = result;
 	}

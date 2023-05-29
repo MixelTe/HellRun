@@ -54,6 +54,7 @@ public class Leaderboard : MonoBehaviour
         }
         if (_playerRecord != null)
 		{
+			await Task.Yield();
             _scrollRect.ScrollTo(_playerRecord.GetComponent<RectTransform>());
 
             var playerI = Array.IndexOf(data.Records, _playerRecord.Data);
