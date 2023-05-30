@@ -1,7 +1,8 @@
 const YandexApiLib = {
 	OnStart: function ()
 	{
-		ysdk.features.LoadingAPI?.ready();
+		if (ysdk.features.LoadingAPI)
+			ysdk.features.LoadingAPI.ready();
 		console.log("Game started!");
 		CloseSpinner();
 	},
@@ -127,6 +128,7 @@ const YandexApiLib = {
 						}))
 					};
 					data.PlayerRecord = data.Records.find(v => v.ID == playerId);
+					if (data.PlayerRecord) data.PlayerRecord.HasSavedRecord = true;
 					console.log(data);
 					myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify(data));
 				});
