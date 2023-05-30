@@ -241,10 +241,11 @@ const YandexApiLib = {
 		console.log("JSLib: CanReview");
 		Try(() => ysdk.feedback.canReview().then(({ value, reason }) =>
 		{
-			console.log("JSLib: CanReview:", value, reason);
-			myGameInstance.SendMessage("Yandex", "OnCanReview", value ? 1 : 0, reason == "GAME_RATED" ? 1 : 0);
+			const code = value ? 1 : (reason == "GAME_RATED" ? -1 : 0);
+			console.log("JSLib: CanReview:", value, reason, code);
+			myGameInstance.SendMessage("Yandex", "OnCanReview", code);
 		}),
-			() => myGameInstance.SendMessage("Yandex", "OnCanReview", 0, 0));
+			() => myGameInstance.SendMessage("Yandex", "OnCanReview", 0));
 	},
 	RequestReview: function ()
 	{

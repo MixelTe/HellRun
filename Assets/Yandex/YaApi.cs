@@ -26,7 +26,7 @@ public class YaApi : MonoBehaviour
 	[Header("Dev values")]
 	[SerializeField] private bool _isMobile;
 	[SerializeField] private bool _isAuth;
-	[SerializeField] private bool _canReview;
+	[SerializeField] private int _canReview;
 	[SerializeField] private bool _reviewSuccess;
 	[SerializeField] private bool _ratedGame;
 	[SerializeField] private bool _wasFirst;
@@ -68,12 +68,13 @@ public class YaApi : MonoBehaviour
 		else
 			playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefs_RecordScore, 0);
 
+		_ = SetData(playerData, false);
+
 		var savedGamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
 		playerData.GamesPlayed = Mathf.Max(playerData.GamesPlayed, savedGamesPlayed);
 		PlayerPrefs.SetInt(Settings.PlayerPrefs_GamesPlayed, playerData.GamesPlayed);
 
 		SetUserStatus(playerData);
-		_ = SetData(playerData, false);
 		Debug.Log("PlayerData loaded");
 		return playerData;
 	}
@@ -130,7 +131,7 @@ public class YaApi : MonoBehaviour
 			var wasTop = currentData.WasTop || (currentData.Rank > 0 && currentData.Rank <= 5);
 			var hasGear = currentData.HasGear || true;
 
-			if (gamesPlayed - currentData.GamesPlayed > 3 ||
+			if (gamesPlayed != currentData.GamesPlayed ||
 				ratedGame != currentData.RatedGame ||
 				wasTop != currentData.WasTop ||
 				wasFirst != currentData.WasFirst ||
@@ -506,18 +507,18 @@ public class YaApi : MonoBehaviour
 #if UNITY_EDITOR
 	private static void CanReview()
 	{
-		_inst.OnCanReview((_inst != null && _inst._canReview) ? 1 : 0, 0);
+		_inst.OnCanReview(_inst != null ? _inst._canReview : 0);
 	}
 #else
 	[DllImport("__Internal")]
 	private static extern void CanReview();
 #endif
 
-	public void OnCanReview(int canReview, int alreadyRated)
+	public void OnCanReview(int canReview)
 	{
 		Debug.Log($"OnCanReview: {canReview}");
-		_canRate = canReview;
-		_alreadyRated = alreadyRated == 1;
+		_canRate = Mathf.Max(canReview, 0);
+		_alreadyRated = canReview < 0;
 	}
 
 

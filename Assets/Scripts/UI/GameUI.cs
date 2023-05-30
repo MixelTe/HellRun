@@ -250,7 +250,11 @@ public class GameUI : MonoBehaviour
 
         var canRate = await YaApi.CanRate(_playerDataNew);
 		if (!canRate)
+		{
+            if (_playerDataNew.RatedGame)
+                _leaderboard.UpdatePlayer(_playerDataNew);
 			return;
+		}
 
 		ShowRate();
 	}
