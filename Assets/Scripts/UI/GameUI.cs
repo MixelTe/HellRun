@@ -123,7 +123,7 @@ public class GameUI : MonoBehaviour
 
     private async Task Rate()
     {
-        var rate = await YaApi.Rate();
+        var rate = await YaApi.Rate(_playerDataNew);
 		Debug.Log($"Rate: {rate}");
 		if (GameManager.GameIsRunning)
 			return;
@@ -131,7 +131,6 @@ public class GameUI : MonoBehaviour
 		if (rate)
 		{
 			SetActivePanel(Panel.RateThanks);
-			_ = YaApi.UpdateData(_playerDataNew, true);
 			_leaderboard.UpdatePlayer(_playerDataNew);
             _particles.Play();
 		}
@@ -249,7 +248,7 @@ public class GameUI : MonoBehaviour
     private async void TryShowRate()
 	{
         var gamesPlayed = _playerDataNew.GamesPlayed;
-        if (gamesPlayed == 10 || (gamesPlayed > 10 && gamesPlayed % 7 != 0))
+        if (gamesPlayed == 10 || (gamesPlayed > 10 && gamesPlayed % 8 != 0))
             return;
 
         var canRate = await YaApi.CanRate(_playerDataNew);

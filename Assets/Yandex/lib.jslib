@@ -18,7 +18,7 @@ const YandexApiLib = {
 					},
 					onError: function (error)
 					{
-						console.log("showFullscreenAdv -> onError");
+						console.error("showFullscreenAdv -> onError");
 						console.log(error);
 						myGameInstance.SendMessage("Yandex", "OnAdvClosed");
 					}
@@ -47,7 +47,7 @@ const YandexApiLib = {
 					},
 					onError: (e) =>
 					{
-						console.log('showRewardedVideo -> onClose');
+						console.error('showRewardedVideo -> onError');
 						console.log(e);
 						myGameInstance.SendMessage("Yandex", "OnReward", -1);
 					}
@@ -87,7 +87,7 @@ const YandexApiLib = {
 						.catch(() => myGameInstance.SendMessage("Yandex", "OnAuth", 0));
 				}).catch(e =>
 				{
-					console.log("JSLib: OnAuth: Error");
+					console.error("JSLib: OnAuth: Error");
 					console.log(e);
 					myGameInstance.SendMessage("Yandex", "OnAuth", 0);
 				});
@@ -143,6 +143,7 @@ const YandexApiLib = {
 			was_first ? "WasFirst" : "",
 			has_gear ? "HasGear" : "",
 		].join(";");
+		console.log("JSLib: SetScore: ", score, extraData);
 		Try(() =>
 			lb.setLeaderboardScore("scores", score, extraData).then(() =>
 			{
@@ -150,7 +151,7 @@ const YandexApiLib = {
 				myGameInstance.SendMessage("Yandex", "OnScoreUpdated", 1);
 			}).catch(e =>
 			{
-				console.log("JSLib: SetScore error");
+				console.error("JSLib: SetScore error");
 				console.log(e);
 				myGameInstance.SendMessage("Yandex", "OnScoreUpdated", 0);
 			}),

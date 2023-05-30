@@ -11,7 +11,6 @@ public class YaApi : MonoBehaviour
 	public static bool IsAuth() => CheckAuth();
 	public static Task<bool> Auth() => _inst.AskAuth();
 	public static Task UpdateRecord(LeaderboardDataRecord currentData) => _inst.SetRecord(currentData);
-	public static Task UpdateData(LeaderboardDataRecord currentData, bool rated = false) => _inst.SetData(currentData, rated);
 	public static bool Mobile() => IsMobile();
 	public static Task<bool> Reward() => _inst.UseReward();
 	public static Task Adv() => _inst.RunAdv();
@@ -20,7 +19,7 @@ public class YaApi : MonoBehaviour
 	public static void MetrikaGoal(MetrikaGoals goal) => SendMetrikaGoal(goal);
 	public static void GamePlayed() => IncreaseGamesPlayed();
 	public static Task<bool> CanRate(LeaderboardDataRecord currentData) => _inst.CheckCanRate(currentData);
-	public static Task<bool> Rate() => _inst.RateGame();
+	public static Task<bool> Rate(LeaderboardDataRecord currentData) => _inst.RateGame(currentData);
 
 	private static YaApi _inst;
 	[Header("Dev values")]
@@ -78,14 +77,14 @@ public class YaApi : MonoBehaviour
 		else
 			playerData.Score = PlayerPrefs.GetInt(Settings.PlayerPrefs_RecordScore, 0);
 
-		_ = SetData(playerData, false);
-
+		var gamesPlayedLoaded = playerData.GamesPlayed;
 		var savedGamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
 		playerData.GamesPlayed = Mathf.Max(playerData.GamesPlayed, savedGamesPlayed);
 		PlayerPrefs.SetInt(Settings.PlayerPrefs_GamesPlayed, playerData.GamesPlayed);
 		
 		Debug.Log($"PlayerData processed: {JsonUtility.ToJson(playerData)}");
 
+		_ = SetData(playerData, false, gamesPlayedLoaded);
 		SetUserStatus(playerData);
 	}
 
@@ -121,27 +120,22 @@ public class YaApi : MonoBehaviour
 			PlayerPrefs.Save();
 			if (CheckAuth())
 			{
-				SetScore(score, currentData.GamesPlayed, currentData.RatedGame, currentData.WasTop, currentData.WasFirst, currentData.HasGear);
-				while (_scoreUpdated < 0)
-					await Task.Yield();
-				Debug.Log("SetRecord: Score set");
-				_scoreUpdated = -1;
+				await SetDataQueued(currentData, score);
 			}
 		}
 	}
 
-	private async Task SetData(LeaderboardDataRecord currentData, bool rated)
+	private async Task SetData(LeaderboardDataRecord currentData, bool rated, int gamesPlayedLoaded = -1)
 	{
 		Debug.Log("SetData");
 		if (CheckAuth())
 		{
-			var gamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
 			var ratedGame = currentData.RatedGame || rated;
 			var wasFirst = currentData.WasFirst || currentData.Rank == 1;
 			var wasTop = currentData.WasTop || (currentData.Rank > 0 && currentData.Rank <= 5);
 			var hasGear = currentData.HasGear || true;
 
-			if (gamesPlayed != currentData.GamesPlayed ||
+			if ((gamesPlayedLoaded > 0 && gamesPlayedLoaded != currentData.GamesPlayed) ||
 				ratedGame != currentData.RatedGame ||
 				wasTop != currentData.WasTop ||
 				wasFirst != currentData.WasFirst ||
@@ -152,14 +146,33 @@ public class YaApi : MonoBehaviour
 				currentData.WasTop = wasTop;
 				currentData.HasGear = hasGear;
 				Debug.Log("SetData: New data");
-				SetScore(currentData.Score, currentData.GamesPlayed, ratedGame, wasTop, wasFirst, hasGear);
-				while (_scoreUpdated < 0)
-					await Task.Yield();
-				Debug.Log("SetData: Data set");
-				_scoreUpdated = -1;
+				await SetDataQueued(currentData);
 			}
 		}
 	}
+
+	private float _scoreUpdateTime = 0;
+	private float _scoreUpdateI = 0;
+	private float _scoreUpdateIlast = 0;
+	private async Task SetDataQueued(LeaderboardDataRecord data, int score = -1)
+	{
+		var queueI = _scoreUpdateIlast++;
+		Debug.Log($"SetDataQueued: Queue: queueI: {queueI} I: {_scoreUpdateI} Ilast: {_scoreUpdateIlast} Time: {_scoreUpdateTime}");
+
+		while (Time.realtimeSinceStartup - _scoreUpdateTime < 1.1f || _scoreUpdateI < queueI)
+			await Task.Yield();
+		_scoreUpdateTime = Time.realtimeSinceStartup;
+
+		Debug.Log($"SetDataQueued: Start: queueI: {queueI} I: {_scoreUpdateI} Ilast: {_scoreUpdateIlast} Time: {_scoreUpdateTime}");
+		_scoreUpdated = -1;
+		SetScore(score >= 0 ? score : data.Score, data.GamesPlayed, data.RatedGame, data.WasTop, data.WasFirst, data.HasGear);
+		while (_scoreUpdated < 0)
+			await Task.Yield();
+		_scoreUpdated = -1;
+		_scoreUpdateI++;
+		Debug.Log($"SetDataQueued: Data set: queueI: {queueI} I: {_scoreUpdateI} Ilast: {_scoreUpdateIlast} Time: {_scoreUpdateTime}");
+	}
+
 
 	private static void IncreaseGamesPlayed()
 	{
@@ -294,7 +307,7 @@ public class YaApi : MonoBehaviour
 	}
 
 	private int _rated = -1;
-	private async Task<bool> RateGame()
+	private async Task<bool> RateGame(LeaderboardDataRecord currentData)
 	{
 		if (!CheckAuth())
 			return false;
@@ -304,7 +317,11 @@ public class YaApi : MonoBehaviour
 		while (_rated < 0)
 			await Task.Yield();
 
-		return _rated > 0;
+		var rated = _rated > 0;
+		if (rated)
+			_ = SetData(currentData, true);
+
+		return rated;
 	}
 
 
