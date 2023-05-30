@@ -110,7 +110,6 @@
 		{
 			console.log("Yandex SDK initialized");
 			window.ysdk = ysdk;
-			ysdk.features.LoadingAPI?.ready();
 			initPlayer();
 			ysdk.getLeaderboards().then(_lb => lb = _lb);
 		});

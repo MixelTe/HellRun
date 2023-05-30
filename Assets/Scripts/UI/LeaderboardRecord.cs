@@ -25,7 +25,19 @@ public class LeaderboardRecord : MonoBehaviour
     [SerializeField] private TMP_Text _score;
     [SerializeField] private TMP_Text _gamesPlayed;
 
-    public void Init(LeaderboardDataRecord data)
+    private bool _newAvatar = false;
+    private static readonly Dictionary<string, Texture2D> _avatars = new();
+
+	private void OnEnable()
+	{
+        if (_newAvatar)
+		{
+            _newAvatar = false;
+            StartCoroutine(Downloadlmage(Data.Avatar, Data.ID));
+		}
+    }
+
+	public void Init(LeaderboardDataRecord data)
 	{
         Data = data;
         SetRank(data.Rank);
@@ -37,7 +49,12 @@ public class LeaderboardRecord : MonoBehaviour
             _back.color = _playerColor;
         _image.texture = _imageDef;
         if (data.Avatar != "")
-            StartCoroutine(Downloadlmage(data.Avatar));
+		{
+            if (gameObject.activeInHierarchy)
+                StartCoroutine(Downloadlmage(Data.Avatar, Data.ID));
+            else
+                _newAvatar = true;
+		}
     }
 
     public void SetRank(int rank)
@@ -62,13 +79,24 @@ public class LeaderboardRecord : MonoBehaviour
         _score.text = score.ToString();
     }
 
-    IEnumerator Downloadlmage(string mediaUri)
+    IEnumerator Downloadlmage(string mediaUri, string playerId)
 	{
-        var request = UnityWebRequestTexture.GetTexture(mediaUri);
-        yield return request.SendWebRequest();
-        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-            Debug.Log(request.error);
+        if (_avatars.ContainsKey(playerId))
+        {
+            _image.texture = _avatars[playerId];
+        }
         else
-            _image.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+        {
+            var request = UnityWebRequestTexture.GetTexture(mediaUri);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+                Debug.Log(request.error);
+            else
+			{
+                var texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+                _avatars[playerId] = texture;
+                _image.texture = texture;
+            }
+        }
 	}
 }

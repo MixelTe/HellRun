@@ -48,6 +48,7 @@ public class GameUI : MonoBehaviour
 
     private LeaderboardDataRecord _playerData;
     private LeaderboardDataRecord _playerDataNew;
+    private NewRankAnimData _newRankAnimData;
     private bool _isMobile;
     private bool _advClosed = false;
 
@@ -109,10 +110,10 @@ public class GameUI : MonoBehaviour
 		
         if (auth)
 		{
-			await YaApi.UpdateRecord(_playerData);
-			_playerDataNew = await YaApi.PlayerData();
 			_authButton.gameObject.SetActive(false);
-            await _leaderboard.UpdateData(_playerDataNew);
+			await YaApi.UpdateRecord(_playerData);
+            var r = await _leaderboard.UpdateData();
+			_playerDataNew = r.PlayerRecord;
 		}
 		else
 		{
@@ -205,7 +206,9 @@ public class GameUI : MonoBehaviour
             _newRecord.Pop();
             _particles.Play();
         }
-        _playerDataNew = await YaApi.PlayerData();
+        var r = await _leaderboard.UpdateData();
+        _playerDataNew = r.PlayerRecord;
+        _newRankAnimData = r.newRankAnim;
     }
 
     public void ShowLeaderboard()
@@ -217,6 +220,8 @@ public class GameUI : MonoBehaviour
 
         bool hasAuth = YaApi.IsAuth();
         _authButton.gameObject.SetActive(!hasAuth);
+
+        _leaderboard.UpdateScroll();
     }
 
     private async void ShowAdv()
@@ -232,12 +237,11 @@ public class GameUI : MonoBehaviour
     {
         while (_playerDataNew == null)
             await Task.Yield();
-        var data = await _leaderboard.UpdateData(_playerDataNew);
-        data.PastRank = _playerData.Rank;
+        _newRankAnimData.PastRank = _playerData.Rank;
         while (!_advClosed)
             await Task.Yield();
-        if (data.RecordPlayer != null && data.RecordPlayer.Rank < data.PastRank)
-            _newRankAnim.Show(data);
+        if (_newRankAnimData.RecordPlayer != null && _newRankAnimData.RecordPlayer.Rank < _newRankAnimData.PastRank)
+            _newRankAnim.Show(_newRankAnimData);
         else
             TryShowRate();
     }

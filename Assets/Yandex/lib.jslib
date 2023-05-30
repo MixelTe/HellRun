@@ -1,6 +1,7 @@
 const YandexApiLib = {
 	OnStart: function ()
 	{
+		ysdk.features.LoadingAPI?.ready();
 		console.log("Game started!");
 		CloseSpinner();
 	},
@@ -101,6 +102,7 @@ const YandexApiLib = {
 	{
 		Try(() =>
 		{
+			const playerId = player.getUniqueID();
 			const param = player.getMode() === 'lite' ?
 				{ quantityTop: 14 } :
 				{ quantityTop: 5, includeUser: true, quantityAround: 6 }
@@ -124,6 +126,7 @@ const YandexApiLib = {
 							HasGear: v.extraData.includes("HasGear"),
 						}))
 					};
+					data.PlayerRecord = data.Records.find(v => v.ID == playerId);
 					console.log(data);
 					myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify(data));
 				});

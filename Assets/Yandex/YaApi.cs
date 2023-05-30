@@ -51,6 +51,7 @@ public class YaApi : MonoBehaviour
 			await Task.Yield();
 		var leaderboardData = _leaderboardData;
 		_leaderboardData = null;
+		ProcessPlayerData(leaderboardData.PlayerRecord);
 		Debug.Log("Leaderboard loaded");
 		return leaderboardData;
 	}
@@ -63,6 +64,15 @@ public class YaApi : MonoBehaviour
 			await Task.Yield();
 		var playerData = _playerData;
 		_playerData = null;
+		ProcessPlayerData(playerData);
+		Debug.Log("PlayerData loaded");
+		return playerData;
+	}
+	private void ProcessPlayerData(LeaderboardDataRecord playerData)
+	{
+		Debug.Log("ProcessPlayerData");
+		playerData.IsPlayer = true;
+
 		if (playerData.HasSavedRecord)
 			PlayerPrefs.SetInt(Settings.PlayerPrefs_RecordScore, playerData.Score);
 		else
@@ -73,10 +83,10 @@ public class YaApi : MonoBehaviour
 		var savedGamesPlayed = PlayerPrefs.GetInt(Settings.PlayerPrefs_GamesPlayed, 0);
 		playerData.GamesPlayed = Mathf.Max(playerData.GamesPlayed, savedGamesPlayed);
 		PlayerPrefs.SetInt(Settings.PlayerPrefs_GamesPlayed, playerData.GamesPlayed);
+		
+		Debug.Log($"PlayerData processed: {JsonUtility.ToJson(playerData)}");
 
 		SetUserStatus(playerData);
-		Debug.Log("PlayerData loaded");
-		return playerData;
 	}
 
 	private int _auth = -1;
@@ -323,7 +333,9 @@ public class YaApi : MonoBehaviour
 				new LeaderboardDataRecord() { ID = "6", Score = 104, Rank = 8, GamesPlayed = 270, Name = "Победятор", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", WasTop = true },
 				new LeaderboardDataRecord() { ID = "7", Score = 10, Rank = 10, GamesPlayed = 2, Name = "Лучший!", Avatar = "https://avatars.mds.yandex.net/get-yapic/0/0-0/islands-middle", HasGear = true },
 				new LeaderboardDataRecord() { ID = "8", Score = 780, Rank = 2, GamesPlayed = 57, Name = "", Avatar = "", WasFirst = true, RatedGame = true },
-			}
+				GetDevPlayerData(),
+			},
+			PlayerRecord = (_inst != null && _inst._isAuth) ? GetDevPlayerData() : null
 		};
 		_inst.SetLeaderboard(JsonUtility.ToJson(data));
 	}
@@ -340,9 +352,9 @@ public class YaApi : MonoBehaviour
 
 
 #if UNITY_EDITOR
-	private static void GetPlayerData()
+	private static LeaderboardDataRecord GetDevPlayerData()
 	{
-		var data = new LeaderboardDataRecord()
+		return new LeaderboardDataRecord()
 		{
 			ID = "",
 			IsPlayer = true,
@@ -354,6 +366,10 @@ public class YaApi : MonoBehaviour
 			WasFirst = _inst != null && _inst._wasFirst,
 			WasTop = _inst != null && _inst._wasTop,
 		};
+	}
+	private static void GetPlayerData()
+	{
+		var data = GetDevPlayerData();
 		_inst.SetPlayerData(JsonUtility.ToJson(data));
 	}
 #else
