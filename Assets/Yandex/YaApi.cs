@@ -151,9 +151,9 @@ public class YaApi : MonoBehaviour
 		}
 	}
 
-	private float _scoreUpdateTime = 0;
-	private float _scoreUpdateI = 0;
-	private float _scoreUpdateIlast = 0;
+	private static float _scoreUpdateTime = 0;
+	private static float _scoreUpdateI = 0;
+	private static float _scoreUpdateIlast = 0;
 	private async Task SetDataQueued(LeaderboardDataRecord data, int score = -1)
 	{
 		var queueI = _scoreUpdateIlast++;
