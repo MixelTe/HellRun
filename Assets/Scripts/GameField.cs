@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameField : MonoBehaviour
 {
     [SerializeField] private GameObject _cellPrefab;
+    [SerializeField] private Crack _crackPrefab;
 
     [SerializeField] private float _accelerationTime = 1f; 
 
@@ -47,7 +48,7 @@ public class GameField : MonoBehaviour
         var rowObj = new GameObject("Field Row");
         var row = rowObj.AddComponent<FieldRow>();
         row.transform.parent = gameObject.transform;
-        row.Init(Settings.Width, y, _cellPrefab);
+        row.Init(Settings.Width, y, _cellPrefab, _crackPrefab);
         return row;
     }
 
@@ -112,5 +113,12 @@ public class GameField : MonoBehaviour
             var child = transform.GetChild(i);
             DestroyImmediate(child.gameObject);
         }
+    }
+
+    [ContextMenu("RegenerateField")]
+    private void RegenerateField()
+    {
+        DestroyFieldImmediate();
+        GenerateField();
     }
 }
