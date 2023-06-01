@@ -173,6 +173,7 @@ public class GameUI : MonoBehaviour
             _scoreFinal.SetText("Score", $"{GameManager.Score.PlayerScore}");
             _scoreFinal.Pop();
         }
+        await YaApi.UpdateRecord(_playerData);
     }
 
     private async void ShowReward()
@@ -247,11 +248,10 @@ public class GameUI : MonoBehaviour
             await Task.Yield();
         if (_newRankAnimData.RecordPlayer != null && _newRankAnimData.RecordPlayer.Rank < _newRankAnimData.PastRank)
 		{
-            _newRankAnim.Show(_newRankAnimData);
             YaApi.MetrikaGoal(YaApi.MetrikaGoals.NewRank);
+            await _newRankAnim.Show(_newRankAnimData);
         }
-        else
-            TryShowRate();
+        TryShowRate();
     }
 
     private async void TryShowRate()

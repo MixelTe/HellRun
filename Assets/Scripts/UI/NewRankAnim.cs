@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class NewRankAnim : MonoBehaviour
@@ -13,19 +14,19 @@ public class NewRankAnim : MonoBehaviour
     [SerializeField] private LeaderboardRecord _recordPast2;
     [SerializeField] private LeaderboardRecord _recordPast3;
 
-    private bool _showed = false;
+    private bool _open = false;
     private int _pastRank;
     private int _rank;
 
     private void Awake()
 	{
-        if (!_showed)
+        if (!_open)
             gameObject.SetActive(false);
 	}
 
-	public void Show(NewRankAnimData data)
+	public async Task Show(NewRankAnimData data)
     {
-        _showed = true;
+        _open = true;
         gameObject.SetActive(true);
 
         if (data.RecordNext1 == null) _recordNext1.gameObject.SetActive(false); 
@@ -53,6 +54,9 @@ public class NewRankAnim : MonoBehaviour
         else _recordPast3.Init(data.RecordPast3);
 
         _animator.SetTrigger("Start");
+
+        while (_open)
+            await Task.Yield();
     }
 
     public void AnimStart(float time)
@@ -74,6 +78,7 @@ public class NewRankAnim : MonoBehaviour
     public void AnimEnd()
     {
         gameObject.SetActive(false);
+        _open = false;
     }
 
     private IEnumerator AnimScore(LeaderboardRecord record, float time)
