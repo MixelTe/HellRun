@@ -7,6 +7,7 @@ public class StartUI : MonoBehaviour
 {
 	[SerializeField] private GameObject _mainPanel;
 	[SerializeField] private GameObject _leaderboardPanel;
+	[SerializeField] private GameObject _badgesPanel;
 	[SerializeField] private Leaderboard _leaderboard;
 	[SerializeField] private TMP_Text _version;
 
@@ -43,16 +44,29 @@ public class StartUI : MonoBehaviour
 	{
 		_mainPanel.SetActive(true);
 		_leaderboardPanel.SetActive(false);
+		_badgesPanel.SetActive(false);
 	}
 
 	public void ShowLeaderboard()
 	{
 		YaApi.MetrikaGoal(YaApi.MetrikaGoals.Leaderboard);
+		ReturnToLeaderboard();
+		_ = _leaderboard.UpdateData();
+	}
+
+	public void ReturnToLeaderboard()
+	{
 		_mainPanel.SetActive(false);
 		_leaderboardPanel.SetActive(true);
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-		_leaderboard.UpdateData();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+		_badgesPanel.SetActive(false);
+	}
+
+	public void ShowBadges()
+	{
+		YaApi.MetrikaGoal(YaApi.MetrikaGoals.Badges);
+		_mainPanel.SetActive(false);
+		_leaderboardPanel.SetActive(false);
+		_badgesPanel.SetActive(true);
 	}
 
 	public void ChangeLang()

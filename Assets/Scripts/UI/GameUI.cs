@@ -45,6 +45,10 @@ public class GameUI : MonoBehaviour
     [SerializeField] private LeaderboardRecord _playerRecord;
     [SerializeField] private LeaderboardRecord _playerRecord2;
     [SerializeField] private Button _rateButton;
+    
+    [Header("Badges")]
+    [SerializeField] private GameObject _badgesPanel;
+
 
     private LeaderboardDataRecord _playerData;
     private LeaderboardDataRecord _playerDataNew;
@@ -89,6 +93,7 @@ public class GameUI : MonoBehaviour
         _leaderboardPanel.SetActive(panel == Panel.Leaderboard);
         _ratePanel.SetActive(panel == Panel.Rate);
         _rateThanksPanel.SetActive(panel == Panel.RateThanks);
+        _badgesPanel.SetActive(panel == Panel.Badges);
     }
 	enum Panel
 	{
@@ -99,6 +104,7 @@ public class GameUI : MonoBehaviour
         Leaderboard,
         Rate,
         RateThanks,
+        Badges,
     }
 
     private async Task Auth()
@@ -136,7 +142,7 @@ public class GameUI : MonoBehaviour
 		}
 		else
 		{
-			HideRate();
+			ReturnToLeaderboard();
 		}
 	}
 
@@ -240,7 +246,10 @@ public class GameUI : MonoBehaviour
         while (!_advClosed)
             await Task.Yield();
         if (_newRankAnimData.RecordPlayer != null && _newRankAnimData.RecordPlayer.Rank < _newRankAnimData.PastRank)
+		{
             _newRankAnim.Show(_newRankAnimData);
+            YaApi.MetrikaGoal(YaApi.MetrikaGoals.NewRank);
+        }
         else
             TryShowRate();
     }
@@ -264,6 +273,7 @@ public class GameUI : MonoBehaviour
 
     private void ShowRate()
     {
+        YaApi.MetrikaGoal(YaApi.MetrikaGoals.RateScreen);
         SetActivePanel(Panel.Rate);
         _playerDataNew.RatedGame = true;
         _playerRecord.Init(_playerDataNew);
@@ -271,9 +281,15 @@ public class GameUI : MonoBehaviour
         _playerDataNew.RatedGame = false;
     }
 
-    public void HideRate()
+    public void ReturnToLeaderboard()
     {
         SetActivePanel(Panel.Leaderboard);
+    }
+
+    public void ShowBadges()
+	{
+        YaApi.MetrikaGoal(YaApi.MetrikaGoals.Badges);
+        SetActivePanel(Panel.Badges);
     }
 
     public void UpdateScore(int score, bool pop = false)

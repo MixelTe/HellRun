@@ -233,6 +233,7 @@ public class YaApi : MonoBehaviour
 			MetrikaGoals.LanguageChanged => "language_changed",
 			MetrikaGoals.VolumeChanged => "volume_changed",
 			MetrikaGoals.Leaderboard => "leaderboard",
+			MetrikaGoals.Badges => "badges",
 			MetrikaGoals.Start => "start",
 			MetrikaGoals.Paused => "paused",
 			MetrikaGoals.ContinueScreen => "continue_screen",
@@ -240,8 +241,11 @@ public class YaApi : MonoBehaviour
 			MetrikaGoals.AdvError => "adv_error",
 			MetrikaGoals.Gameover => "gameover",
 			MetrikaGoals.NewRecord => "new_record",
+			MetrikaGoals.NewRank => "new_rank",
 			MetrikaGoals.AuthTry => "auth_try",
 			MetrikaGoals.Auth => "auth",
+			MetrikaGoals.RateScreen => "rate_screen",
+			MetrikaGoals.Rate => "rate",
 			MetrikaGoals.Restart => "restart",
 			MetrikaGoals.Home => "home",
 			MetrikaGoals.Error => "error",
@@ -254,6 +258,7 @@ public class YaApi : MonoBehaviour
 		LanguageChanged,
 		VolumeChanged,
 		Leaderboard,
+		Badges,
 		Start,
 		Paused,
 		ContinueScreen,
@@ -261,8 +266,11 @@ public class YaApi : MonoBehaviour
 		AdvError,
 		Gameover,
 		NewRecord,
+		NewRank,
 		AuthTry,
 		Auth,
+		RateScreen,
+		Rate,
 		Restart,
 		Home,
 		Error,
@@ -319,7 +327,10 @@ public class YaApi : MonoBehaviour
 
 		var rated = _rated > 0;
 		if (rated)
+		{
+			MetrikaGoal(MetrikaGoals.Rate);
 			_ = SetData(currentData, true);
+		}
 
 		return rated;
 	}
