@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class SoundSetting : MonoBehaviour
 {
+    [SerializeField] private Button _button;
+    [SerializeField] private GameObject _panel;
     [SerializeField] private Slider _soundSlider;
     [SerializeField] private Slider _musicSlider;
 
@@ -34,6 +36,7 @@ public class SoundSetting : MonoBehaviour
         }
         _soundSlider.onValueChanged.AddListener(SetSoundVolume);
         _musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        _button.onClick.AddListener(TogglePanel);
         _disableOnChange = false;
     }
 
@@ -55,6 +58,11 @@ public class SoundSetting : MonoBehaviour
         PlayerPrefs.SetFloat(prefsKey, volumeLiniar);
         PlayerPrefs.Save();
         SendMetrika();
+    }
+
+    private void TogglePanel()
+    {
+        _panel.SetActive(!_panel.activeSelf);
     }
 
     public void Mute()
