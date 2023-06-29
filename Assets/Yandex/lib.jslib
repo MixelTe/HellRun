@@ -1,10 +1,11 @@
 const YandexApiLib = {
 	OnStart: function ()
 	{
-		if (ysdk.features.LoadingAPI)
+		if (CloseSpinner)
+			CloseSpinner();
+		if (ysdk && ysdk.features && ysdk.features.LoadingAPI && ysdk.features.LoadingAPI.ready)
 			ysdk.features.LoadingAPI.ready();
 		console.log("Game started!");
-		CloseSpinner();
 	},
 	ShowAdv: function ()
 	{
@@ -105,8 +106,8 @@ const YandexApiLib = {
 		{
 			const playerId = player.getUniqueID();
 			const param = player.getMode() === 'lite' ?
-				{ quantityTop: 14 } :
-				{ quantityTop: 5, includeUser: true, quantityAround: 6 }
+				{ quantityTop: 20 } :
+				{ quantityTop: 5, includeUser: true, quantityAround: 10 }
 			lb.getLeaderboardEntries("scores", param)
 				.then(res =>
 				{

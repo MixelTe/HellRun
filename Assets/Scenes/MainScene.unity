@@ -21783,7 +21783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6906478270069928971, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6906478270069928971, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
       propertyPath: m_AnchorMax.x
@@ -31803,6 +31803,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1617444121 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1749051382035856626, guid: 10fb824538db3204a905ebecada9d4ed, type: 3}
+  m_PrefabInstance: {fileID: 1311632937}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25579d4b9babeaf41844e25e943e88da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1622706233
 GameObject:
   m_ObjectHideFlags: 0
@@ -43518,7 +43529,7 @@ MonoBehaviour:
   _soundPlayer: {fileID: 1053038606}
   _pauseRiddleSpawner: {fileID: 946193326}
   _player: {fileID: 1704322022}
-  _soundSetting: {fileID: 0}
+  _soundSetting: {fileID: 1617444121}
   _cameraController: {fileID: 1779856857}
 --- !u!4 &2024290239
 Transform:

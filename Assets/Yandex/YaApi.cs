@@ -135,7 +135,7 @@ public class YaApi : MonoBehaviour
 			var wasTop = currentData.WasTop || (currentData.Rank > 0 && currentData.Rank <= 5);
 			var hasGear = currentData.HasGear || true;
 
-			if ((gamesPlayedLoaded > 0 && gamesPlayedLoaded != currentData.GamesPlayed) ||
+			if ((gamesPlayedLoaded >= 0 && gamesPlayedLoaded != currentData.GamesPlayed) ||
 				ratedGame != currentData.RatedGame ||
 				wasTop != currentData.WasTop ||
 				wasFirst != currentData.WasFirst ||
