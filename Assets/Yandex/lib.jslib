@@ -1,11 +1,10 @@
 const YandexApiLib = {
 	OnStart: function ()
 	{
-		if (CloseSpinner)
-			CloseSpinner();
-		if (ysdk && ysdk.features && ysdk.features.LoadingAPI && ysdk.features.LoadingAPI.ready)
-			ysdk.features.LoadingAPI.ready();
 		console.log("Game started!");
+		Try(() => CloseSpinner());
+		Try(() => ysdk.features.LoadingAPI.ready());
+		Try(() => ym(MID, 'reachGoal', "loaded"));
 	},
 	ShowAdv: function ()
 	{
