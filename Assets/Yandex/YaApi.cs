@@ -133,7 +133,7 @@ public class YaApi : MonoBehaviour
 			var ratedGame = currentData.RatedGame || rated;
 			var wasFirst = currentData.WasFirst || currentData.Rank == 1;
 			var wasTop = currentData.WasTop || (currentData.Rank > 0 && currentData.Rank <= 5);
-			var hasGear = currentData.HasGear || true;
+			var hasGear = currentData.HasGear;
 
 			if ((gamesPlayedLoaded >= 0 && gamesPlayedLoaded != currentData.GamesPlayed) ||
 				ratedGame != currentData.RatedGame ||
