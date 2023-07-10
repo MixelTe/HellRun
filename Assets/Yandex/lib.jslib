@@ -131,7 +131,8 @@ const YandexApiLib = {
 					if (data.PlayerRecord) data.PlayerRecord.HasSavedRecord = true;
 					console.log(data);
 					myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify(data));
-				});
+				})
+				.catch(() => myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify({ Records: [] })));
 		}, () => myGameInstance.SendMessage("Yandex", "SetLeaderboard", JSON.stringify({ Records: [] })));
 	},
 	SetScore: function (score, games_played, rated_game, was_top, was_first, has_gear)
@@ -250,7 +251,8 @@ const YandexApiLib = {
 			const code = value ? 1 : (reason == "GAME_RATED" ? -1 : 0);
 			console.log("JSLib: CanReview:", value, reason, code);
 			myGameInstance.SendMessage("Yandex", "OnCanReview", code);
-		}),
+		})
+			.catch(() => myGameInstance.SendMessage("Yandex", "OnCanReview", 0)),
 			() => myGameInstance.SendMessage("Yandex", "OnCanReview", 0));
 	},
 	RequestReview: function ()
@@ -260,7 +262,8 @@ const YandexApiLib = {
 		{
 			console.log("JSLib: RequestReview:", feedbackSent);
 			myGameInstance.SendMessage("Yandex", "OnReviewRequested", feedbackSent ? 1 : 0);
-		}),
+		})
+			.catch(() => myGameInstance.SendMessage("Yandex", "OnReviewRequested", 0)),
 			() => myGameInstance.SendMessage("Yandex", "OnReviewRequested", 0));
 	},
 	$Try: function (f, ef)
