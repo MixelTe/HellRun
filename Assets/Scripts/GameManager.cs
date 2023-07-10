@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
 	public static Player Player { get => _inst._player; }
 	public static SoundSetting SoundSetting { get => _inst._soundSetting; }
 	public static CameraController CameraController { get => _inst._cameraController; }
-	public static bool GameIsRunning { get => _inst._gameIsRunning; }
-	public static bool GameIsPaused { get => _inst._gameIsPaused; }
+	public static bool GameIsRunning { get => Exist && _inst._gameIsRunning; }
+	public static bool GameIsPaused { get => Exist && _inst._gameIsPaused; }
 	public static void OverGame() => _inst.OverGameImpl();
 	public static void EndGame() => _inst.EndGameImpl();
 	public static void UseReward() => _inst.UseRewardImpl();
