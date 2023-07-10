@@ -4,35 +4,38 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    //The time for which the game will accelerate by 2 times
-    [SerializeField] private float _scrollSpeedAcceleration  = 120f;
-    [SerializeField] private float _timeToStop = 120f;
-    [SerializeField] private float _timeBeforeFirstStrike = 2f;
-    private float _timeLeftForStop = 0f;
+    //The time for which the game will accelerate by 1
+    [SerializeField] private float _scrollSpeedAcceleration = 120f;
+    [SerializeField] private int _scoreToStop = 500;
+    private int _lastScoreStop = 0;
 
     private void Start()
     {
-        _timeLeftForStop = _timeToStop;
-        StartCoroutine(StartChains());
+		GameManager.GameField.OnLineMoved += OnLineMoved;
+        GameManager.PlayerInput.OnMoved += StartGame;
     }
 
-    private void Update()
+	private void Update()
     {
         if (GameManager.GameIsRunning && GameManager.GameField.Scroling)
         {
-            _timeLeftForStop -= Time.deltaTime;
             GameManager.GameField.ScrollSpeed += Time.deltaTime / _scrollSpeedAcceleration;
-            if (_timeLeftForStop < 0)
-            {
-                GameManager.GameField.StopScrolling();
-                _timeLeftForStop = _timeToStop;
-            }
         }
     }
 
-    private IEnumerator StartChains()
+    private void OnLineMoved()
     {
-        yield return new WaitForSeconds(_timeBeforeFirstStrike);
+        if (GameManager.Score.PlayerScore - _lastScoreStop > _scoreToStop)
+        {
+            GameManager.GameField.StopScrolling();
+            _lastScoreStop += _scoreToStop;
+        }
+    }
+
+    private void StartGame(Vector2Int vector2)
+    {
+        GameManager.PlayerInput.OnMoved -= StartGame;
+        GameManager.GameField.StartScrolling();
         GameManager.ChainSpawner.StartSpawn();
     }
 }

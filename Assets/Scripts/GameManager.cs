@@ -15,10 +15,12 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private PauseRiddleSpawner _pauseRiddleSpawner;
 	[SerializeField] private Player _player;
 	[SerializeField] private SoundSetting _soundSetting;
+	[SerializeField] private CameraController _cameraController;
 	private bool _gameIsRunning = true;
 	private bool _gameIsPaused = false;
 	private bool _rewardUsed = false;
 
+	public static bool Exist { get => _inst != null; }
 	public static GameField GameField { get => _inst._gameField; }
 	public static PlayerInput PlayerInput { get => _inst._playerInput; }
 	public static ChainSpawner ChainSpawner { get => _inst._chainSpawner; }
@@ -28,11 +30,13 @@ public class GameManager : MonoBehaviour
 	public static PauseRiddleSpawner PauseRiddleSpawner { get => _inst._pauseRiddleSpawner; }
 	public static Player Player { get => _inst._player; }
 	public static SoundSetting SoundSetting { get => _inst._soundSetting; }
-	public static bool GameIsRunning { get => _inst._gameIsRunning; }
-	public static bool GameIsPaused { get => _inst._gameIsPaused; }
+	public static CameraController CameraController { get => _inst._cameraController; }
+	public static bool GameIsRunning { get => Exist && _inst._gameIsRunning; }
+	public static bool GameIsPaused { get => Exist && _inst._gameIsPaused; }
 	public static void OverGame() => _inst.OverGameImpl();
 	public static void EndGame() => _inst.EndGameImpl();
 	public static void UseReward() => _inst.UseRewardImpl();
+	public static void Pause() => _inst.PauseGame();
 
 	private void Awake()
 	{
@@ -55,8 +59,6 @@ public class GameManager : MonoBehaviour
 			Time.timeScale = 0;
 			_gameIsPaused = true;
 			_gameUI.ShowGameOver();
-			_chainSpawner.DestroyChains();
-			_pauseRiddleSpawner.DestroyObstacles();
 			_soundPlayer.PauseEnable();
 			print("Over Game!");
 		}
@@ -79,6 +81,8 @@ public class GameManager : MonoBehaviour
 		_gameIsPaused = false;
 		_gameUI.ShowGame();
 		_soundPlayer.PauseDisable();
+		_chainSpawner.DestroyChains();
+		_pauseRiddleSpawner.DestroyObstacles();
 
 		StartCoroutine(ReRunGame());
 
@@ -101,7 +105,14 @@ public class GameManager : MonoBehaviour
 
 	public void RestartGame()
 	{
+		YaApi.MetrikaGoal(YaApi.MetrikaGoals.Restart);
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	public void ToStartScene()
+	{
+		YaApi.MetrikaGoal(YaApi.MetrikaGoals.Home);
+		SceneManager.LoadScene("StartScene");
 	}
 
 	public void PauseGame()

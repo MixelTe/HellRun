@@ -29,4 +29,11 @@ public class ThornStrike
         get => Thorns[Width * y + x];
         set => Thorns[Width * y + x] = value;
     }
+
+    public bool TryGet(int x, int y)
+    {
+        if (x < 0 || x >= Width || y < 0 || y >= Height)
+            return true;
+        return this[x, y];
+    }
 }

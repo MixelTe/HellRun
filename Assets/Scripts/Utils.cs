@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.UI;
 
 public static class Utils
@@ -43,9 +44,17 @@ public static class Utils
 		var viewportLocalPosition = instance.viewport.localPosition;
 		var childLocalPosition = child.localPosition;
 		var result = new Vector2(
-			0 - (viewportLocalPosition.x + childLocalPosition.x),
-			0 - (viewportLocalPosition.y + childLocalPosition.y)
+			//0 - (viewportLocalPosition.x + childLocalPosition.x),
+			//0 - (viewportLocalPosition.y + childLocalPosition.y)
+			0,
+			0 - (childLocalPosition.y + instance.viewport.rect.height / 2)
 		);
 		instance.content.localPosition = result;
+	}
+
+	public static string SpacesByUppercase(string text)
+	{
+		var words = Regex.Split(text, @"(?<!^)(?=[A-Z])");
+		return string.Join(" ", words);
 	}
 }

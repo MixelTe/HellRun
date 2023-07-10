@@ -5,25 +5,25 @@ using UnityEngine;
 public class GameField : MonoBehaviour
 {
     [SerializeField] private GameObject _cellPrefab;
+    [SerializeField] private Crack _crackPrefab;
 
     [SerializeField] private float _accelerationTime = 1f; 
 
     private FieldRow[] _rows;
-    private float _curScrollSpeed;
+    private float _curScrollSpeed = 0;
 
     public event Action OnScrollContinued;
     public event Action OnScrollStopped;
     public event Action OnLineMoved;
     
-    [HideInInspector] public bool Scroling = true;
-    [HideInInspector] public float Scroll = 0f;
-    [HideInInspector] public int ScrolledLines = 0;
+    [HideInInspector] public bool Scroling { get; private set; } = false;
+    [HideInInspector] public float Scroll { get; private set; } = 0f;
+    [HideInInspector] public int ScrolledLines { get; private set; } = 0;
     public float ScrollSpeed = .1f;
 
     private void Start()
     {
         transform.DestroyAllChildren();
-        _curScrollSpeed = ScrollSpeed;
         _rows = new FieldRow[Settings.Height];
         for (int i = 0; i < Settings.Height; i++)
             _rows[i] = AddNewLine(Settings.Height - i);
@@ -48,7 +48,7 @@ public class GameField : MonoBehaviour
         var rowObj = new GameObject("Field Row");
         var row = rowObj.AddComponent<FieldRow>();
         row.transform.parent = gameObject.transform;
-        row.Init(Settings.Width, y, _cellPrefab);
+        row.Init(Settings.Width, y, _cellPrefab, _crackPrefab);
         return row;
     }
 
@@ -82,9 +82,15 @@ public class GameField : MonoBehaviour
         OnScrollContinued?.Invoke();
     }
 
+    public void StartScrolling()
+    {
+        StartCoroutine(IncreasingSpeed());
+        Scroling = true;
+    }
+
     private IEnumerator IncreasingSpeed()
     {
-        for (float i = 0; i < 1; i += Time.deltaTime/_accelerationTime)
+        for (float i = 0; i < 1; i += Time.deltaTime / _accelerationTime)
         {
             _curScrollSpeed = Mathf.Lerp(0, ScrollSpeed, i);
             yield return null;
@@ -107,5 +113,12 @@ public class GameField : MonoBehaviour
             var child = transform.GetChild(i);
             DestroyImmediate(child.gameObject);
         }
+    }
+
+    [ContextMenu("RegenerateField")]
+    private void RegenerateField()
+    {
+        DestroyFieldImmediate();
+        GenerateField();
     }
 }

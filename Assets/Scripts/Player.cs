@@ -6,9 +6,12 @@ public class Player : MonoBehaviour
     [SerializeField] private Animator _animator;
     public bool Immortal = false;
     [SerializeField] private float _moveTime = .4f;
+    [SerializeField] private AnimationCurve _moveTimeCurve = AnimationCurve.Linear(0, 0, 1, 1);
     private Vector2Int _position;
     private float _moveState = 1;
     private Vector2Int _nextMove = Vector2Int.zero;
+
+    public Vector2Int Position { get => _position; }
 
     private void Start()
     {
@@ -21,7 +24,7 @@ public class Player : MonoBehaviour
 
     private void OnMoved(Vector2Int moveTo)
     {
-        if (_moveState < 0.5) return;
+        if (_moveState < 0.25) return;
         _nextMove = moveTo;
 
         if (_moveState < 1) return;
@@ -78,7 +81,8 @@ public class Player : MonoBehaviour
             for (float t = 0; t < 1; t += Time.deltaTime / moveTime)
 			{
 				_moveState = t;
-				transform.position = Vector2.Lerp(startPos, endPos, t);
+                var posT = _moveTimeCurve.Evaluate(t);
+				transform.position = Vector2.Lerp(startPos, endPos, posT);
 				yield return null;
 			}
 			transform.position = new Vector3(endPos.x, endPos.y);

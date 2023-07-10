@@ -1,0 +1,131 @@
+<script>
+	const MID = '%MID%';
+</script>
+
+<style>
+	.popup {
+		position: fixed;
+		inset: 0;
+		background: #00000080;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.popup-window {
+		background-color: #d1ac45;
+		border: 0.5em solid #eb5d22;
+		border-radius: 1em;
+		padding: 2em;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	.lds-ring {
+		display: inline-block;
+		position: relative;
+		width: 80px;
+		height: 80px;
+	}
+	.lds-ring div {
+		box-sizing: border-box;
+		display: block;
+		position: absolute;
+		width: 64px;
+		height: 64px;
+		margin: 8px;
+		border: 8px solid #fff;
+		border-radius: 50%;
+		animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+		border-color: #fff transparent transparent transparent;
+	}
+	.lds-ring div:nth-child(1) {animation-delay: -0.45s;}
+	.lds-ring div:nth-child(2) {animation-delay: -0.3s;}
+	.lds-ring div:nth-child(3) {animation-delay: -0.15s;}
+	@keyframes lds-ring {
+		0% {transform: rotate(0deg);}
+		100% {transform: rotate(360deg);}
+	}
+</style>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+	(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+	m[i].l=1*new Date();
+	for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+	k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+	(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+	ym(MID, "init", {
+		 clickmap:true,
+		 trackLinks:true,
+		 accurateTrackBounce:true,
+		 webvisor:true
+	});
+	ym(MID,'reachGoal','open_inst');
+	setTimeout(() => ym(MID,'reachGoal','open'), 750);
+</script>
+<!-- /Yandex.Metrika counter -->
+
+<script>
+	window.addEventListener("error", e =>
+		{
+			const er = e.error.stack.split("\n");
+			const ert = `${er[0]}\n${er[1].split("(")[0]}`;
+			try { ym(MID, 'reachGoal', 'error', { error: ert }); }
+			catch (e) { console.error(e); }
+			const div = document.createElement("div");
+			div.classList.add("popup");
+			document.body.appendChild(div);
+
+			const useRu = (() => {
+				try {
+					const langStr = ysdk.environment.i18n.lang;
+					const ru = ["ru", "be", "kk", "uk", "uz"];
+					return ru.indexOf(langStr) >= 0;
+				} catch (e) {
+					return true;
+				}
+			})();
+
+			div.innerHTML = `
+			<div class="popup-window">
+				${
+					useRu ? `
+					<h1 style="text-align: center;">К сожалению, произошла ошибка</h1>
+					<p>Перезагрузите страницу, всё должно заработать</p>
+					<p>Мы постараемся иcправить проблему как можно скорее</p>
+					` : `
+					<h1 style="text-align: center;">Sorry, there was an error</h1>
+					<p>Please reload the page, it should work</p>
+					<p>We'll try to fix it as soon as possible</p>
+					`
+				}
+				<p style="word-break: break-all;color: darkred;">${ert}</p>
+			</div>`
+		});
+</script>
+
+<script src="https://yandex.ru/games/sdk/v2"></script>
+<script>
+	YaGames
+		.init()
+		.then(ysdk =>
+		{
+			console.log("Yandex SDK initialized");
+			window.ysdk = ysdk;
+			initPlayer();
+			ysdk.getLeaderboards().then(_lb => lb = _lb);
+		});
+
+	var player;
+	var lb;
+	var myGameInstance;
+
+	function initPlayer()
+	{
+		return ysdk.getPlayer().then(_player =>
+		{
+			player = _player;
+
+			return player;
+		}).catch(e => console.log(e));
+	}
+</script>

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class ThornGroupEditor : Editor
 {
     private static Color _colorThorns = Utils.ColorFromRGB(198, 77, 77);
+    private static Color _colorBadPlace = Utils.ColorFromRGB(94, 62, 174);
     private static Color _colorBack = Utils.ColorFromRGB(21, 75, 81);
 
     public override void OnInspectorGUI()
@@ -19,8 +20,9 @@ public class ThornGroupEditor : Editor
         GUILayout.FlexibleSpace();
         GUILayout.Label($"{thornGroup.Thorns.Count}");
         GUILayout.EndHorizontal();
+        DrawHint();
 
-		for (int i = 0; i < thornGroup.Thorns.Count; i++)
+        for (int i = 0; i < thornGroup.Thorns.Count; i++)
 		{
             DrawThorns(thornGroup.Thorns[i], i > 0 ? thornGroup.Thorns[i - 1] : null);
         }
@@ -69,8 +71,25 @@ public class ThornGroupEditor : Editor
             for (int x = 0; x < thornGroup.Width; x++)
             {
                 var rect = new Rect(rectFull.x + toggleSize * x, rectFull.y + toggleSize * (y + 2), toggleSize, toggleSize);
-                if (thornGroupPrev != null && thornGroupPrev[x, y])
-                    EditorGUI.DrawRect(rect, _colorThorns);
+                if (thornGroupPrev != null)
+				{
+                    if (thornGroupPrev[x, y])
+					{
+                        EditorGUI.DrawRect(rect, _colorThorns);
+					}
+					else
+					{
+                        var hasEscape = 
+                            !thornGroupPrev.TryGet(x - 1, y) || 
+                            !thornGroupPrev.TryGet(x + 1, y) || 
+                            !thornGroupPrev.TryGet(x, y - 1) || 
+                            !thornGroupPrev.TryGet(x, y + 1);
+                        if (!hasEscape)
+						{
+                            EditorGUI.DrawRect(rect, _colorBadPlace);
+                        }
+                    }
+				}
                 rect = rect.Inflate(-gap);
                 EditorGUI.BeginChangeCheck();
                 var value = GUI.Toggle(rect, thornGroup[x, y], "");
@@ -92,5 +111,18 @@ public class ThornGroupEditor : Editor
 	{
         var rect = new Rect(rectFull.x, rectFull.y + toggleSize * y, rectFull.width, toggleSize * 2);
         EditorGUI.DrawRect(rect, _colorThorns);
+    }
+
+    private void DrawHint()
+	{
+        var lastRect = GUILayoutUtility.GetLastRect();
+        var rect = new Rect(lastRect.x + 60, lastRect.y, 60, 16);
+        EditorGUI.DrawRect(rect, _colorBadPlace);
+        GUI.Label(rect, "Bad place");
+
+        rect.x += 80;
+        EditorGUI.DrawRect(rect, _colorThorns);
+        GUI.Label(rect, "Past thorns");
+
     }
 }

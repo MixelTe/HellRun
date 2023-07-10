@@ -25,7 +25,7 @@ public class Chain : MonoBehaviour, IPollable
 	{
 		_collider.enabled = false;
 		yield return Fade(duration);
-		
+
 		yield return StrikeAnim(_strikeTime);
 
 		this.DestroyToPool();
@@ -67,6 +67,7 @@ public class Chain : MonoBehaviour, IPollable
 		_collider.enabled = true;
 		
 		GameManager.SoundPlayer.PlayChainSound();
+		GameManager.CameraController.ShakeChain();
 
 		for (float t = 0; t < 1; t += Time.deltaTime / duration)
 		{
