@@ -77,14 +77,20 @@ const YandexApiLib = {
 	{
 		Try(() =>
 		{
-			if (player.getMode() === 'lite')
+			if (!player)
+			{
+				initPlayer();
+				myGameInstance.SendMessage("Yandex", "OnAuth", 0);
+			}
+			else if (player.getMode() === 'lite')
 			{
 				ysdk.auth.openAuthDialog().then(() =>
 				{
 					console.log("JSLib: OnAuth");
-					initPlayer()
-						.then(() => myGameInstance.SendMessage("Yandex", "OnAuth", 1))
-						.catch(() => myGameInstance.SendMessage("Yandex", "OnAuth", 0));
+					initPlayer(
+						() => myGameInstance.SendMessage("Yandex", "OnAuth", 1),
+						() => myGameInstance.SendMessage("Yandex", "OnAuth", 0)
+					)
 				}).catch(e =>
 				{
 					console.error("JSLib: OnAuth: Error");
@@ -103,8 +109,8 @@ const YandexApiLib = {
 	{
 		Try(() =>
 		{
-			const playerId = player.getUniqueID();
-			const param = player.getMode() === 'lite' ?
+			const playerId = player && player.getUniqueID();
+			const param = !player || player.getMode() === 'lite' ?
 				{ quantityTop: 20 } :
 				{ quantityTop: 5, includeUser: true, quantityAround: 10 }
 			lb.getLeaderboardEntries("scores", param)

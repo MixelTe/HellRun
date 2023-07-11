@@ -119,13 +119,21 @@
 	var lb;
 	var myGameInstance;
 
-	function initPlayer()
+	function initPlayer(onS, onE)
 	{
-		return ysdk.getPlayer().then(_player =>
+		ysdk.getPlayer().then(_player =>
 		{
 			player = _player;
+			if (onS) onS(player);
 
 			return player;
-		}).catch(e => console.log(e));
+		}).catch(e =>
+		{
+			console.log(e)
+			if (onE) onE();
+			try {
+				initPlayer();
+			} catch (e) {}
+		});
 	}
 </script>
