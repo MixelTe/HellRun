@@ -1,5 +1,14 @@
 # HellRun
 
+A game in the runner genre
+
+🎮 The player will have to test his agility and reaction in an endless race.
+
+🏆 Implemented a leaderboard for the competitive spirit.
+
+[Link to the game](https://yandex.ru/games/app/225629?from=github)
+
+# Адский Забег
 Игра в жанре раннер
 
 🎮 Игроку предстоит испытать свою ловкость и реакцию в бесконечном забеге.
