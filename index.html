@@ -3,9 +3,26 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | HellRun</title>
+	<meta name="theme-color" content="#540e1c" />
+	<link rel="apple-touch-icon" href="imgs/favicon192.png" />
+	<link rel="manifest" href="manifest.json" />
+	<link rel="canonical" href="https://mixelte.github.io/HellRun/"/>
+	<meta name="description" content="Раннер в адском стиле. Попробуйте сбежать и не попасться в цепи!">
+	<meta property="og:title" content="HellRun" />
+	<meta property="og:description" content="Раннер в адском стиле. Попробуйте сбежать и не попасться в цепи!" />
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://mixelte.github.io/HellRun/">
+	<meta property="og:image" content="https://raw.githubusercontent.com/MixelTe/HellRun/gh-pages/imgs/logo.png" />
+	<meta property="og:image:type" content="image/png">
+	<meta property="og:image:width" content="800">
+	<meta property="og:image:height" content="470">
+	<meta name="twitter:site" content="HellRun">
+	<meta name="twitter:title" content="HellRun">
+	<meta name="twitter:description" content="Раннер в адском стиле. Попробуйте сбежать и не попасться в цепи!">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:image:src" content="https://raw.githubusercontent.com/MixelTe/HellRun/gh-pages/imgs/logo.png">
+    <title>HellRun</title>
   <script>
-	console.log("some log for testing");
 	const MID = 93641424;
 </script>
 
@@ -187,5 +204,7 @@
 		const spiner = document.getElementById("spiner");
 		if (spiner) document.body.removeChild(spiner);
 	}
+	if ("serviceWorker" in navigator)
+		navigator.serviceWorker.register("./serviceworker.js");
 </script></body>
 </html>
